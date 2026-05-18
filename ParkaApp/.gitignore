@@ -1,0 +1,77 @@
+## =====================================
+## Visual Studio / Rider / IDE
+## =====================================
+.vs/
+.vscode/
+.idea/
+
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## =====================================
+## Build results
+## =====================================
+bin/
+obj/
+out/
+
+## =====================================
+## .NET Core / ASP.NET
+## =====================================
+*.dll
+*.exe
+*.pdb
+*.cache
+*.log
+
+## =====================================
+## NuGet
+## =====================================
+*.nupkg
+packages/
+**/packages/*
+
+# NuGet fallback folder
+*.nuget.props
+*.nuget.targets
+
+## =====================================
+## EF Core migrations cache (optionnel)
+## =====================================
+Migrations/*.Designer.cs
+Migrations/*Snapshot.cs
+
+## =====================================
+## User secrets
+## =====================================
+secrets.json
+
+## =====================================
+## Node / frontend (si MVC avec frontend)
+## =====================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+dist/
+wwwroot/lib/
+
+## =====================================
+## ASP.NET publish
+## =====================================
+publish/
+
+## =====================================
+## OS files
+## =====================================
+.DS_Store
+Thumbs.db
+
+## =====================================
+## Logs / temp
+## =====================================
+*.tmp
+*.temp
