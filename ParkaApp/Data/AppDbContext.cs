@@ -13,6 +13,9 @@ namespace ListeEtudiant.Data
         public DbSet<Area> Areas { get; set; }
         public DbSet<Place> Places { get; set; }
         public DbSet<Client> Clients { get; set; }
+        public DbSet<Occupation> Occupations { get; set; }
+        public DbSet<Payment> Payments { get; set; }
+        
 
 
         // Configuration
@@ -22,18 +25,32 @@ namespace ListeEtudiant.Data
             // Area & Place
             modelBuilder.Entity<Area>()
                 .HasMany(a => a.Places)
-                .WithOne()
+                .WithOne(p => p.Area)
                 .HasForeignKey(p => p.AreaId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             
             // Client & Payment
             modelBuilder.Entity<Client>()
-                .HasMany<Payment>()
+                .HasMany(c => c.Payments)
                 .WithOne(p => p.Client)
                 .HasForeignKey(p => p.ClientId)
                 .OnDelete(DeleteBehavior.Cascade);
-            
+
+            // Place & Occupation
+            modelBuilder.Entity<Occupation>()
+                .HasOne(o => o.Place)
+                .WithMany()
+                .HasForeignKey(o => o.PlaceId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Client & Occupation
+            modelBuilder.Entity<Occupation>()
+                .HasOne(o => o.Client)
+                .WithMany()
+                .HasForeignKey(o => o.ClientId)
+                .OnDelete(DeleteBehavior.Restrict);
+                        
         }
     }
 }

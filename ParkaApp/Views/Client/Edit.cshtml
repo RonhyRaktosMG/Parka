@@ -1,0 +1,43 @@
+@model ParkaApp.Models.Client
+
+
+@{
+    ViewData["Title"] = "Edit Clients";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h1>@ViewData["Title"]</h1>
+            <form asp-action="Edit" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                
+                <div class="form-group mb-3">
+                    <label asp-for="CarPlate" class="form-label"></label>
+                    <input asp-for="CarPlate" class="form-control" />
+                    <span asp-validation-for="CarPlate" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Name" class="form-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="PhoneNumber" class="form-label"></label>
+                    <input asp-for="PhoneNumber" class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3 form-check">
+                    <input asp-for="IsGuest" type="checkbox" class="form-check-input" />
+                    <label asp-for="IsGuest" class="form-check-label"></label>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>

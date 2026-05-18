@@ -1,0 +1,40 @@
+@model IEnumerable<ParkaApp.Models.Occupation>
+<h1>@ViewData["Title"]</h1>
+
+<a asp-action="Create" class="btn btn-primary">Create New</a>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Entry Time</th>
+            <th>Exit Time</th>
+            <th>Place</th>
+            <th>Client</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var occupation in Model)
+        {
+            <tr>
+                <td>@occupation.EntryTime</td>
+                <td>@occupation.ExitTime</td>
+                <td>@occupation.Place?.Code</td>
+                <td>@occupation.Client?.Name</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@occupation.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@occupation.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@occupation.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@{
+    ViewData["Title"] = "Occupations";
+}
+
+

@@ -12,7 +12,7 @@ namespace ParkaApp.Models
     {
         public int Id { get; set; }
 
-        public required string Code { get; set; }
+        public string? Code { get; set; }
 
         public PlaceStatus Status { get; set; }
 

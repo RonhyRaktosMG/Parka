@@ -1,0 +1,44 @@
+@model IEnumerable<ParkaApp.Models.Client>
+
+
+@{
+    ViewData["Title"] = "Clients";
+}
+
+
+<h1>@ViewData["Title"]</h1>
+<a asp-action="Create" class="btn btn-primary mb-3">Create New Client</a>
+
+@if (Model.Count() == 0)
+{
+    <p>No client data available.</p>
+}
+else
+{
+    <div class="card mb-3">
+        @foreach (var client in Model)
+        {
+        <div class="d-flex justify-content-between align-items-center p-3 border-bottom">
+            <dl class="row">
+                <dt class="col-sm-3">Id</dt>
+                <dd class="col-sm-9">@client.Id</dd>
+
+                <dt class="col-sm-3">Car plate</dt>
+                <dd class="col-sm-9">@client.CarPlate</dd>
+
+                <dt class="col-sm-3">Name</dt>
+                <dd class="col-sm-9">@(string.IsNullOrWhiteSpace(client.Name) ? "—" : client.Name)</dd>
+
+                <dt class="col-sm-3">Phone</dt>
+                <dd class="col-sm-9">@(string.IsNullOrWhiteSpace(client.PhoneNumber) ? "—" : client.PhoneNumber)</dd>
+
+                <dt class="col-sm-3">Guest</dt>
+                <dd class="col-sm-9">@(client.IsGuest ? "Yes" : "No")</dd>
+            </dl>
+
+            <a asp-action="Edit" asp-route-id="@client.Id" class="btn btn-primary">Edit</a>
+            <a asp-action="Delete" asp-route-id="@client.Id" class="btn btn-danger">Delete</a>
+        </div>
+        }
+    </div>
+}

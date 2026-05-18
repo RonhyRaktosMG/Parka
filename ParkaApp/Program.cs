@@ -1,5 +1,7 @@
 using ListeEtudiant.Data;
 using Microsoft.EntityFrameworkCore;
+using ParkaApp.Repository;
+using ParkaApp.Repository.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,7 +9,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 // Base de donnée
-builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite("Data source=liste_etudiant.db"));
+builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite("Data source=parka.db"));
+
+// Repository
+builder.Services.AddTransient<IAreaRepository, AreaRepository>();
+builder.Services.AddTransient<IPlaceRepository, PlaceRepository>();
+builder.Services.AddTransient<IClientRepository, ClientRepository>();
+builder.Services.AddTransient<IOccupationRepository, OccupationRepository>();
 
 var app = builder.Build();
 
@@ -28,7 +36,7 @@ app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
+    pattern: "{controller=Area}/{action=Index}/{id?}")
     .WithStaticAssets();
 
 

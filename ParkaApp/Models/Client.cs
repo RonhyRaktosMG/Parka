@@ -11,5 +11,8 @@ namespace ParkaApp.Models
 
         public bool IsGuest { get; set; }
 
+
+        // Payment
+        public List<Payment> Payments { get; set; } = new List<Payment>();
     }
 }
