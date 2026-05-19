@@ -16,6 +16,7 @@ builder.Services.AddTransient<IAreaRepository, AreaRepository>();
 builder.Services.AddTransient<IPlaceRepository, PlaceRepository>();
 builder.Services.AddTransient<IClientRepository, ClientRepository>();
 builder.Services.AddTransient<IOccupationRepository, OccupationRepository>();
+builder.Services.AddTransient<IPaymentRepository, PaymentRepository>();
 
 var app = builder.Build();
 

@@ -119,6 +119,9 @@ namespace ParkaApp.Controllers
                 PlaceId = placeId,
                 EntryTime = DateTime.Now
             };
+            
+            // Debug logs
+            Console.WriteLine($"\n\n\n\nAssignPlace GET called with PlaceId: {placeId} at {DateTime.Now}\n\n\n\n");
 
             return View(vm);
         }
@@ -174,6 +177,86 @@ namespace ParkaApp.Controllers
             await _placeRepository.UpdateAsync(place);
 
             await _repository.AddAsync(occupation);
+
+            return RedirectToAction("Index");
+        }
+    
+    
+
+        // Release Place
+        public async Task<IActionResult> ReleasePlace(int id)
+        {
+            var occupation = await _repository.GetByIdAsync(id);
+            if (occupation == null)
+            {
+                return NotFound();
+            }
+
+            var place = await _placeRepository.GetByIdAsync(occupation.PlaceId);
+            if (place == null)
+            {
+                return NotFound();
+            }
+
+            var vm = new ReleasePlaceViewModel
+            {
+                OccupationId = occupation.Id,
+                PlaceId = place.Id,
+                CarPlate = (await _clientRepository.GetByIdAsync(occupation.ClientId))?.CarPlate ?? "Unknown",
+                EntryTime = occupation.EntryTime,
+                ExitTime = DateTime.Now
+            };
+
+            return View(vm);
+        }
+
+
+        [HttpPost, ActionName("ReleasePlace")]
+        public async Task<IActionResult> ReleasePlaceConfirmed(int id)
+        {
+            var occupation = await _repository.GetByIdAsync(id);
+            if (occupation == null)
+            {
+                return NotFound();
+            }
+
+            var place = await _placeRepository.GetByIdAsync(occupation.PlaceId);
+            if (place == null)
+            {
+                return NotFound();
+            }
+
+            // Change Place status to available
+            place.Status = PlaceStatus.Available;
+            await _placeRepository.UpdateAsync(place);
+
+            // Remove occupation
+            await _repository.DeleteAsync(id);
+
+            // Make payment if client is a guest or verify subscription if client is a subscriber
+            var vm = new ReleasePlaceViewModel
+            {
+                OccupationId = occupation.Id,
+                PlaceId = place.Id,
+                CarPlate = occupation.Client?.CarPlate ?? "unknown",
+                EntryTime = occupation.EntryTime,
+            };
+            
+            var client = await _clientRepository.GetByIdAsync(occupation.ClientId);
+            if (client == null)
+            {
+                return NotFound();
+            }
+
+            if (client.IsGuest)
+            {
+                // Payment
+                
+            }
+            else
+            {
+                // Verify subscription logic for subscribers
+            }
 
             return RedirectToAction("Index");
         }
