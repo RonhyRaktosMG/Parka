@@ -25,6 +25,11 @@ namespace ParkaApp.Repository
             return await _context.Clients.FindAsync(id);
         }
 
+        public async Task<Client?> GetByCarPlateAsync(string carPlate)
+        {
+            return await _context.Clients.FirstOrDefaultAsync(c => c.CarPlate == carPlate);
+        }
+
         public async Task AddAsync(Client Client)
         {
             _context.Clients.Add(Client);
