@@ -4,34 +4,43 @@
     ViewData["Title"] = "Create Payment";
 }
 
-<h1>@ViewData["Title"]</h1>
-
-<form asp-action="Create" method="post">
-    <div class="mb-3">
-        <label asp-for="Amount" class="form-label">Amount</label>
-        <input asp-for="Amount" class="form-control" />
-        <span asp-validation-for="Amount" class="text-danger"></span>
+<div class="max-w-2xl mx-auto">
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-6">
+            <h1 class="text-2xl font-bold m-0">@ViewData["Title"]</h1>
+        </div>
+        <div class="p-6">
+            <form asp-action="Create" method="post">
+                <div class="mb-6">
+                    <label asp-for="Amount" class="block text-gray-700 font-semibold mb-2">Amount</label>
+                    <input asp-for="Amount" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" />
+                    <span asp-validation-for="Amount" class="text-red-600 text-sm mt-1 block"></span>
+                </div>
+                <div class="mb-6">
+                    <label asp-for="Type" class="block text-gray-700 font-semibold mb-2">Type</label>
+                    <input asp-for="Type" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" />
+                    <span asp-validation-for="Type" class="text-red-600 text-sm mt-1 block"></span>
+                </div>
+                <div class="mb-6">
+                    <label asp-for="StartDate" class="block text-gray-700 font-semibold mb-2">Start Date</label>
+                    <input asp-for="StartDate" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" type="date" />
+                    <span asp-validation-for="StartDate" class="text-red-600 text-sm mt-1 block"></span>
+                </div>
+                <div class="mb-6">
+                    <label asp-for="EndDate" class="block text-gray-700 font-semibold mb-2">End Date</label>
+                    <input asp-for="EndDate" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" type="date" />
+                    <span asp-validation-for="EndDate" class="text-red-600 text-sm mt-1 block"></span>
+                </div>
+                <div class="mb-6">
+                    <label asp-for="ClientId" class="block text-gray-700 font-semibold mb-2">Client ID</label>
+                    <input asp-for="ClientId" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" />
+                    <span asp-validation-for="ClientId" class="text-red-600 text-sm mt-1 block"></span>
+                </div>  
+                <div class="flex gap-3">
+                    <button type="submit" class="flex-1 px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition">Create</button>
+                    <a asp-action="Index" class="px-6 py-3 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-600 transition">Cancel</a>
+                </div>
+            </form>
+        </div>
     </div>
-    <div class="mb-3">
-        <label asp-for="Type" class="form-label">Type</label>
-        <input asp-for="Type" class="form-control" />
-        <span asp-validation-for="Type" class="text-danger"></span>
-    </div>
-    <div class="mb-3">
-        <label asp-for="StartDate" class="form-label">Start Date</label>
-        <input asp-for="StartDate" class="form-control" type="date" />
-        <span asp-validation-for="StartDate" class="text-danger"></span>
-    </div>
-    <div class="mb-3">
-        <label asp-for="EndDate" class="form-label">End Date</label>
-        <input asp-for="EndDate" class="form-control" type="date" />
-        <span asp-validation-for="EndDate" class="text-danger"></span>
-    </div>
-    <div class="mb-3">
-        <label asp-for="ClientId" class="form-label">Client ID</label>
-        <input asp-for="ClientId" class="form-control" />
-        <span asp-validation-for="ClientId" class="text-danger"></span>
-    </div>  
-    <button type="submit" class="btn btn-primary">Create</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-</form>
+</div>

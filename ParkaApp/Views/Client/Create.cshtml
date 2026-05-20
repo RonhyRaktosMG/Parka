@@ -1,42 +1,45 @@
 @model ParkaApp.Models.Client
 
-
 @{
     ViewData["Title"] = "Create Clients";
 }
 
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-md-8 offset-md-2">
-            <h1>@ViewData["Title"]</h1>
+<div class="max-w-2xl mx-auto">
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+        <div class="bg-linear-to-r from-blue-600 to-blue-700 text-white p-6">
+            <h1 class="text-2xl font-bold m-0">@ViewData["Title"]</h1>
+        </div>
+        <div class="p-6">
             <form asp-action="Create" method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div asp-validation-summary="ModelOnly" class="bg-red-50 border border-red-200 text-red-700 p-4 rounded mb-6"></div>
                 
-                <div class="form-group mb-3">
-                    <label asp-for="CarPlate" class="form-label"></label>
-                    <input asp-for="CarPlate" class="form-control" />
-                    <span asp-validation-for="CarPlate" class="text-danger"></span>
+                <div class="mb-6">
+                    <label asp-for="CarPlate" class="block text-gray-700 font-semibold mb-2"></label>
+                    <input asp-for="CarPlate" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" />
+                    <span asp-validation-for="CarPlate" class="text-red-600 text-sm mt-1 block"></span>
                 </div>
 
-                <div class="form-group mb-3">
-                    <label asp-for="Name" class="form-label"></label>
-                    <input asp-for="Name" class="form-control" />
-                    <span asp-validation-for="Name" class="text-danger"></span>
+                <div class="mb-6">
+                    <label asp-for="Name" class="block text-gray-700 font-semibold mb-2"></label>
+                    <input asp-for="Name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" />
+                    <span asp-validation-for="Name" class="text-red-600 text-sm mt-1 block"></span>
                 </div>
 
-                <div class="form-group mb-3">
-                    <label asp-for="PhoneNumber" class="form-label"></label>
-                    <input asp-for="PhoneNumber" class="form-control" />
-                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                <div class="mb-6">
+                    <label asp-for="PhoneNumber" class="block text-gray-700 font-semibold mb-2"></label>
+                    <input asp-for="PhoneNumber" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" />
+                    <span asp-validation-for="PhoneNumber" class="text-red-600 text-sm mt-1 block"></span>
                 </div>
 
-                <div class="form-group mb-3 form-check">
-                    <input asp-for="IsGuest" type="checkbox" class="form-check-input" />
-                    <label asp-for="IsGuest" class="form-check-label"></label>
+                <div class="mb-6 flex items-center">
+                    <input asp-for="IsGuest" type="checkbox" class="w-4 h-4 text-blue-600 rounded" />
+                    <label asp-for="IsGuest" class="ms-2 text-gray-700 font-semibold"></label>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Create</button>
-                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+                <div class="flex gap-3">
+                    <button type="submit" class="flex-1 px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition">Create</button>
+                    <a asp-action="Index" class="px-6 py-3 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-600 transition">Cancel</a>
+                </div>
             </form>
         </div>
     </div>

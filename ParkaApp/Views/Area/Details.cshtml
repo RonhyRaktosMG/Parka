@@ -4,147 +4,190 @@
     ViewData["Title"] = "Area Details";
 }
 
-<div>
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h1 class="page-title mb-0">
-                <i class="bi bi-map-fill me-2"></i>@Model.Name
-            </h1>
-            <p class="text-muted mb-0">View details and manage parking places</p>
+<div class="max-w-6xl mx-auto space-y-8">
+    
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div class="flex items-center gap-4">
+            <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-orange-100 text--(--color-primary)">
+                <i class="bi bi-map-fill text-3xl"></i>
+            </div>
+            <div>
+                <h1 class="text-4xl font-semibold text-(--color-secondary)">@Model.Name</h1>
+                <p class="text-(--color-secondary-light)">Parking Area Details</p>
+            </div>
         </div>
-        <div>
-            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">
-                <i class="bi bi-pencil me-2"></i>Edit Area
+
+        <div class="flex gap-3">
+            <a asp-action="Edit" asp-route-id="@Model.Id" 
+               class="inline-flex items-center gap-2 px-6 py-3 bg-(--color-primary) text-white rounded-2xl hover:bg-(--color-primary-dark) transition font-medium">
+                <i class="bi bi-pencil"></i>
+                Edit Area
             </a>
-            <a asp-action="Index" class="btn btn-secondary">
-                <i class="bi bi-arrow-left me-2"></i>Back
+            <a asp-action="Index" 
+               class="inline-flex items-center gap-2 px-6 py-3 border border-gray-300 text-(--color-secondary) rounded-2xl hover:bg-gray-50 transition font-medium">
+                <i class="bi bi-arrow-left"></i>
+                Back to List
             </a>
         </div>
     </div>
 
-    <div class="row mb-4">
-        <div class="col-lg-6">
-            <div class="card border-0 shadow">
-                <div class="card-header bg-gradient text-white border-0">
-                    <h5 class="mb-0"><i class="bi bi-info-circle me-2"></i>Area Information</h5>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- Area Information -->
+        <div class="lg:col-span-2 bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
+            <h2 class="text-xl font-semibold text-(--color-secondary) mb-6 flex items-center gap-2">
+                <i class="bi bi-info-circle text-(--color-primary)"></i>
+                Area Information
+            </h2>
+            
+            <div class="space-y-6">
+                <div>
+                    <p class="text-sm font-medium text-gray-400">Name</p>
+                    <p class="text-2xl font-semibold text-(--color-secondary)">@Model.Name</p>
                 </div>
-                <div class="card-body">
-                    <div class="mb-3">
-                        <strong>ID:</strong>
-                        <p class="text-muted">@Model.Id</p>
+                <div>
+                    <p class="text-sm font-medium text-gray-400">Address</p>
+                    <p class="text-lg text-(--color-secondary) leading-relaxed">@Model.Address</p>
+                </div>
+                
+                <div class="grid grid-cols-3 gap-4 pt-4 text-sm">
+                    <div>
+                        <p class="text-xs font-medium text-gray-400">ID</p>
+                        <p class="text-gray-600">@Model.Id</p>
                     </div>
-                    <div class="mb-3">
-                        <strong>Name:</strong>
-                        <p class="text-muted">@Model.Name</p>
+                    <div>
+                        <p class="text-xs font-medium text-gray-400">Latitude</p>
+                        <p class="font-mono text-gray-600">@Model.Latitude.ToString("F6")</p>
                     </div>
-                    <div class="mb-3">
-                        <strong>Address:</strong>
-                        <p class="text-muted">@Model.Address</p>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <strong>Latitude:</strong>
-                            <p class="text-muted">@Model.Latitude.ToString("F6")</p>
-                        </div>
-                        <div class="col-md-6">
-                            <strong>Longitude:</strong>
-                            <p class="text-muted">@Model.Longitude.ToString("F6")</p>
-                        </div>
+                    <div>
+                        <p class="text-xs font-medium text-gray-400">Longitude</p>
+                        <p class="font-mono text-gray-600">@Model.Longitude.ToString("F6")</p>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-6">
-            <div class="card border-0 shadow">
-                <div class="card-header bg-gradient text-white border-0">
-                    <h5 class="mb-0"><i class="bi bi-bar-chart me-2"></i>Statistics</h5>
+
+        <!-- Statistics -->
+        <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
+            <h2 class="text-xl font-semibold text-(--color-secondary) mb-6 flex items-center gap-2">
+                <i class="bi bi-bar-chart text-(--color-primary)"></i>
+                Statistics
+            </h2>
+
+            <div class="space-y-6 grid grid-cols-2 gap-6">
+                <div>
+                    <p class="text-sm font-medium text-gray-400">Total Places</p>
+                    <p class="text-lg font-medium text-(--color-secondary)">@Model.Places.Count</p>
                 </div>
-                <div class="card-body">
-                    <div class="row text-center">
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <h3 style="color: #667eea; font-weight: 700;">@Model.Places.Count</h3>
-                                <p class="text-muted mb-0">Total Places</p>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <h3 style="color: #10b981; font-weight: 700;">@Model.Places.Count(p => p.Status == PlaceStatus.Available)</h3>
-                                <p class="text-muted mb-0">Available</p>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <h3 style="color: #ef4444; font-weight: 700;">@Model.Places.Count(p => p.Status == PlaceStatus.Occupied)</h3>
-                                <p class="text-muted mb-0">Occupied</p>
-                            </div>
-                        </div>
-                    </div>
+                <div>
+                    <p class="text-sm font-medium text-gray-400">Occupied Places</p>
+                    <p class="text-lg font-medium text-(--color-secondary)">@Model.Places.Count(p => p.Status == PlaceStatus.Occupied)</p>
+                </div>
+                <div>
+                    <p class="text-sm font-medium text-gray-400">Available Places</p>
+                    <p class="text-lg font-medium text-(--color-secondary)">@Model.Places.Count(p => p.Status == PlaceStatus.Available)</p>
+                </div>
+                <div>
+                    <p class="text-sm font-medium text-gray-400">Reserved Places</p>
+                    <p class="text-lg font-medium text-(--color-secondary)">@Model.Places.Count(p => p.Status == PlaceStatus.Reserved)</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="card border-0 shadow">
-        <div class="card-header bg-gradient text-white border-0 d-flex justify-content-between align-items-center">
-            <h5 class="mb-0"><i class="bi bi-geo-alt-fill me-2"></i>Parking Places</h5>
-            <a asp-action="Create" asp-controller="Place" asp-route-areaId="@Model.Id" class="btn btn-sm btn-light">
-                <i class="bi bi-plus-circle me-1"></i>Add Place
-            </a>
-        </div>
-        <div class="card-body p-0">
-            @if (Model.Places.Count == 0)
-            {
-                <div class="p-4 text-center">
-                    <p class="text-muted mb-3">No parking places in this area yet</p>
-                    <a asp-action="Create" asp-controller="Place" asp-route-areaId="@Model.Id" class="btn btn-sm btn-primary">
-                        <i class="bi bi-plus-circle me-1"></i>Create First Place
-                    </a>
-                </div>
-            }
-            else
-            {
-                <table class="table mb-0">
-                    <thead>
-                        <tr>
-                            <th>Code</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var place in Model.Places)
-                        {
-                            string statusBadge = place.Status switch
-                            {
-                                PlaceStatus.Available => "badge-success",
-                                PlaceStatus.Occupied => "badge-danger",
-                                PlaceStatus.Reserved => "badge-warning",
-                                _ => "badge-secondary"
-                            };
-                            <tr>
-                                <td>
-                                    <strong>@place.Code</strong>
-                                </td>
-                                <td>
-                                    <span class="badge @statusBadge">@place.Status</span>
-                                </td>
-                                <td>
-                                    <a asp-action="Edit" asp-controller="Place" asp-route-id="@place.Id" class="btn btn-sm btn-primary">
-                                        <i class="bi bi-pencil me-1"></i>Edit
-                                    </a>
-                                    <a asp-action="Delete" asp-controller="Place" asp-route-id="@place.Id" class="btn btn-sm btn-danger">
-                                        <i class="bi bi-trash me-1"></i>Delete
-                                    </a>
-                                    <a asp-action="AssignPlace" asp-controller="Occupation" asp-route-placeId="@place.Id" class="btn btn-sm btn-warning">
-                                        <i class="bi bi-plus-circle me-1"></i>Assign Place
-                                    </a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            }
-        </div>
+    <!-- Parking Places Section -->
+        <!-- Parking Places Cards -->
+<div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="flex justify-between items-center border-b border-gray-100 px-8 py-6 bg-gray-50">
+        <h2 class="text-xl font-semibold text-(--color-secondary) flex items-center gap-3">
+            <i class="bi bi-p-circle-fill text-(--color-primary)"></i>
+            Parking Places (@Model.Places.Count)
+        </h2>
+        
+        <a asp-action="Create" asp-controller="Place" asp-route-areaId="@Model.Id"
+           class="inline-flex items-center gap-2 px-6 py-3 bg-(--color-primary) text-white rounded-2xl hover:bg-(--color-primary-dark) transition font-medium">
+            <i class="bi bi-plus-circle"></i>
+            Add New Place
+        </a>
     </div>
+
+    <div class="p-8">
+        @if (!Model.Places.Any())
+        {
+            <div class="text-center py-16">
+                <i class="bi bi-map text-6xl text-gray-200"></i>
+                <p class="mt-4 text-(--color-secondary-light)">No parking places yet in this area.</p>
+                <a asp-action="Create" asp-controller="Place" asp-route-areaId="@Model.Id"
+                   class="mt-6 inline-block px-6 py-3 bg-(--color-primary) text-white rounded-2xl hover:bg-(--color-primary-dark)">
+                    Create First Place
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8 justify-items-center">
+                @foreach (var place in Model.Places)
+                {
+                    var statusInfo = place.Status switch
+                    {
+                        PlaceStatus.Available => new { Color = "emerald", Bg = "emerald-500/20", Text = "emerald-300" },
+                        PlaceStatus.Occupied  => new { Color = "red", Bg = "red-500/20", Text = "red-300" },
+                        PlaceStatus.Reserved  => new { Color = "amber", Bg = "amber-500/20", Text = "amber-300" },
+                        _ => new { Color = "gray", Bg = "gray-500/20", Text = "gray-300" }
+                    };
+
+                    <div class="group relative h-95 w-65 overflow-hidden rounded-3xl shadow-lg shrink-0">
+                        
+                        <!-- Background Image -->
+                        <img src="~/images/place.png" 
+                             class="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-110" 
+                             alt="@place.Code" />
+                        
+                        <!-- Dark Overlay -->
+                        <div class="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-black/20"></div>
+
+                        <!-- Content -->
+                        <div class="relative flex h-full flex-col justify-between p-5 text-white">
+                            
+                            <!-- Top -->
+                            <div class="flex  flex-col items-center justify-between">
+                                <!-- Code -->
+                                <div class="rounded-2xl  px-4 py-2 text-6xl font-bold ">
+                                    @place.Code
+                                </div>
+                                
+                                <!-- Status -->
+                                <div class="rounded-2xl bg-@statusInfo.Bg px-4 py-2 text-xs font-semibold backdrop-blur-md text-@statusInfo.Text">
+                                    @place.Status.ToString().ToUpper()
+                                </div>
+                            </div>
+
+                            <!-- Center Assign Button (visible on hover) -->
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <a asp-action="AssignPlace" asp-controller="Occupation" asp-route-placeId="@place.Id"
+                                   class="flex scale-0 items-center gap-2 rounded-full bg-white/15 px-6 py-3 text-sm font-semibold backdrop-blur-xl transition duration-300 group-hover:scale-100 hover:bg-white/25">
+                                    <i class="bi bi-person-plus text-lg"></i>
+                                </a>
+                            </div>
+
+                            <!-- Bottom Actions -->
+                            <div class="flex items-center justify-between">
+                                <a asp-action="Edit" asp-controller="Place" asp-route-id="@place.Id"
+                                   class="flex items-center gap-2 rounded-2xl bg-blue-500/20 px-4 py-2.5 text-sm font-medium backdrop-blur-md transition hover:bg-blue-500/40">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                
+                                <a asp-action="Delete" asp-controller="Place" asp-route-id="@place.Id"
+                                   class="flex items-center gap-2 rounded-2xl bg-red-500/20 px-4 py-2.5 text-sm font-medium backdrop-blur-md transition hover:bg-red-500/40">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
 </div>

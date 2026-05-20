@@ -4,36 +4,36 @@
     ViewData["Title"] = "Delete Place";
 }
 
-<div class="row justify-content-center">
-    <div class="col-md-6 col-lg-5">
-        <div class="card border-0 shadow border-danger">
-            <div class="card-header bg-danger text-white border-0">
-                <h3 class="mb-0">
-                    <i class="bi bi-exclamation-triangle me-2"></i>Delete Parking Place
-                </h3>
-            </div>
-            <div class="card-body p-4">
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <i class="bi bi-exclamation-circle me-2"></i>
+<div class="max-w-md mx-auto">
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden border-l-4 border-red-600">
+        <div class="bg-red-600 text-white p-6">
+            <h3 class="text-2xl font-bold m-0 flex items-center gap-2">
+                <i class="bi bi-exclamation-triangle"></i>Delete Parking Place
+            </h3>
+        </div>
+        <div class="p-6">
+            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 mb-4">
+                <p class="text-yellow-800 flex items-center gap-2 m-0">
+                    <i class="bi bi-exclamation-circle"></i>
                     <strong>Warning!</strong> This action cannot be undone.
-                </div>
-                <p class="mb-4">
-                    Are you sure you want to delete the parking place <strong>@Model.Code</strong>?
                 </p>
-                <p class="text-muted small mb-4">
-                    Current Status: <span class="badge badge-info">@Model.Status</span>
-                </p>
-                <form asp-action="Delete" method="post">
-                    <div class="d-flex gap-2">
-                        <button type="submit" class="btn btn-lg btn-danger flex-grow-1">
-                            <i class="bi bi-trash me-2"></i>Yes, Delete
-                        </button>
-                        <a asp-action="Index" class="btn btn-lg btn-secondary">
-                            <i class="bi bi-x-circle me-2"></i>Cancel
-                        </a>
-                    </div>
-                </form>
             </div>
+            <p class="text-gray-700 mb-2">
+                Are you sure you want to delete the parking place <strong>@Model.Code</strong>?
+            </p>
+            <p class="text-gray-500 text-sm mb-6">
+                Current Status: <span class="px-2 py-1 bg-blue-200 text-blue-800 text-xs rounded">@Model.Status</span>
+            </p>
+            <form asp-action="Delete" method="post">
+                <div class="flex gap-3">
+                    <button type="submit" class="flex-1 px-4 py-3 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition flex items-center justify-center gap-2">
+                        <i class="bi bi-trash"></i>Yes, Delete
+                    </button>
+                    <a asp-action="Index" class="px-4 py-3 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-600 transition flex items-center justify-center gap-2">
+                        <i class="bi bi-x-circle"></i>Cancel
+                    </a>
+                </div>
+            </form>
         </div>
     </div>
 </div>
