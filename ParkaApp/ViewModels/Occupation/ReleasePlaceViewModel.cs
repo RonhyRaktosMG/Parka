@@ -8,14 +8,7 @@ namespace ParkaApp.ViewModels.Occupation
         public DateTime EntryTime { get; set; }
         public DateTime ExitTime { get; set; }
 
-        public decimal TotalCost
-        {
-            get
-            {
-                var duration = ExitTime - EntryTime;
-                return (decimal)duration.TotalHours * 500; // Example: 500 Ar per hour
-            }
-        }
+        public double TotalCost { get; set; }
 
         public string FormattedDuration
         {

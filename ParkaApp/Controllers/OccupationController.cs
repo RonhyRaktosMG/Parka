@@ -13,13 +13,15 @@ namespace ParkaApp.Controllers
         private readonly IOccupationRepository _repository;
         private readonly IClientRepository _clientRepository;
         private readonly IPlaceRepository _placeRepository;
+        private readonly IPaymentRepository _paymentRepository;
         
         
-        public OccupationController(IOccupationRepository repository, IClientRepository clientRepository, IPlaceRepository placeRepository)
+        public OccupationController(IOccupationRepository repository, IClientRepository clientRepository, IPlaceRepository placeRepository, IPaymentRepository paymentRepository)
         {
             _repository = repository;
             _clientRepository = clientRepository;
             _placeRepository = placeRepository;
+            _paymentRepository = paymentRepository;
         }
         
         public async Task<IActionResult> Index()
@@ -226,22 +228,8 @@ namespace ParkaApp.Controllers
                 return NotFound();
             }
 
-            // Change Place status to available
-            place.Status = PlaceStatus.Available;
-            await _placeRepository.UpdateAsync(place);
-
-            // Remove occupation
-            await _repository.DeleteAsync(id);
 
             // Make payment if client is a guest or verify subscription if client is a subscriber
-            var vm = new ReleasePlaceViewModel
-            {
-                OccupationId = occupation.Id,
-                PlaceId = place.Id,
-                CarPlate = occupation.Client?.CarPlate ?? "unknown",
-                EntryTime = occupation.EntryTime,
-            };
-            
             var client = await _clientRepository.GetByIdAsync(occupation.ClientId);
             if (client == null)
             {
@@ -251,14 +239,54 @@ namespace ParkaApp.Controllers
             if (client.IsGuest)
             {
                 // Payment
-                
+                var payment = new Payment
+                {
+                    ClientId = client.Id,
+                    Amount = CalculateTotalAmount(occupation.EntryTime, occupation.ExitTime ?? DateTime.Now),
+                    Type = PaymentType.Hourly, 
+                    StartDate = occupation.EntryTime,
+                    EndDate = occupation.ExitTime ?? DateTime.Now,
+                };
+                await _paymentRepository.AddAsync(payment);
             }
             else
             {
-                // Verify subscription logic for subscribers
+                // Verify payment
+                    // Get the last subscription of the client
+                Payment? subscription = await _paymentRepository.GetLastPaymentAsync(client.Id);
+
+                if (subscription == null || subscription.EndDate < DateTime.Now)
+                {
+                    // Subscription has expired, return error or redirect to subscription page
+                    ModelState.AddModelError(string.Empty, "Subscription has expired. Please renew your subscription.");
+                    return View("ReleasePlace", new ReleasePlaceViewModel
+                    {
+                        OccupationId = occupation.Id,
+                        PlaceId = place.Id,
+                        CarPlate = client.CarPlate,
+                        EntryTime = occupation.EntryTime,
+                        ExitTime = occupation.ExitTime ?? DateTime.Now
+                    });
+                }
             }
 
+            // Change Place status to available
+            place.Status = PlaceStatus.Available;
+            await _placeRepository.UpdateAsync(place);
+
+            // Remove occupation
+            await _repository.DeleteAsync(id);
+
             return RedirectToAction("Index");
+        }
+
+        private double CalculateTotalAmount(DateTime entryTime, DateTime exitTime)
+        {   
+            var HOURLY_PRICE = 500;
+        
+            var duration = exitTime - entryTime;
+            return Math.Ceiling(duration.TotalHours) * HOURLY_PRICE;
+
         }
     }
 }

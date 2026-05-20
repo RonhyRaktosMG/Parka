@@ -24,6 +24,14 @@ namespace ParkaApp.Repository
             return await _context.Payments.FirstOrDefaultAsync(p => p.Id == id);
         }
 
+        public async Task<Payment?> GetLastPaymentAsync(int clientId)
+        {
+            return await _context.Payments
+                .Where(p => p.ClientId == clientId)
+                .OrderByDescending(p => p.EndDate)
+                .FirstOrDefaultAsync();
+        }
+
         public async Task AddAsync(Payment Payment)
         {
             _context.Payments.Add(Payment);
