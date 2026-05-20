@@ -42,9 +42,15 @@ namespace ParkaApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _repository.AddAsync(Place);
+                bool isAdded = await _repository.AddAsync(Place);
+                if (!isAdded)
+                {   
+                    ModelState.AddModelError("", "A place with the same code already exists in the selected area.");
+                    return View(Place);
+                }
+                
                 return RedirectToAction("Details", "Area", new { id = Place.AreaId });
-            }   
+            }
 
             return View(Place);
         }      
@@ -65,14 +71,16 @@ namespace ParkaApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int id, Place Place)
         {
-            if (id != Place.Id)
-            {
-                return NotFound();
-            }
 
             if (ModelState.IsValid)
             {
-                await _repository.UpdateAsync(Place);
+                bool isUpdated = await _repository.UpdateAsync(Place);
+                if (!isUpdated)
+                {
+                    ModelState.AddModelError("", "A place with the same code already exists in the selected area.");
+                    return View(Place);
+                }
+
                 return RedirectToAction("Details", "Area", new { id = Place.AreaId });
             }
 
@@ -96,13 +104,15 @@ namespace ParkaApp.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             Place? Place = await _repository.GetByIdAsync(id);
-            if (Place == null)
+
+            bool isDeleted = await _repository.DeleteAsync(id);
+            if (!isDeleted)
             {
-                return NotFound();
+                ModelState.AddModelError("", "A place with the same code already exists in the selected area.");
+                return View(Place);
             }
 
-            await _repository.DeleteAsync(id);
-            return RedirectToAction("Details", "Area", new { id = Place.AreaId });
+            return RedirectToAction("Details", "Area", new { id = Place!.AreaId });
         }
     }
 }

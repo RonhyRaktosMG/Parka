@@ -5,11 +5,11 @@
 }
 
 <div class="max-w-2xl mx-auto">
-    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl overflow-hidden text-white">
         
         <!-- Header -->
-        <div class="bg-linear-to-r from-(--color-primary) to-(--color-primary-dark) text-white px-8 py-7">
-            <h1 class="text-3xl font-semibold flex items-center gap-3">
+        <div class="bg-blue-600/50 text-white px-8 py-7">
+            <h1 class="text-3xl font-semibold flex items-center gap-3 text-white">
                 <i class="bi bi-plus-circle"></i>
                 Create New Parking Place
             </h1>
@@ -18,42 +18,43 @@
 
         <div class="p-8">
             <form asp-action="Create" method="post">
+                <div asp-validation-summary="ModelOnly" class="bg-red-500/20 border border-red-500/50 text-red-200 p-4 rounded mb-6"></div>
                 
                 <div class="space-y-8">
                     
                     <!-- Place Code -->
                     <div>
-                        <label asp-for="Code" class="block text-sm font-semibold text-(--color-secondary) mb-2">
+                        <label asp-for="Code" class="block text-sm font-semibold text-white mb-2">
                             <i class="bi bi-code-square me-2"></i>Place Code
                         </label>
                         <input asp-for="Code" 
-                               class="w-full px-5 py-3.5 border border-gray-200 rounded-2xl focus:outline-none focus:border-(--color-primary) focus:ring-1 focus:ring-(--color-primary) transition font-mono"
+                               class="w-full px-5 py-3.5 border border-white/30 rounded-2xl bg-white/10 text-white focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition font-mono"
                                placeholder="Ex: A001, P-12, B025" />
-                        <span asp-validation-for="Code" class="text-red-600 text-sm mt-1.5 block"></span>
+                        <span asp-validation-for="Code" class="text-red-300 text-sm mt-1.5 block"></span>
                     </div>
 
                     <!-- Parking Area -->
                     <div>
-                        <label asp-for="AreaId" class="block text-sm font-semibold text-(--color-secondary) mb-2">
+                        <label asp-for="AreaId" class="block text-sm font-semibold text-white mb-2">
                             <i class="bi bi-map me-2"></i>Parking Area
                         </label>
                         <input asp-for="AreaId" 
                                type="number"
-                               class="w-full px-5 py-3.5 border border-gray-200 rounded-2xl focus:outline-none focus:border-(--color-primary) focus:ring-1 focus:ring-(--color-primary) transition"
+                               class="w-full px-5 py-3.5 border border-white/30 rounded-2xl bg-white/10 text-white focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition"
                                placeholder="Enter Area ID" />
-                        <span asp-validation-for="AreaId" class="text-red-600 text-sm mt-1.5 block"></span>
-                        <small class="text-(--color-secondary-light) mt-1.5 block">
+                        <span asp-validation-for="AreaId" class="text-red-300 text-sm mt-1.5 block"></span>
+                        <small class="text-white/70 mt-1.5 block">
                             Enter the ID of the parking area where this place belongs
                         </small>
                     </div>
 
                     <!-- Initial Status Info -->
-                    <div class="bg-amber-50 border border-amber-100 rounded-2xl p-5">
+                    <div class="bg-amber-500/20 border border-amber-500/50 rounded-2xl p-5">
                         <div class="flex items-start gap-3">
-                            <i class="bi bi-info-circle text-2xl text-amber-600 mt-0.5"></i>
+                            <i class="bi bi-info-circle text-2xl text-amber-300 mt-0.5"></i>
                             <div>
-                                <p class="font-medium text-amber-800">Initial Status</p>
-                                <p class="text-sm text-amber-700 mt-1">
+                                <p class="font-medium text-amber-200">Initial Status</p>
+                                <p class="text-sm text-amber-300/80 mt-1">
                                     This parking place will be created with <strong>Available</strong> status by default.
                                 </p>
                             </div>
@@ -70,8 +71,8 @@
                         Create Place
                     </button>
 
-                    <a asp-action="Index" asp-controller="Area" asp-route-id="@Model.AreaId" 
-                       class="flex-1 border border-gray-300 hover:bg-gray-50 transition text-(--color-secondary) font-semibold py-4 rounded-2xl flex items-center justify-center gap-2">
+                    <a asp-action="Details" asp-controller="Area" asp-route-id="@Model.AreaId" 
+                       class="flex-1 border border-white/30 hover:bg-white/5 transition text-white font-semibold py-4 rounded-2xl flex items-center justify-center gap-2">
                         <i class="bi bi-x-circle"></i>
                         Cancel
                     </a>

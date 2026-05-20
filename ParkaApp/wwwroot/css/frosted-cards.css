@@ -1,0 +1,44 @@
+/* Frosted Glass Card Styles */
+
+/* Primary frosted card container */
+.card-frosted {
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 24px;
+    color: white;
+}
+
+/* Frosted card with padding */
+.card-frosted-lg {
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 24px;
+    padding: 24px;
+    color: white;
+}
+
+/* Frosted card medium padding */
+.card-frosted-md {
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    padding: 16px;
+    color: white;
+}
+
+/* Frosted overlay container */
+.overlay-frosted {
+    background-color: rgba(45, 41, 37, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+}
+
+/* Color definitions */
+:root {
+    --frosted-bg: rgba(255, 255, 255, 0.1);
+    --frosted-border: rgba(255, 255, 255, 0.2);
+    --frosted-blur: 10px;
+}

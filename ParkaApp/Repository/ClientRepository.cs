@@ -30,26 +30,46 @@ namespace ParkaApp.Repository
             return await _context.Clients.FirstOrDefaultAsync(c => c.CarPlate == carPlate);
         }
 
-        public async Task AddAsync(Client Client)
+        public async Task<bool> AddAsync(Client Client)
         {
+            // Check if a client with the same car plate already exists
+            var existingClient = await GetByCarPlateAsync(Client.CarPlate);
+            if (existingClient != null)
+            {
+                return false;
+            }
+            
             _context.Clients.Add(Client);
             await _context.SaveChangesAsync();
+
+            return true;
         }
 
-        public async Task UpdateAsync(Client Client)
+        public async Task<bool> UpdateAsync(Client Client)
         {
+            // Check if a client with the same car plate already exists (excluding the current client)
+            var existingClient = await _context.Clients.FirstOrDefaultAsync(c => c.CarPlate == Client.CarPlate && c.Id != Client.Id);
+            if (existingClient != null)
+            {
+                return false;
+            }
+
             _context.Clients.Update(Client);
             await _context.SaveChangesAsync();
+            
+            return true;
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
             var Client = await GetByIdAsync(id);
             if (Client != null)
             {
                 _context.Clients.Remove(Client);
                 await _context.SaveChangesAsync();
+                return true;
             }
+            return false;
         }
     }
 }

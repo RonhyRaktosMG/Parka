@@ -34,7 +34,14 @@ namespace ParkaApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _repository.AddAsync(area);
+                bool isAdded = await _repository.AddAsync(area);
+                
+                if (!isAdded)
+                {
+                    ModelState.AddModelError("", "An area with the same name already exists.");
+                    return View(area);
+                }
+                
                 return RedirectToAction(nameof(Index));
             }   
 
@@ -64,7 +71,13 @@ namespace ParkaApp.Controllers
 
             if (ModelState.IsValid)
             {
-                await _repository.UpdateAsync(area);
+                bool isUpdated = await _repository.UpdateAsync(area);
+                if (!isUpdated)
+                {
+                    ModelState.AddModelError("", "An area with the same name already exists.");
+                    return View(area);
+                }
+
                 return RedirectToAction(nameof(Index));
             }
 
@@ -87,13 +100,13 @@ namespace ParkaApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            Area? area = await _repository.GetByIdAsync(id);
-            if (area == null)
+
+            bool isDeleted = await _repository.DeleteAsync(id);
+            if (!isDeleted)
             {
                 return NotFound();
             }
 
-            await _repository.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
 

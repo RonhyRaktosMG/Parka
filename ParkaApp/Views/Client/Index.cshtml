@@ -4,10 +4,10 @@
     ViewData["Title"] = "Clients";
 }
 
-<div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 mb-6">
+<div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-6 mb-6 text-white">
     <div class="flex justify-between items-center">
         <div>
-            <h1 class="text-3xl font-semibold text-[var(--color-secondary)] mb-0">
+            <h1 class="text-3xl font-semibold text-white mb-0">
                 Clients
             </h1>
             <p class="text-[var(--color-secondary-light)] mt-1">
@@ -23,28 +23,28 @@
     </div>
 </div>
 
-<div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-    <table class="w-full text-sm text-gray-700">
+<div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl overflow-hidden">
+    <table class="w-full text-sm text-white">
         <thead>
-            <tr class="bg-gray-50 border-b border-gray-200">
-                <th class="px-6 py-4 text-left font-semibold text-gray-900">ID</th>
-                <th class="px-6 py-4 text-left font-semibold text-gray-900">Car Plate</th>
-                <th class="px-6 py-4 text-left font-semibold text-gray-900">Name</th>
-                <th class="px-6 py-4 text-left font-semibold text-gray-900">Phone Number</th>
-                <th class="px-6 py-4 text-left font-semibold text-gray-900">Guest</th>
-                <th class="px-6 py-4 text-left font-semibold text-gray-900">Actions</th>
+            <tr class="bg-white/5 border-b border-white/10">
+                <th class="px-6 py-4 text-left font-semibold text-white">ID</th>
+                <th class="px-6 py-4 text-left font-semibold text-white">Car Plate</th>
+                <th class="px-6 py-4 text-left font-semibold text-white">Name</th>
+                <th class="px-6 py-4 text-left font-semibold text-white">Phone Number</th>
+                <th class="px-6 py-4 text-left font-semibold text-white">Guest</th>
+                <th class="px-6 py-4 text-left font-semibold text-white">Actions</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var client in Model)
             {
-                <tr class="border-b border-gray-100 hover:bg-gray-50 transition">
-                    <td class="px-6 py-4 font-medium">@client.Id</td>
-                    <td class="px-6 py-4 font-mono font-semibold">@client.CarPlate</td>
-                    <td class="px-6 py-4">
+                <tr class="border-b border-white/10 hover:bg-white/5 transition">
+                    <td class="px-6 py-4 font-medium text-white">@client.Id</td>
+                    <td class="px-6 py-4 font-mono font-semibold text-white">@client.CarPlate</td>
+                    <td class="px-6 py-4 text-white">
                         @(string.IsNullOrWhiteSpace(client.Name) ? "—" : client.Name)
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4 text-white">
                         @(string.IsNullOrWhiteSpace(client.PhoneNumber) ? "—" : client.PhoneNumber)
                     </td>
                     <td class="px-6 py-4">

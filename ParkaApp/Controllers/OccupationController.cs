@@ -248,7 +248,7 @@ namespace ParkaApp.Controllers
                     StartDate = occupation.EntryTime,
                     EndDate = occupation.ExitTime ?? DateTime.Now,
                 };
-                await _paymentRepository.AddAsync(payment);
+                await _paymentRepository.AddAsync(payment, client.CarPlate);
             }
             else
             {

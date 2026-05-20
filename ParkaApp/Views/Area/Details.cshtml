@@ -35,62 +35,62 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         <!-- Area Information -->
-        <div class="lg:col-span-2 bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
-            <h2 class="text-xl font-semibold text-(--color-secondary) mb-6 flex items-center gap-2">
-                <i class="bi bi-info-circle text-(--color-primary)"></i>
+        <div class="lg:col-span-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-8 text-white">
+            <h2 class="text-xl font-semibold text-white mb-6 flex items-center gap-2">
+                <i class="bi bi-info-circle text-blue-300"></i>
                 Area Information
             </h2>
             
             <div class="space-y-6">
                 <div>
-                    <p class="text-sm font-medium text-gray-400">Name</p>
-                    <p class="text-2xl font-semibold text-(--color-secondary)">@Model.Name</p>
+                    <p class="text-sm font-medium text-white/50">Name</p>
+                    <p class="text-2xl font-semibold text-white">@Model.Name</p>
                 </div>
                 <div>
-                    <p class="text-sm font-medium text-gray-400">Address</p>
-                    <p class="text-lg text-(--color-secondary) leading-relaxed">@Model.Address</p>
+                    <p class="text-sm font-medium text-white/50">Address</p>
+                    <p class="text-lg text-white leading-relaxed">@Model.Address</p>
                 </div>
                 
                 <div class="grid grid-cols-3 gap-4 pt-4 text-sm">
                     <div>
-                        <p class="text-xs font-medium text-gray-400">ID</p>
-                        <p class="text-gray-600">@Model.Id</p>
+                        <p class="text-xs font-medium text-white/50">ID</p>
+                        <p class="text-white/80">@Model.Id</p>
                     </div>
                     <div>
-                        <p class="text-xs font-medium text-gray-400">Latitude</p>
-                        <p class="font-mono text-gray-600">@Model.Latitude.ToString("F6")</p>
+                        <p class="text-xs font-medium text-white/50">Latitude</p>
+                        <p class="font-mono text-white/80">@Model.Latitude.ToString("F6")</p>
                     </div>
                     <div>
-                        <p class="text-xs font-medium text-gray-400">Longitude</p>
-                        <p class="font-mono text-gray-600">@Model.Longitude.ToString("F6")</p>
+                        <p class="text-xs font-medium text-white/50">Longitude</p>
+                        <p class="font-mono text-white/80">@Model.Longitude.ToString("F6")</p>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Statistics -->
-        <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
-            <h2 class="text-xl font-semibold text-(--color-secondary) mb-6 flex items-center gap-2">
-                <i class="bi bi-bar-chart text-(--color-primary)"></i>
+        <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-8 text-white">
+            <h2 class="text-xl font-semibold text-white mb-6 flex items-center gap-2">
+                <i class="bi bi-bar-chart text-blue-300"></i>
                 Statistics
             </h2>
 
             <div class="space-y-6 grid grid-cols-2 gap-6">
                 <div>
-                    <p class="text-sm font-medium text-gray-400">Total Places</p>
-                    <p class="text-lg font-medium text-(--color-secondary)">@Model.Places.Count</p>
+                    <p class="text-sm font-medium text-white/50">Total Places</p>
+                    <p class="text-lg font-medium text-white">@Model.Places.Count</p>
                 </div>
                 <div>
-                    <p class="text-sm font-medium text-gray-400">Occupied Places</p>
-                    <p class="text-lg font-medium text-(--color-secondary)">@Model.Places.Count(p => p.Status == PlaceStatus.Occupied)</p>
+                    <p class="text-sm font-medium text-white/50">Occupied Places</p>
+                    <p class="text-lg font-medium text-white">@Model.Places.Count(p => p.Status == PlaceStatus.Occupied)</p>
                 </div>
                 <div>
-                    <p class="text-sm font-medium text-gray-400">Available Places</p>
-                    <p class="text-lg font-medium text-(--color-secondary)">@Model.Places.Count(p => p.Status == PlaceStatus.Available)</p>
+                    <p class="text-sm font-medium text-white/50">Available Places</p>
+                    <p class="text-lg font-medium text-white">@Model.Places.Count(p => p.Status == PlaceStatus.Available)</p>
                 </div>
                 <div>
-                    <p class="text-sm font-medium text-gray-400">Reserved Places</p>
-                    <p class="text-lg font-medium text-(--color-secondary)">@Model.Places.Count(p => p.Status == PlaceStatus.Reserved)</p>
+                    <p class="text-sm font-medium text-white/50">Reserved Places</p>
+                    <p class="text-lg font-medium text-white">@Model.Places.Count(p => p.Status == PlaceStatus.Reserved)</p>
                 </div>
             </div>
         </div>
@@ -98,10 +98,10 @@
 
     <!-- Parking Places Section -->
         <!-- Parking Places Cards -->
-<div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-    <div class="flex justify-between items-center border-b border-gray-100 px-8 py-6 bg-gray-50">
-        <h2 class="text-xl font-semibold text-(--color-secondary) flex items-center gap-3">
-            <i class="bi bi-p-circle-fill text-(--color-primary)"></i>
+<div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl overflow-hidden">
+    <div class="flex justify-between items-center border-b border-white/10 px-8 py-6 bg-white/5">
+        <h2 class="text-xl font-semibold text-white flex items-center gap-3">
+            <i class="bi bi-p-circle-fill text-blue-300"></i>
             Parking Places (@Model.Places.Count)
         </h2>
         
@@ -115,9 +115,9 @@
     <div class="p-8">
         @if (!Model.Places.Any())
         {
-            <div class="text-center py-16">
-                <i class="bi bi-map text-6xl text-gray-200"></i>
-                <p class="mt-4 text-(--color-secondary-light)">No parking places yet in this area.</p>
+            <div class="text-center py-16 text-white/50">
+                <i class="bi bi-map text-6xl text-white/20"></i>
+                <p class="mt-4 text-white/70">No parking places yet in this area.</p>
                 <a asp-action="Create" asp-controller="Place" asp-route-areaId="@Model.Id"
                    class="mt-6 inline-block px-6 py-3 bg-(--color-primary) text-white rounded-2xl hover:bg-(--color-primary-dark)">
                     Create First Place

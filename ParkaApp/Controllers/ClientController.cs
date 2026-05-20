@@ -34,7 +34,13 @@ namespace ParkaApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _repository.AddAsync(Client);
+                bool isAdded = await _repository.AddAsync(Client);
+                if (!isAdded)
+                {
+                    ModelState.AddModelError("", "A client with the same car plate already exists.");
+                    return View(Client);
+                }
+
                 return RedirectToAction(nameof(Index));
             }   
 
@@ -64,7 +70,13 @@ namespace ParkaApp.Controllers
 
             if (ModelState.IsValid)
             {
-                await _repository.UpdateAsync(Client);
+                bool isUpdated = await _repository.UpdateAsync(Client);
+                if (!isUpdated)
+                {
+                    ModelState.AddModelError("", "A client with the same car plate already exists.");
+                    return View(Client);
+                }
+
                 return RedirectToAction(nameof(Index));
             }
 
@@ -87,13 +99,12 @@ namespace ParkaApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            Client? Client = await _repository.GetByIdAsync(id);
-            if (Client == null)
-            {
-                return NotFound();
-            }
 
-            await _repository.DeleteAsync(id);
+            bool isDeleted = await _repository.DeleteAsync(id);
+            if (!isDeleted)
+            {
+                ModelState.AddModelError("", "The client does not exist or could not be deleted.");
+            }
             return RedirectToAction(nameof(Index));
         }
 

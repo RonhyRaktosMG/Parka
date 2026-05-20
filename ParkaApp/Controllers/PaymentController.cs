@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ParkaApp.Models;
 using ParkaApp.Repository.Interfaces;
+using ParkaApp.ViewModels.Payment;
 
 namespace ParkaApp.Controllers
 {
@@ -28,15 +29,32 @@ namespace ParkaApp.Controllers
         }
         
         [HttpPost]
-        public async Task<IActionResult> Create(Payment Payment)
+        public async Task<IActionResult> Create(CreatePaymentViewModel vm)
         {
             if (ModelState.IsValid)
             {
-                await _repository.AddAsync(Payment);
-                return RedirectToAction(nameof(Index));
-            }   
+                Payment Payment = new Payment
+                {
+                    Amount = (double)vm.Amount,
+                    Type = vm.SelectedType switch
+                    {
+                        "Hourly" => PaymentType.Hourly,
+                        "Daily" => PaymentType.Daily,
+                        "Monthly" => PaymentType.Monthly,
+                        _ => throw new ArgumentException("Invalid payment type")
+                    },
+                    StartDate = vm.StartDate,
+                    EndDate = vm.EndDate,
+                };
 
-            return View(Payment);
+                bool isAdded = await _repository.AddAsync(Payment, vm.CarPlate);
+                if (isAdded)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+
+            return View(vm);
         }        
 
 
@@ -63,8 +81,11 @@ namespace ParkaApp.Controllers
 
             if (ModelState.IsValid)
             {
-                await _repository.UpdateAsync(Payment);
-                return RedirectToAction(nameof(Index));
+                bool isUpdated = await _repository.UpdateAsync(Payment);
+                if (isUpdated)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
             }
             return View(Payment);
         }
@@ -84,7 +105,15 @@ namespace ParkaApp.Controllers
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _repository.DeleteAsync(id);
+            bool isDeleted = await _repository.DeleteAsync(id);
+            if (!isDeleted)
+            {
+                ModelState.AddModelError("", "Failed to delete the payment.");
+                
+                Payment? Payment = await _repository.GetByIdAsync(id);
+                return View(Payment);
+            }
+
             return RedirectToAction(nameof(Index));
         }
     }

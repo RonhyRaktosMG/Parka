@@ -7,8 +7,8 @@ namespace ParkaApp.Repository.Interfaces
         Task<IEnumerable<Payment>> GetAllAsync();
         Task<Payment?> GetByIdAsync(int id);
         Task<Payment?> GetLastPaymentAsync(int clientId);
-        Task AddAsync(Payment Payment);
-        Task UpdateAsync(Payment Payment);
-        Task DeleteAsync(int id);
+        Task<bool> AddAsync(Payment Payment, string carPlate);
+        Task<bool> UpdateAsync(Payment Payment);
+        Task<bool> DeleteAsync(int id);
     }
 }

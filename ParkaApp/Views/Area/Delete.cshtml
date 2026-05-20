@@ -5,10 +5,10 @@
 }
 
 <div class="max-w-md mx-auto">
-    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl overflow-hidden text-white">
         
         <!-- Header -->
-        <div class="bg-(--color-primary) text-white px-8 py-7">
+        <div class="bg-red-600/50 text-white px-8 py-7">
             <h1 class="text-3xl font-semibold flex items-center gap-3">
                 <i class="bi bi-trash"></i>
                 Delete Area
@@ -18,12 +18,12 @@
 
         <div class="p-8">
             <!-- Warning Box -->
-            <div class="mb-8 rounded-2xl border border-amber-200 bg-amber-50 p-5">
+            <div class="mb-8 rounded-2xl border border-amber-500/50 bg-amber-500/10 p-5">
                 <div class="flex items-start gap-3">
-                    <i class="bi bi-exclamation-triangle text-2xl text-amber-600 mt-0.5"></i>
+                    <i class="bi bi-exclamation-triangle text-2xl text-amber-300 mt-0.5"></i>
                     <div>
-                        <p class="font-semibold text-amber-800">Attention</p>
-                        <p class="text-sm text-amber-700 mt-1 leading-relaxed">
+                        <p class="font-semibold text-amber-200">Attention</p>
+                        <p class="text-sm text-amber-300/80 mt-1 leading-relaxed">
                             Cette action est irréversible. Toutes les places de parking associées seront également supprimées.
                         </p>
                     </div>
@@ -32,10 +32,10 @@
 
             <!-- Confirmation Text -->
             <div class="text-center mb-8">
-                <p class="text-(--color-secondary) text-lg">
+                <p class="text-white text-lg">
                     Êtes-vous sûr de vouloir supprimer la zone
                 </p>
-                <p class="font-semibold text-xl text-(--color-secondary) mt-2">
+                <p class="font-semibold text-xl text-white mt-2">
                     « @Model.Name » ?
                 </p>
                 
@@ -49,6 +49,7 @@
 
             <!-- Buttons -->
             <form asp-action="Delete" method="post">
+                <div asp-validation-summary="ModelOnly" class="bg-red-500/20 border border-red-500/50 text-red-200 p-4 rounded mb-6"></div>
                 <div class="flex gap-4">
                     <button type="submit" 
                             class="flex-1 bg-red-400 transition text-white font-semibold py-4 rounded-2xl flex items-center justify-center gap-2 shadow-sm">

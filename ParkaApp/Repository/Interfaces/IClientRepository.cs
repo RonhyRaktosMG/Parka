@@ -7,8 +7,8 @@ namespace ParkaApp.Repository.Interfaces
         Task<IEnumerable<Client>> GetAllAsync();
         Task<Client?> GetByIdAsync(int id);
         Task<Client?> GetByCarPlateAsync(string carPlate);
-        Task AddAsync(Client Client);
-        Task UpdateAsync(Client Client);
-        Task DeleteAsync(int id);
+        Task<bool> AddAsync(Client Client);
+        Task<bool> UpdateAsync(Client Client);
+        Task<bool> DeleteAsync(int id);
     }
 }

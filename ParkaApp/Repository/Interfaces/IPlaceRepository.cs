@@ -6,8 +6,8 @@ namespace ParkaApp.Repository.Interfaces
     {
         Task<IEnumerable<Place>> GetAllAsync();
         Task<Place?> GetByIdAsync(int id);
-        Task AddAsync(Place place);
-        Task UpdateAsync(Place place);
-        Task DeleteAsync(int id);
+        Task<bool> AddAsync(Place place);
+        Task<bool> UpdateAsync(Place place);
+        Task<bool> DeleteAsync(int id);
     }
 }

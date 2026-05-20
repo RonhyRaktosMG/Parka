@@ -32,26 +32,40 @@ namespace ParkaApp.Repository
                 .FirstOrDefaultAsync();
         }
 
-        public async Task AddAsync(Payment Payment)
+        public async Task<bool> AddAsync(Payment Payment, string carPlate)
         {
+            // Find the client by car plate
+            var client = await _context.Clients.FirstOrDefaultAsync(c => c.CarPlate == carPlate);
+            if (client == null)            {
+                return false; // Client not found
+            }
+
+            Payment.ClientId = client.Id;
+
             _context.Payments.Add(Payment);
             await _context.SaveChangesAsync();
+            
+            return true;
         }
 
-        public async Task UpdateAsync(Payment Payment)
+        public async Task<bool> UpdateAsync(Payment Payment)
         {
             _context.Payments.Update(Payment);
             await _context.SaveChangesAsync();
+            
+            return true;
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
             var Payment = await GetByIdAsync(id);
             if (Payment != null)
             {
                 _context.Payments.Remove(Payment);
                 await _context.SaveChangesAsync();
+                return true;
             }
+            return false;
         }
     }
 }
