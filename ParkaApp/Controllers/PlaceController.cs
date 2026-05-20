@@ -43,7 +43,7 @@ namespace ParkaApp.Controllers
             if (ModelState.IsValid)
             {
                 await _repository.AddAsync(Place);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Area", new { id = Place.AreaId });
             }   
 
             return View(Place);
@@ -73,7 +73,7 @@ namespace ParkaApp.Controllers
             if (ModelState.IsValid)
             {
                 await _repository.UpdateAsync(Place);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Area", new { id = Place.AreaId });
             }
 
             return View(Place);
@@ -102,7 +102,7 @@ namespace ParkaApp.Controllers
             }
 
             await _repository.DeleteAsync(id);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details", "Area", new { id = Place.AreaId });
         }
     }
 }

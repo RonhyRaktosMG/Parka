@@ -1,0 +1,132 @@
+@model IEnumerable<ParkaApp.Models.Area>
+
+@{
+    ViewData["Title"] = "Parking Areas";
+}
+
+<div class="space-y-8">
+    <!-- Header -->
+    <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+        <div>
+            <h1 class="text-4xl font-semibold tracking-tight text-(--color-secondary)">
+                Parking Areas
+            </h1>
+            <p class="mt-2 text-lg text-(--color-secondary-light)">
+                Manage all your parking areas
+            </p>
+        </div>
+
+        <a asp-action="Create"
+           class="inline-flex items-center gap-3 rounded-2xl bg-(--color-primary) px-6 py-3.5 font-semibold text-white transition-all hover:bg-(--color-primary-dark) hover:shadow-lg active:scale-95">
+            <i class="bi bi-plus-circle text-xl"></i>
+            <span>Create Area</span>
+        </a>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="rounded-3xl bg-(--color-soft) border border-gray-100 py-20 px-8 text-center">
+            <div class="mx-auto flex h-20 w-20 items-center justify-center rounded-2xl bg-white shadow-sm">
+                <i class="bi bi-map text-5xl text-(--color-primary)"></i>
+            </div>
+            <h2 class="mt-6 text-2xl font-semibold text-(--color-secondary)">
+                No parking areas yet
+            </h2>
+            <p class="mx-auto mt-3 max-w-xs text-(--color-secondary-light)">
+                Create your first parking area to start managing your spaces.
+            </p>
+            <a asp-action="Create" 
+               class="mt-8 inline-flex items-center gap-2 rounded-2xl bg-(--color-primary) px-6 py-3 text-white hover:bg-(--color-primary-dark)">
+                <i class="bi bi-plus"></i>
+                Create first area
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+            @foreach (var area in Model)
+            {
+                <div class="group overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm transition-all hover:shadow-xl hover:-translate-y-1">
+                    
+                    <!-- Header Image / Accent -->
+                    <div class="h-2 bg-linear-to-r from-(--color-primary) to-(--color-primary-dark)"></div>
+
+                    <div class="p-6">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <h2 class="text-2xl font-semibold text-(--color-secondary)">
+                                    @area.Name
+                                </h2>
+                                <p class="text-sm text-(--color-secondary-light) mt-1">
+                                    Parking Area
+                                </p>
+                            </div>
+                            <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-orange-50 text-(--color-primary)">
+                                <i class="bi bi-map-fill text-2xl"></i>
+                            </div>
+                        </div>
+
+                        <!-- Address -->
+                        <div class="mt-6">
+                            <p class="text-xs font-medium uppercase tracking-widest text-gray-400">Address</p>
+                            <p class="mt-1.5 text-[15px] leading-relaxed text-(--color-secondary-light)">
+                                @area.Address
+                            </p>
+                        </div>
+
+                        <!-- Coordinates -->
+                        <div class="mt-6 grid grid-cols-2 gap-4">
+                            <div class="rounded-2xl bg-(--color-soft) p-4">
+                                <p class="text-xs font-medium uppercase tracking-widest text-gray-400">Latitude</p>
+                                <p class="mt-2 font-mono text-lg font-semibold text-(--color-secondary)">
+                                    @area.Latitude.ToString("F4")
+                                </p>
+                            </div>
+                            <div class="rounded-2xl bg-(--color-soft) p-4">
+                                <p class="text-xs font-medium uppercase tracking-widest text-gray-400">Longitude</p>
+                                <p class="mt-2 font-mono text-lg font-semibold text-(--color-secondary)">
+                                    @area.Longitude.ToString("F4")
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Places -->
+                        <div class="mt-6 flex items-center justify-between rounded-2xl bg-(--color-soft) p-5">
+                            <div>
+                                <p class="text-sm text-(--color-secondary-light)">Total Places</p>
+                                <p class="text-4xl font-semibold text-(--color-secondary) mt-1">
+                                    @area.Places.Count
+                                </p>
+                            </div>
+                            <div class="text-4xl text-(--color-primary)/80">
+                                <i class="bi bi-p-circle-fill"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="border-t border-gray-100 bg-gray-50 px-6 py-4 flex gap-3">
+                        <a asp-action="Details" asp-route-id="@area.Id"
+                           class="flex-1 flex items-center justify-center gap-2 rounded-2xl py-3 text-sm font-medium text-sky-700 hover:bg-white transition">
+                            <i class="bi bi-eye"></i>
+                            View
+                        </a>
+                        
+                        <a asp-action="Edit" asp-route-id="@area.Id"
+                           class="flex-1 flex items-center justify-center gap-2 rounded-2xl py-3 text-sm font-medium text-(--color-primary) hover:bg-white transition">
+                            <i class="bi bi-pencil"></i>
+                            Edit
+                        </a>
+                        
+                        <a asp-action="Delete" asp-route-id="@area.Id"
+                           class="flex-1 flex items-center justify-center gap-2 rounded-2xl py-3 text-sm font-medium text-red-600 hover:bg-white transition">
+                            <i class="bi bi-trash"></i>
+                            Delete
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

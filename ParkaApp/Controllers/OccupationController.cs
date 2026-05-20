@@ -152,6 +152,7 @@ namespace ParkaApp.Controllers
             {
                 client = new Client
                 {
+                    Name = "Guest" + DateTime.Now.ToString("yyyyMMddHHmmss"),
                     CarPlate = vm.CarPlate,
                     IsGuest = true
                 };
@@ -180,7 +181,7 @@ namespace ParkaApp.Controllers
 
             await _repository.AddAsync(occupation);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "Area", new { id = place.AreaId });
         }
     
     
@@ -277,7 +278,7 @@ namespace ParkaApp.Controllers
             // Remove occupation
             await _repository.DeleteAsync(id);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "Area", new { id = place.AreaId });
         }
 
         private double CalculateTotalAmount(DateTime entryTime, DateTime exitTime)

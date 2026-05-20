@@ -1,0 +1,86 @@
+@model ParkaApp.Models.Area
+
+@{
+    ViewData["Title"] = "Create Area";
+}
+
+<div class="max-w-2xl mx-auto">
+    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+        
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-dark)] text-white px-8 py-7">
+            <h1 class="text-3xl font-semibold flex items-center gap-3">
+                <i class="bi bi-plus-circle"></i>
+                Create New Area
+            </h1>
+            <p class="mt-2 text-white/80">Add a new parking area to your system</p>
+        </div>
+
+        <div class="p-8">
+            <form asp-action="Create" method="post">
+                
+                <div class="space-y-8">
+                    <!-- Name -->
+                    <div>
+                        <label asp-for="Name" class="block text-sm font-semibold text-[var(--color-secondary)] mb-2">
+                            <i class="bi bi-tag me-2"></i>Area Name
+                        </label>
+                        <input asp-for="Name" 
+                               class="w-full px-5 py-3.5 border border-gray-200 rounded-2xl focus:outline-none focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] transition"
+                               placeholder="Ex: Parking Centre-Ville" />
+                        <span asp-validation-for="Name" class="text-red-600 text-sm mt-1.5 block"></span>
+                    </div>
+
+                    <!-- Address -->
+                    <div>
+                        <label asp-for="Address" class="block text-sm font-semibold text-[var(--color-secondary)] mb-2">
+                            <i class="bi bi-house-door me-2"></i>Address
+                        </label>
+                        <input asp-for="Address" 
+                               class="w-full px-5 py-3.5 border border-gray-200 rounded-2xl focus:outline-none focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] transition"
+                               placeholder="Ex: 123 Avenue de l'Indépendance" />
+                        <span asp-validation-for="Address" class="text-red-600 text-sm mt-1.5 block"></span>
+                    </div>
+
+                    <!-- Coordinates -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label asp-for="Latitude" class="block text-sm font-semibold text-[var(--color-secondary)] mb-2">
+                                <i class="bi bi-geo-alt me-2"></i>Latitude
+                            </label>
+                            <input asp-for="Latitude" 
+                                   class="w-full px-5 py-3.5 border border-gray-200 rounded-2xl font-mono focus:outline-none focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] transition"
+                                   placeholder="e.g. -18.8792" />
+                            <span asp-validation-for="Latitude" class="text-red-600 text-sm mt-1.5 block"></span>
+                        </div>
+
+                        <div>
+                            <label asp-for="Longitude" class="block text-sm font-semibold text-[var(--color-secondary)] mb-2">
+                                <i class="bi bi-geo-alt me-2"></i>Longitude
+                            </label>
+                            <input asp-for="Longitude" 
+                                   class="w-full px-5 py-3.5 border border-gray-200 rounded-2xl font-mono focus:outline-none focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] transition"
+                                   placeholder="e.g. 47.5079" />
+                            <span asp-validation-for="Longitude" class="text-red-600 text-sm mt-1.5 block"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="flex gap-4 mt-10">
+                    <button type="submit" 
+                            class="flex-1 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] transition text-white font-semibold py-4 rounded-2xl flex items-center justify-center gap-2 shadow-sm">
+                        <i class="bi bi-check-circle"></i>
+                        Create Area
+                    </button>
+
+                    <a asp-action="Index" 
+                       class="flex-1 border border-gray-300 hover:bg-gray-50 transition text-[var(--color-secondary)] font-semibold py-4 rounded-2xl flex items-center justify-center gap-2">
+                        <i class="bi bi-x-circle"></i>
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

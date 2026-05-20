@@ -11,9 +11,9 @@
 
 body {
     background:
-        linear-gradient(rgb(240, 240, 240),
-        rgb(240, 235, 235)),
-        url('/images/background.png') no-repeat center center fixed;
+        linear-gradient(rgba(46, 37, 30, 0.521),
+        rgba(77, 76, 76, 0.459)),
+        url('/images/background.jpg') no-repeat center center fixed;
 
     background-size: cover;
     background-attachment: fixed;
