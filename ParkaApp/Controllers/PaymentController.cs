@@ -48,10 +48,13 @@ namespace ParkaApp.Controllers
                 };
 
                 bool isAdded = await _repository.AddAsync(Payment, vm.CarPlate);
-                if (isAdded)
+                if (!isAdded)
                 {
-                    return RedirectToAction(nameof(Index));
+                    ModelState.AddModelError("", "The client does not exist. Please check the car plate number.");
+                    return View(vm);
                 }
+
+                return RedirectToAction(nameof(Index));
             }
 
             return View(vm);

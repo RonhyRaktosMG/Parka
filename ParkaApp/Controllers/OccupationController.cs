@@ -49,8 +49,12 @@ namespace ParkaApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _repository.AddAsync(Occupation);
-                return RedirectToAction(nameof(Index));
+                bool result = await _repository.AddAsync(Occupation);
+                if (result)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                ModelState.AddModelError(string.Empty, "An error occurred while creating the occupation.");
             }   
 
             return View(Occupation);
@@ -79,8 +83,12 @@ namespace ParkaApp.Controllers
 
             if (ModelState.IsValid)
             {
-                await _repository.UpdateAsync(Occupation);
-                return RedirectToAction(nameof(Index));
+                bool result = await _repository.UpdateAsync(Occupation);
+                if (result)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                ModelState.AddModelError(string.Empty, "An error occurred while updating the occupation.");
             }
 
             return View(Occupation);
@@ -102,13 +110,12 @@ namespace ParkaApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            Occupation? Occupation = await _repository.GetByIdAsync(id);
-            if (Occupation == null)
+            bool result = await _repository.DeleteAsync(id);
+            if (!result)
             {
-                return NotFound();
+                ModelState.AddModelError(string.Empty, "An error occurred while deleting the occupation.");
+                return View();
             }
-
-            await _repository.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
@@ -121,65 +128,27 @@ namespace ParkaApp.Controllers
                 PlaceId = placeId,
                 EntryTime = DateTime.Now
             };
-            
-            // Debug logs
-            Console.WriteLine($"\n\n\n\nAssignPlace GET called with PlaceId: {placeId} at {DateTime.Now}\n\n\n\n");
 
             return View(vm);
         }
 
         [HttpPost]
         public async Task<IActionResult> AssignPlace(AssignPlaceViewModel vm)
-        {
-            var client = await _clientRepository.GetByCarPlateAsync(vm.CarPlate);
-            var place = await _placeRepository.GetByIdAsync(vm.PlaceId);
-            
+        {            
+            // For the view
+            Place? place = await _placeRepository.GetByIdAsync(vm.PlaceId);
             if (place == null)
             {
                 ModelState.AddModelError("PlaceId", "Invalid place selected.");
+                return NotFound();
+            }
+
+            bool result = await _repository.AssignPlaceAsync(vm.PlaceId, vm.CarPlate);
+            if (!result)            
+            {
+                ModelState.AddModelError(string.Empty, "An error occurred while assigning the place. Please make sure the place is available.");
                 return View(vm);
             }
-
-            // If place is already occupied, return error
-            if (place.Status == PlaceStatus.Occupied || place.Status == PlaceStatus.Reserved)
-            {
-                ModelState.AddModelError("PlaceId", "Selected place is already occupied or reserved.");
-                return View(vm);
-            }
-
-            // If client doesn't exist, create a new one
-            if (client == null)
-            {
-                client = new Client
-                {
-                    Name = "Guest" + DateTime.Now.ToString("yyyyMMddHHmmss"),
-                    CarPlate = vm.CarPlate,
-                    IsGuest = true
-                };
-
-                await _clientRepository.AddAsync(client);
-            }
-            client = await _clientRepository.GetByCarPlateAsync(vm.CarPlate);
-
-            // If client still can't be found, there is an error
-            if (client == null)
-            {
-                ModelState.AddModelError("CarPlate", "Unable to find or create client with the provided car plate.");
-                return View(vm);
-            }
-
-            var occupation = new Occupation
-            {
-                PlaceId = vm.PlaceId,
-                ClientId = client.Id,
-                EntryTime = vm.EntryTime,
-            };
-
-            // Change Place status to occupied
-            place.Status = PlaceStatus.Occupied;
-            await _placeRepository.UpdateAsync(place);
-
-            await _repository.AddAsync(occupation);
 
             return RedirectToAction("Details", "Area", new { id = place.AreaId });
         }
@@ -217,77 +186,28 @@ namespace ParkaApp.Controllers
         [HttpPost, ActionName("ReleasePlace")]
         public async Task<IActionResult> ReleasePlaceConfirmed(int id)
         {
-            var occupation = await _repository.GetByIdAsync(id);
+            Occupation? occupation = await _repository.GetByIdAsync(id);
             if (occupation == null)
             {
                 return NotFound();
             }
+            
 
-            var place = await _placeRepository.GetByIdAsync(occupation.PlaceId);
-            if (place == null)
+            bool result = await _repository.ReleasePlaceAsync(occupation.PlaceId);
+            if (!result)           
             {
-                return NotFound();
+                ModelState.AddModelError(string.Empty, "Make sure the place is currently occupied and the client's subscription is valid if they are a subscriber.");
+                return View("ReleasePlace", new ReleasePlaceViewModel
+                {                    
+                    OccupationId = occupation.Id,
+                    PlaceId = occupation.PlaceId,
+                    CarPlate = occupation.Client != null ? occupation.Client.CarPlate : "",
+                    EntryTime = occupation.EntryTime,
+                    ExitTime = DateTime.Now
+                });
             }
 
-
-            // Make payment if client is a guest or verify subscription if client is a subscriber
-            var client = await _clientRepository.GetByIdAsync(occupation.ClientId);
-            if (client == null)
-            {
-                return NotFound();
-            }
-
-            if (client.IsGuest)
-            {
-                // Payment
-                var payment = new Payment
-                {
-                    ClientId = client.Id,
-                    Amount = CalculateTotalAmount(occupation.EntryTime, occupation.ExitTime ?? DateTime.Now),
-                    Type = PaymentType.Hourly, 
-                    StartDate = occupation.EntryTime,
-                    EndDate = occupation.ExitTime ?? DateTime.Now,
-                };
-                await _paymentRepository.AddAsync(payment, client.CarPlate);
-            }
-            else
-            {
-                // Verify payment
-                    // Get the last subscription of the client
-                Payment? subscription = await _paymentRepository.GetLastPaymentAsync(client.Id);
-
-                if (subscription == null || subscription.EndDate < DateTime.Now)
-                {
-                    // Subscription has expired, return error or redirect to subscription page
-                    ModelState.AddModelError(string.Empty, "Subscription has expired. Please renew your subscription.");
-                    return View("ReleasePlace", new ReleasePlaceViewModel
-                    {
-                        OccupationId = occupation.Id,
-                        PlaceId = place.Id,
-                        CarPlate = client.CarPlate,
-                        EntryTime = occupation.EntryTime,
-                        ExitTime = occupation.ExitTime ?? DateTime.Now
-                    });
-                }
-            }
-
-            // Change Place status to available
-            place.Status = PlaceStatus.Available;
-            await _placeRepository.UpdateAsync(place);
-
-            // Remove occupation
-            await _repository.DeleteAsync(id);
-
-            return RedirectToAction("Details", "Area", new { id = place.AreaId });
-        }
-
-        private double CalculateTotalAmount(DateTime entryTime, DateTime exitTime)
-        {   
-            var HOURLY_PRICE = 500;
-        
-            var duration = exitTime - entryTime;
-            return Math.Ceiling(duration.TotalHours) * HOURLY_PRICE;
-
+            return RedirectToAction("Details", "Area", new { id = occupation!.Place!.AreaId });
         }
     }
 }
