@@ -1,36 +1,55 @@
 @model ParkaApp.Models.Occupation
 
 @{
-    ViewData["Title"] = "Delete Occupation";
+    ViewData["Title"] = "Supprimer Occupation";
 }
 
-<div class="row justify-content-center">
-    <div class="col-md-6 col-lg-5">
-        <div class="card border-0 shadow border-danger">
-            <div class="card-header bg-danger text-white border-0">
-                <h3 class="mb-0">
-                    <i class="bi bi-exclamation-triangle me-2"></i>Delete Occupation
-                </h3>
-            </div>
-            <div class="card-body p-4">
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <i class="bi bi-exclamation-circle me-2"></i>
-                    <strong>Warning!</strong> This action cannot be undone.
+<div class="form-container mx-auto max-w-2xl">
+    <div class="form">
+        <span class="heading">Supprimer l'Occupation</span>
+        <span class="c1">Cette action est irréversible</span>
+
+        <!-- Warning Box -->
+        <div class="mb-8 rounded-lg border border-red-500/50 bg-red-500/10 p-5" style="margin-bottom: 32px;">
+            <div class="flex items-start gap-3">
+                <i class="bi bi-exclamation-triangle text-xl text-red-400" style="margin-top: 4px;"></i>
+                <div>
+                    <p class="font-semibold text-red-300" style="margin: 0;">Attention</p>
+                    <p class="text-sm text-red-300/80 mt-2" style="margin: 0;">
+                        Cette action est irréversible. Tous les enregistrements seront supprimés.
+                    </p>
                 </div>
-                <p class="mb-4">
-                    Are you sure you want to delete the occupation <strong>@Model.Id</strong>?
-                </p>
-                <form asp-action="Delete" method="post">
-                    <div class="d-flex gap-2">
-                        <button type="submit" class="btn btn-lg btn-danger flex-grow-1">
-                            <i class="bi bi-trash me-2"></i>Yes, Delete
-                        </button>
-                        <a asp-action="Index" class="btn btn-lg btn-secondary">
-                            <i class="bi bi-x-circle me-2"></i>Cancel
-                        </a>
-                    </div>
-                </form>
             </div>
         </div>
+
+        <!-- Confirmation Text -->
+        <div style="text-align: center; margin-bottom: 32px;">
+            <p style="color: #e0f2ff; margin-bottom: 8px;">
+                Êtes-vous sûr de vouloir supprimer l'occupation
+            </p>
+            <p style="font-weight: 700; font-size: 1.1rem; color: white; margin: 8px 0 0 0;">
+                Numéro #@Model.Id ?
+            </p>
+            <p style="color: #a5c4d9; font-size: 0.9rem; margin-top: 16px;">
+                Client: <strong>@Model.ClientId</strong> | Place: <strong>@Model.PlaceId</strong>
+            </p>
+        </div>
+
+        <form asp-action="Delete" method="post">
+            <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+            <!-- Buttons -->
+            <div class="button-container">
+                <button type="submit" class="send-button" style="background-color: #d9641e;">
+                    <i class="bi bi-trash me-2"></i>
+                    Oui, Supprimer
+                </button>
+
+                <a asp-action="Index" class="reset-button">
+                    <i class="bi bi-x-circle me-2"></i>
+                    Annuler
+                </a>
+            </div>
+        </form>
     </div>
 </div>

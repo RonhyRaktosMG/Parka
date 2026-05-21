@@ -3,10 +3,12 @@
   --color-primary: #ed7d27;
   --color-primary-dark: #d9641e;
 
-  --color-secondary: #141414;
-  --color-secondary-light: #41423a;
+  --color-secondary: #2d2a27;
+  --color-secondary-light: #343230;
 
   --color-soft: #f7f7f7;
+
+    --color-accent: #d3f35f;
 }
 
 body {
@@ -388,4 +390,126 @@ body {
 .alert-warning {
     border-color: rgba(237, 125, 39, 0.28) !important;
     color: var(--color-secondary) !important;
+}
+
+
+
+
+/* ===== Container ===== */
+.form-container {
+    max-width: 700px;
+    background-color: var(--color-secondary-light);
+    padding: 40px 35px;
+    border-left: 6px solid var(--color-primary);
+    clip-path: polygon(
+        0 0,
+        100% 0,
+        100% calc(100% - 25px),
+        calc(100% - 25px) 100%,
+        0 100%
+    );
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.form {
+    color: white;
+}
+
+/* Heading */
+.heading {
+    display: block;
+    font-size: 1.75rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+    color: white;
+}
+
+.c1 {
+    display: block;
+    color: var(--color-accent);
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 32px;
+}
+
+/* Input Groups */
+.input-group {
+    margin-bottom: 24px;
+}
+
+.label {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #e0f2ff;
+}
+
+/* Inputs */
+.input {
+    width: 100%;
+    background-color: var(--color-secondary);
+    border: none;
+    outline: none;
+    padding: 14px 18px;
+    color: #a5c4d9;
+    font-weight: 500;
+    border-left: 3px solid transparent;
+    transition: all 0.25s ease;
+    border-radius: 4px;
+}
+
+.input:focus {
+    border-left: 5px solid var(--color-primary);
+    background-color: var(--color-secondary);
+    color: white;
+}
+
+/* Validation */
+.validation-summary,
+.error-msg {
+    color: #ff6b6b;
+    font-size: 0.9rem;
+    margin-top: 4px;
+}
+
+/* Buttons */
+.button-container {
+    display: flex;
+    gap: 12px;
+    margin-top: 32px;
+}
+
+.send-button {
+    flex: 1;
+    background: var(--color-primary);
+    color: #001925;
+    padding: 16px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.05rem;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+
+
+.reset-button {
+    position: relative;
+    padding: 16px;
+    text-align: center;
+    font-weight: 700;
+    background: white;
+    color: var(--color-primary);
+    transition: all 0.3s ease;
+    clip-path: polygon(
+        0 0,
+        100% 0,
+        100% calc(100% - 12px),
+        calc(100% - 12px) 100%,
+        0 100%
+    );
+    cursor: pointer;
 }

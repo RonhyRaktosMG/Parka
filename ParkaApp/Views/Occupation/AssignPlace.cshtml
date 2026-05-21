@@ -1,52 +1,63 @@
 @model ParkaApp.ViewModels.Occupation.AssignPlaceViewModel
 
 @{
-    ViewData["Title"] = " Assign Place to Client";
+    ViewData["Title"] = "Assigner une Place";
 }
-<div class="row justify-content-center">
-    <div class="col-md-8 col-lg-6">
-        <div class="card border-0 shadow">
-            <div class="card-header bg-gradient text-white border-0">
-                <h3 class="mb-0">
-                    <i class="bi bi-plus-circle me-2"></i>Assign Place to Client
-                </h3>
+
+<div class="form-container mx-auto max-w-2xl">
+    <div class="form">
+        <span class="heading">Assigner une Place</span>
+        <span class="c1">Affectez un client à une place de parking</span>
+
+        <form asp-action="AssignPlace" method="post">
+            <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+            <!-- Car Plate -->
+            <div class="input-group">
+                <label asp-for="CarPlate" class="label">
+                    <i class="bi bi-car-front me-2"></i>Plaque d'Immatriculation
+                </label>
+                <input asp-for="CarPlate" 
+                       class="input"
+                       type="text"
+                       placeholder="Ex: AB-123-CD" />
+                <span asp-validation-for="CarPlate" class="error-msg"></span>
             </div>
-            <div class="card-body p-4"> 
-                <form asp-action="AssignPlace" method="post">
-                    <div asp-validation-summary="ModelOnly" class="bg-red-500/20 border border-red-500/50 text-red-200 p-4 rounded mb-6"></div>
-                    <div class="form-group">
-                        
-                        <label asp-for="CarPlate" class="form-label">
-                            
-                            <i class="bi bi-person me-2"></i>Car Plate
-                        </label>
-                        <input asp-for="CarPlate" class="form-control form-control-lg" type="text" placeholder="Enter Car Plate" />
-                        <span asp-validation-for="CarPlate" class="invalid-feedback d-block mt-2"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="PlaceId" class="form-label">
-                            <i class="bi bi-geo me-2"></i>Place ID : @Model.PlaceId
-                        </label>
-                        <input asp-for="PlaceId" class="form-control form-control-lg" type="hidden" placeholder="Enter Place ID" />
-                        <span asp-validation-for="PlaceId" class="invalid-feedback d-block mt-2"></span>
-                    </div> 
-                    <div class="form-group">
-                        <label asp-for="EntryTime" class="form-label">
-                            <i class="bi bi-geo me-2"></i>Entry Time : @Model.EntryTime
-                        </label>
-                        <input asp-for="EntryTime" class="form-control form-control-lg" type="hidden" />
-                        <span asp-validation-for="EntryTime" class="invalid-feedback d-block mt-2"></span>
-                    </div>  
-                    <div class="d-flex gap-2 mt-4">
-                        <button type="submit" class="btn btn-lg btn-primary flex-grow-1">
-                            <i class="bi bi-check-circle me-2"></i>Assign Place
-                        </button>
-                        <a asp-action="Index" class="btn btn-lg btn-secondary">
-                            <i class="bi bi-x-circle me-2"></i>Cancel
-                        </a>
-                    </div>
-                </form>
+
+            <!-- PlaceId (Hidden with Display) -->
+            <div class="input-group">
+                <label class="label">
+                    <i class="bi bi-geo me-2"></i>ID de la Place
+                </label>
+                <div style="background-color: var(--color-secondary); padding: 14px 18px; border-left: 3px solid var(--color-primary); border-radius: 4px; color: white; font-weight: 600;">
+                    @Model.PlaceId
+                </div>
+                <input asp-for="PlaceId" type="hidden" />
             </div>
-        </div>
+
+            <!-- EntryTime (Hidden with Display) -->
+            <div class="input-group">
+                <label class="label">
+                    <i class="bi bi-clock me-2"></i>Heure d'Entrée
+                </label>
+                <div style="background-color: var(--color-secondary); padding: 14px 18px; border-left: 3px solid var(--color-primary); border-radius: 4px; color: white; font-weight: 600; font-size: 0.9rem;">
+                    @Model.EntryTime.ToString("dd/MM/yyyy HH:mm")
+                </div>
+                <input asp-for="EntryTime" type="hidden" />
+            </div>
+
+            <!-- Buttons -->
+            <div class="button-container">
+                <button type="submit" class="send-button">
+                    <i class="bi bi-check-circle me-2"></i>
+                    Assigner
+                </button>
+
+                <a asp-action="Index" class="reset-button">
+                    <i class="bi bi-x-circle me-2"></i>
+                    Annuler
+                </a>
+            </div>
+        </form>
     </div>
 </div>  

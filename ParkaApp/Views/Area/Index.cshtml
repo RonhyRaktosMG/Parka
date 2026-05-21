@@ -1,7 +1,7 @@
 @model IEnumerable<ParkaApp.Models.Area>
 
 @{
-    ViewData["Title"] = "Parking Areas";
+    ViewData["Title"] = "Zones de Parking";
 }
 
 <!-- Leaflet CSS & JS -->
@@ -12,13 +12,13 @@
     <!-- Header -->
     <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
-            <h1 class="text-4xl font-bold text-white">Parking Areas</h1>
-            <p class="mt-2 text-lg text-gray-300">Manage all your parking areas on the map</p>
+            <h1 class="text-4xl font-bold text-white">Zones de Parking</h1>
+            <p class="mt-2 text-lg text-gray-300">Gérez toutes vos zones de parking sur la carte</p>
         </div>
         <a asp-action="Create"
            class="inline-flex items-center gap-3 rounded-2xl bg-(--color-primary) px-6 py-3.5 font-semibold text-white transition-all hover:bg-(--color-primary-dark) hover:shadow-lg">
             <i class="bi bi-plus-circle text-xl"></i>
-            Create Area
+            Créer une Zone
         </a>
     </div>
 
@@ -30,17 +30,17 @@
         </div>
 
         <!-- Areas List - Right Side -->
-        <div class="lg:col-span-5 bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-6 text-white">
+        <div class="lg:col-span-5 bg-[var(--color-secondary)] backdrop-blur-md border border-white/20 rounded-3xl p-6 text-white">
             <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
                 <i class="bi bi-list-ul"></i>
-                All Areas
+                Toutes les Zones
             </h2>
 
             @if (!Model.Any())
             {
                 <div class="text-center py-12 text-gray-400">
                     <i class="bi bi-map text-5xl mb-3"></i>
-                    <p>No parking areas yet</p>
+                    <p>Aucune zone de parking pour le moment</p>
                 </div>
             }
             else
@@ -48,7 +48,7 @@
                 <div class="space-y-3 max-h-120 overflow-auto pr-2 custom-scroll">
                     @foreach (var area in Model)
                     {
-                        <div class="group bg-[#2d2925]/50 hover:bg-white/10 border border-white/10 rounded-2xl p-4 transition-all">
+                        <div class="group bg-[#2d2925]/50 hover:bg-[var(--color-secondary)] border border-white/10 rounded-2xl p-4 transition-all">
                             <div class="flex justify-between items-start">
                                 <div>
                                     <h3 class="font-bold text-lg text-white">@area.Name</h3>
@@ -59,15 +59,15 @@
                             <div class="flex gap-2">
                                 <a asp-action="Details" asp-route-id="@area.Id"
                                    class="flex-1 text-center py-2.5 text-sm font-medium bg-blue-500/30 hover:bg-blue-500/40 text-white rounded-xl transition">
-                                    View
+                                    Voir
                                 </a>
                                 <a asp-action="Edit" asp-route-id="@area.Id"
                                    class="flex-1 text-center py-2.5 text-sm font-medium bg-amber-500/30 hover:bg-amber-500/40 text-white rounded-xl transition">
-                                    Edit
+                                    Modifier
                                 </a>
                                 <a asp-action="Delete" asp-route-id="@area.Id"
                                    class="flex-1 text-center py-2.5 text-sm font-medium bg-red-500/20 hover:bg-red-500/30 text-white rounded-xl transition">
-                                    Delete
+                                    Supprimer
                                 </a>
                             </div>
                         </div>

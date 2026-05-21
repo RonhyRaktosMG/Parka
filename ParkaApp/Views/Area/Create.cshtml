@@ -1,7 +1,7 @@
 @model ParkaApp.Models.Area
 
 @{
-    ViewData["Title"] = "Create Area";
+    ViewData["Title"] = "Créer une Zone";
 }
 
 <!-- Leaflet CSS & JS -->
@@ -12,7 +12,7 @@
     <!-- Header -->
     <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
-            <h1 class="text-4xl font-bold text-white">Create New Area</h1>
+            <h1 class="text-4xl font-bold text-white">Créer une Nouvelle Zone</h1>
             <p class="mt-2 text-lg text-white/70">Cliquez sur la carte pour sélectionner l'emplacement</p>
         </div>
     </div>
@@ -21,70 +21,73 @@
         
         <!-- Form -->
         <div class="lg:col-span-5">
-            <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-8 text-white">
-                <form asp-action="Create" method="post">
-                    <div asp-validation-summary="ModelOnly" class="bg-red-500/20 border border-red-500/50 text-red-200 p-4 rounded mb-6"></div>
-                    <div class="space-y-8">
-                        
+            <div class="form-container mx-auto max-w-2xl">
+                <div class="form">
+                    <span class="heading">Créer une Nouvelle Zone</span>
+                    <span class="c1">Ajoutez une zone de stationnement ou de service</span>
+
+                    <form asp-action="Create" method="post">
+                        <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
                         <!-- Name -->
-                        <div>
-                            <label asp-for="Name" class="block text-sm font-semibold text-white mb-2">
-                                <i class="bi bi-tag me-2"></i>Area Name
+                        <div class="input-group">
+                            <label asp-for="Name" class="label">
+                                <i class="bi bi-tag me-2"></i>Nom de la Zone
                             </label>
-                            <input asp-for="Name" 
-                                   class="w-full px-5 py-3.5 border border-white/30 rounded-2xl bg-white/10 text-white focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition"
-                                   placeholder="Ex: Parking Centre-Ville" />
-                            <span asp-validation-for="Name" class="text-red-300 text-sm mt-1.5 block"></span>
+                            <input asp-for="Name"
+                                class="input"
+                                placeholder="Ex: Parking Centre-Ville" />
+                            <span asp-validation-for="Name" class="error-msg"></span>
                         </div>
 
                         <!-- Address -->
-                        <div>
-                            <label asp-for="Address" class="block text-sm font-semibold text-white mb-2">
-                                <i class="bi bi-house-door me-2"></i>Address
+                        <div class="input-group">
+                            <label asp-for="Address" class="label">
+                                <i class="bi bi-house-door me-2"></i>Adresse
                             </label>
-                            <input asp-for="Address" 
-                                   class="w-full px-5 py-3.5 border border-white/30 rounded-2xl bg-white/10 text-white focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition"
-                                   placeholder="Ex: 123 Avenue de l'Indépendance" />
-                            <span asp-validation-for="Address" class="text-red-300 text-sm mt-1.5 block"></span>
+                            <input asp-for="Address"
+                                class="input"
+                                placeholder="Ex: 123 Avenue de l'Indépendance" />
+                            <span asp-validation-for="Address" class="error-msg"></span>
                         </div>
 
                         <!-- Coordinates -->
                         <div class="grid grid-cols-2 gap-6">
-                            <div>
-                                <label asp-for="Latitude" class="block text-sm font-semibold text-white mb-2">
+                            <div class="input-group">
+                                <label asp-for="Latitude" class="label">
                                     <i class="bi bi-geo-alt me-2"></i>Latitude
                                 </label>
                                 <input asp-for="Latitude" id="latInput"
-                                       class="w-full px-5 py-3.5 border border-white/30 rounded-2xl bg-white/10 text-white font-mono focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition"
-                                       placeholder="-18,8792" readonly />
-                                <span asp-validation-for="Latitude" class="text-red-300 text-sm mt-1.5 block"></span>
+                                    class="input font-mono"
+                                    placeholder="-18.8792" readonly />
+                                <span asp-validation-for="Latitude" class="error-msg"></span>
                             </div>
-                            <div>
-                                <label asp-for="Longitude" class="block text-sm font-semibold text-white mb-2">
+
+                            <div class="input-group">
+                                <label asp-for="Longitude" class="label">
                                     <i class="bi bi-geo-alt me-2"></i>Longitude
                                 </label>
                                 <input asp-for="Longitude" id="lngInput"
-                                       class="w-full px-5 py-3.5 border border-white/30 rounded-2xl bg-white/10 text-white font-mono focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition"
-                                       placeholder="47,5079" readonly />
-                                <span asp-validation-for="Longitude" class="text-red-300 text-sm mt-1.5 block"></span>
+                                    class="input font-mono"
+                                    placeholder="47.5079" readonly />
+                                <span asp-validation-for="Longitude" class="error-msg"></span>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Buttons -->
-                    <div class="flex gap-4 mt-10">
-                        <button type="submit" 
-                                class="flex-1 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] transition text-white font-semibold py-4 rounded-2xl flex items-center justify-center gap-2">
-                            <i class="bi bi-check-circle"></i>
-                            Create Area
-                        </button>
-                        <a asp-action="Index" 
-                           class="flex-1 border border-white/30 hover:bg-white/5 transition text-white font-semibold py-4 rounded-2xl flex items-center justify-center gap-2">
-                            <i class="bi bi-x-circle"></i>
-                            Cancel
-                        </a>
-                    </div>
-                </form>
+                        <!-- Buttons -->
+                        <div class="button-container">
+                            <button type="submit" class="send-button">
+                                <i class="bi bi-check-circle me-2"></i>
+                                Créer la Zone
+                            </button>   
+
+                            <a asp-action="Index" class="reset-button">
+                                <i class="bi bi-x-circle me-2"></i>
+                                Annuler
+                            </a>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
 
@@ -93,7 +96,7 @@
             <div class="p-4 border-b border-gray-100 bg-gray-50">
                 <p class="text-sm font-medium text-gray-700">Cliquez sur la carte pour sélectionner les coordonnées</p>
             </div>
-            <div id="map" class="h-[560px] w-full"></div>
+            <div id="map" class="h-140 w-full"></div>
         </div>
     </div>
 </div>

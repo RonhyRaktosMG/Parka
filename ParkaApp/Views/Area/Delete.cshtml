@@ -1,69 +1,59 @@
 @model ParkaApp.Models.Area
 
 @{
-    ViewData["Title"] = "Delete Area";
+    ViewData["Title"] = "Supprimer Zone";
 }
 
-<div class="max-w-md mx-auto">
-    <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl overflow-hidden text-white">
-        
-        <!-- Header -->
-        <div class="bg-red-600/50 text-white px-8 py-7">
-            <h1 class="text-3xl font-semibold flex items-center gap-3">
-                <i class="bi bi-trash"></i>
-                Delete Area
-            </h1>
-            <p class="mt-2 text-white/80">This action cannot be undone</p>
-        </div>
+<div class="form-container mx-auto max-w-2xl">
+    <div class="form">
+        <span class="heading">Supprimer une Zone</span>
+        <span class="c1">Cette action est irréversible</span>
 
-        <div class="p-8">
-            <!-- Warning Box -->
-            <div class="mb-8 rounded-2xl border border-amber-500/50 bg-amber-500/10 p-5">
-                <div class="flex items-start gap-3">
-                    <i class="bi bi-exclamation-triangle text-2xl text-amber-300 mt-0.5"></i>
-                    <div>
-                        <p class="font-semibold text-amber-200">Attention</p>
-                        <p class="text-sm text-amber-300/80 mt-1 leading-relaxed">
-                            Cette action est irréversible. Toutes les places de parking associées seront également supprimées.
-                        </p>
-                    </div>
+        <!-- Warning Box -->
+        <div class="mb-8 rounded-lg border border-red-500/50 bg-red-500/10 p-5" style="margin-bottom: 32px;">
+            <div class="flex items-start gap-3">
+                <i class="bi bi-exclamation-triangle text-xl text-red-400" style="margin-top: 4px;"></i>
+                <div>
+                    <p class="font-semibold text-red-300" style="margin: 0;">Attention</p>
+                    <p class="text-sm text-red-300/80 mt-2" style="margin: 0;">
+                        Cette action est irréversible. Toutes les places de parking associées seront également supprimées.
+                    </p>
                 </div>
             </div>
+        </div>
 
-            <!-- Confirmation Text -->
-            <div class="text-center mb-8">
-                <p class="text-white text-lg">
-                    Êtes-vous sûr de vouloir supprimer la zone
+        <!-- Confirmation Text -->
+        <div style="text-align: center; margin-bottom: 32px;">
+            <p style="color: #e0f2ff; margin-bottom: 8px;">
+                Êtes-vous sûr de vouloir supprimer la zone
+            </p>
+            <p style="font-weight: 700; font-size: 1.1rem; color: white; margin: 8px 0 0 0;">
+                « @Model.Name » ?
+            </p>
+            
+            @if (Model.Places?.Any() == true)
+            {
+                <p style="margin-top: 16px; font-size: 0.9rem; color: #ff6b6b; font-weight: 600;">
+                    Cette zone contient <strong>@Model.Places.Count</strong> place(s) de parking.
                 </p>
-                <p class="font-semibold text-xl text-white mt-2">
-                    « @Model.Name » ?
-                </p>
-                
-                @if (Model.Places?.Any() == true)
-                {
-                    <p class="mt-4 text-sm text-red-600 font-medium">
-                        Cette zone contient <strong>@Model.Places.Count</strong> place(s) de parking.
-                    </p>
-                }
-            </div>
+            }
+        </div>
+
+        <form asp-action="Delete" method="post">
+            <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
 
             <!-- Buttons -->
-            <form asp-action="Delete" method="post">
-                <div asp-validation-summary="ModelOnly" class="bg-red-500/20 border border-red-500/50 text-red-200 p-4 rounded mb-6"></div>
-                <div class="flex gap-4">
-                    <button type="submit" 
-                            class="flex-1 bg-red-400 transition text-white font-semibold py-4 rounded-2xl flex items-center justify-center gap-2 shadow-sm">
-                        <i class="bi bi-trash"></i>
-                        Oui, Supprimer
-                    </button>
+            <div class="button-container">
+                <button type="submit" class="send-button" style="background-color: #d9641e;">
+                    <i class="bi bi-trash me-2"></i>
+                    Oui, Supprimer
+                </button>
 
-                    <a asp-action="Index" 
-                       class="flex-1 border border-gray-300 hover:bg-gray-50 transition text-(--color-secondary) font-semibold py-4 rounded-2xl flex items-center justify-center gap-2">
-                        <i class="bi bi-x-circle"></i>
-                        Annuler
-                    </a>
-                </div>
-            </form>
-        </div>
+                <a asp-action="Index" class="reset-button">
+                    <i class="bi bi-x-circle me-2"></i>
+                    Annuler
+                </a>
+            </div>
+        </form>
     </div>
 </div>

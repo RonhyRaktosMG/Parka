@@ -1,43 +1,53 @@
 @model ParkaApp.Models.Occupation
 
 @{
-    ViewData["Title"] = " Edit Occupation";
+    ViewData["Title"] = "Modifier Occupation";
 }
-<div class="row justify-content-center">
-    <div class="col-md-8 col-lg-6">
-        <div class="card border-0 shadow">
-            <div class="card-header bg-gradient text-white border-0">
-                <h3 class="mb-0">
-                    <i class="bi bi-plus-circle me-2"></i>Edit Occupation
-                </h3>
+
+<div class="form-container mx-auto max-w-2xl">
+    <div class="form">
+        <span class="heading">Modifier l'Occupation</span>
+        <span class="c1">Mettez à jour les informations de l'occupation</span>
+
+        <form asp-action="Edit" method="post">
+            <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+            <!-- ClientId -->
+            <div class="input-group">
+                <label asp-for="ClientId" class="label">
+                    <i class="bi bi-person me-2"></i>ID du Client
+                </label>
+                <input asp-for="ClientId" 
+                       class="input"
+                       type="number"
+                       placeholder="Ex: 1, 2, 3" />
+                <span asp-validation-for="ClientId" class="error-msg"></span>
             </div>
-            <div class="card-body p-4"> 
-                <form asp-action="Edit" method="post">
-                    <div asp-validation-summary="ModelOnly" class="bg-red-500/20 border border-red-500/50 text-red-200 p-4 rounded mb-6"></div>
-                    <div class="form-group">
-                        <label asp-for="ClientId" class="form-label">
-                            <i class="bi bi-person me-2"></i>Client ID
-                        </label>
-                        <input asp-for="ClientId" class="form-control form-control-lg" type="number" placeholder="Enter Client ID" />
-                        <span asp-validation-for="ClientId" class="invalid-feedback d-block mt-2"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="PlaceId" class="form-label">
-                            <i class="bi bi-geo me-2"></i>Place ID
-                        </label>
-                        <input asp-for="PlaceId" class="form-control form-control-lg" type="number" placeholder="Enter Place ID" />
-                        <span asp-validation-for="PlaceId" class="invalid-feedback d-block mt-2"></span>
-                    </div>  
-                    <div class="d-flex gap-2 mt-4">
-                        <button type="submit" class="btn btn-lg btn-primary flex-grow-1">
-                            <i class="bi bi-check-circle me-2"></i>Edit Occupation
-                        </button>
-                        <a asp-action="Index" class="btn btn-lg btn-secondary">
-                            <i class="bi bi-x-circle me-2"></i>Cancel
-                        </a>
-                    </div>
-                </form>
+
+            <!-- PlaceId -->
+            <div class="input-group">
+                <label asp-for="PlaceId" class="label">
+                    <i class="bi bi-geo me-2"></i>ID de la Place
+                </label>
+                <input asp-for="PlaceId" 
+                       class="input"
+                       type="number"
+                       placeholder="Ex: 1, 2, 3" />
+                <span asp-validation-for="PlaceId" class="error-msg"></span>
             </div>
-        </div>
+
+            <!-- Buttons -->
+            <div class="button-container">
+                <button type="submit" class="send-button">
+                    <i class="bi bi-check-circle me-2"></i>
+                    Mettre à jour
+                </button>
+
+                <a asp-action="Index" class="reset-button">
+                    <i class="bi bi-x-circle me-2"></i>
+                    Annuler
+                </a>
+            </div>
+        </form>
     </div>
 </div> 

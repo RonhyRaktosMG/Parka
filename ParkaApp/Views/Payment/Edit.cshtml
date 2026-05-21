@@ -1,47 +1,85 @@
 @model ParkaApp.Models.Payment
 
 @{
-    ViewData["Title"] = "Edit Payment";
+    ViewData["Title"] = "Modifier Paiement";
 }
 
-<div class="max-w-2xl mx-auto">
-    <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg shadow-lg overflow-hidden text-white">
-        <div class="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-6">
-            <h1 class="text-2xl font-bold m-0">@ViewData["Title"]</h1>
-        </div>
-        <div class="p-6">
-            <form asp-action="Edit" method="post">
-                <div asp-validation-summary="ModelOnly" class="bg-red-500/20 border border-red-500/50 text-red-200 p-4 rounded mb-6"></div>
-                <div class="mb-6">
-                    <label asp-for="Amount" class="block text-white font-semibold mb-2">Amount</label>
-                    <input asp-for="Amount" class="w-full px-4 py-2 border border-white/30 rounded-lg bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-blue-400" />
-                    <span asp-validation-for="Amount" class="text-red-300 text-sm mt-1 block"></span>
-                </div>
-                <div class="mb-6">
-                    <label asp-for="Type" class="block text-white font-semibold mb-2">Type</label>
-                    <input asp-for="Type" class="w-full px-4 py-2 border border-white/30 rounded-lg bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-blue-400" />
-                    <span asp-validation-for="Type" class="text-red-300 text-sm mt-1 block"></span>
-                </div>
-                <div class="mb-6">
-                    <label asp-for="StartDate" class="block text-white font-semibold mb-2">Start Date</label>
-                    <input asp-for="StartDate" class="w-full px-4 py-2 border border-white/30 rounded-lg bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-blue-400 [color-scheme:dark]" type="date" />
-                    <span asp-validation-for="StartDate" class="text-red-300 text-sm mt-1 block"></span>
-                </div>
-                <div class="mb-6">
-                    <label asp-for="EndDate" class="block text-white font-semibold mb-2">End Date</label>
-                    <input asp-for="EndDate" class="w-full px-4 py-2 border border-white/30 rounded-lg bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-blue-400 [color-scheme:dark]" type="date" />
-                    <span asp-validation-for="EndDate" class="text-red-300 text-sm mt-1 block"></span>
-                </div>
-                <div class="mb-6">
-                    <label asp-for="ClientId" class="block text-white font-semibold mb-2">Client ID</label>
-                    <input asp-for="ClientId" class="w-full px-4 py-2 border border-white/30 rounded-lg bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-blue-400" />
-                    <span asp-validation-for="ClientId" class="text-red-300 text-sm mt-1 block"></span>
-                </div>  
-                <div class="flex gap-3">
-                    <button type="submit" class="flex-1 px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition">Save Changes</button>
-                    <a asp-action="Index" class="px-6 py-3 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-600 transition">Cancel</a>
-                </div>
-            </form>
-        </div>
+<div class="form-container mx-auto max-w-2xl">
+    <div class="form">
+        <span class="heading">Modifier le Paiement</span>
+        <span class="c1">Mettez à jour les informations du paiement</span>
+
+        <form asp-action="Edit" method="post">
+            <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+            <!-- Amount -->
+            <div class="input-group">
+                <label asp-for="Amount" class="label">
+                    <i class="bi bi-cash-coin me-2"></i>Montant (Ar)
+                </label>
+                <input asp-for="Amount" 
+                       class="input"
+                       placeholder="Ex: 50000" />
+                <span asp-validation-for="Amount" class="error-msg"></span>
+            </div>
+
+            <!-- Type -->
+            <div class="input-group">
+                <label asp-for="Type" class="label">
+                    <i class="bi bi-calendar me-2"></i>Type de Paiement
+                </label>
+                <input asp-for="Type" 
+                       class="input"
+                       placeholder="Ex: Hourly, Daily, Monthly" />
+                <span asp-validation-for="Type" class="error-msg"></span>
+            </div>
+
+            <!-- Start Date -->
+            <div class="input-group">
+                <label asp-for="StartDate" class="label">
+                    <i class="bi bi-calendar-event me-2"></i>Date de Début
+                </label>
+                <input asp-for="StartDate" 
+                       class="input"
+                       type="date" />
+                <span asp-validation-for="StartDate" class="error-msg"></span>
+            </div>
+
+            <!-- End Date -->
+            <div class="input-group">
+                <label asp-for="EndDate" class="label">
+                    <i class="bi bi-calendar-check me-2"></i>Date de Fin
+                </label>
+                <input asp-for="EndDate" 
+                       class="input"
+                       type="date" />
+                <span asp-validation-for="EndDate" class="error-msg"></span>
+            </div>
+
+            <!-- Client ID -->
+            <div class="input-group">
+                <label asp-for="ClientId" class="label">
+                    <i class="bi bi-person me-2"></i>ID du Client
+                </label>
+                <input asp-for="ClientId" 
+                       class="input"
+                       type="number"
+                       placeholder="Ex: 1, 2, 3" />
+                <span asp-validation-for="ClientId" class="error-msg"></span>
+            </div>
+
+            <!-- Buttons -->
+            <div class="button-container">
+                <button type="submit" class="send-button">
+                    <i class="bi bi-check-circle me-2"></i>
+                    Mettre à jour
+                </button>
+
+                <a asp-action="Index" class="reset-button">
+                    <i class="bi bi-x-circle me-2"></i>
+                    Annuler
+                </a>
+            </div>
+        </form>
     </div>
 </div>

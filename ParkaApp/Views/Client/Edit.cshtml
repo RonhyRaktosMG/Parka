@@ -1,47 +1,73 @@
 @model ParkaApp.Models.Client
 
-
 @{
-    ViewData["Title"] = "Edit Clients";
+    ViewData["Title"] = "Modifier Client";
 }
 
-<div class="max-w-2xl mx-auto">
-    <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg overflow-hidden text-white">
-        <div class="bg-blue-600/50 to-blue-700/50 text-white p-6">
-            <h1 class="text-2xl font-bold m-0">@ViewData["Title"]</h1>
-        </div>
-        <div class="p-6">
-            <form asp-action="Edit" method="post">
-                <div asp-validation-summary="ModelOnly" class="bg-red-500/20 border border-red-500/50 text-red-200 p-4 rounded mb-6"></div>
-                
-                <div class="mb-6">
-                    <label asp-for="CarPlate" class="block text-white font-semibold mb-2"></label>
-                    <input asp-for="CarPlate" class="w-full px-4 py-2 border border-white/30 rounded-lg bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-blue-400" />
-                    <span asp-validation-for="CarPlate" class="text-red-300 text-sm mt-1 block"></span>
-                </div>
+<div class="form-container mx-auto max-w-2xl">
+    <div class="form">
+        <span class="heading">Modifier le Client</span>
+        <span class="c1">Mettez à jour les informations du client</span>
 
-                <div class="mb-6">
-                    <label asp-for="Name" class="block text-white font-semibold mb-2"></label>
-                    <input asp-for="Name" class="w-full px-4 py-2 border border-white/30 rounded-lg bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-blue-400" />
-                    <span asp-validation-for="Name" class="text-red-300 text-sm mt-1 block"></span>
-                </div>
+        <form asp-action="Edit" method="post">
+            <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
 
-                <div class="mb-6">
-                    <label asp-for="PhoneNumber" class="block text-white font-semibold mb-2"></label>
-                    <input asp-for="PhoneNumber" class="w-full px-4 py-2 border border-white/30 rounded-lg bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-blue-400" />
-                    <span asp-validation-for="PhoneNumber" class="text-red-300 text-sm mt-1 block"></span>
-                </div>
+            <!-- Car Plate -->
+            <div class="input-group">
+                <label asp-for="CarPlate" class="label">
+                    <i class="bi bi-car-front me-2"></i>Plaque d'Immatriculation
+                </label>
+                <input asp-for="CarPlate" 
+                       class="input"
+                       placeholder="Ex: 1234 TAB" />
+                <span asp-validation-for="CarPlate" class="error-msg"></span>
+            </div>
 
-                <div class="mb-6 flex items-center">
-                    <input asp-for="IsGuest" type="checkbox" class="w-4 h-4 text-blue-400 rounded" />
-                    <label asp-for="IsGuest" class="ms-2 text-white font-semibold"></label>
-                </div>
+            <!-- Name -->
+            <div class="input-group">
+                <label asp-for="Name" class="label">
+                    <i class="bi bi-person me-2"></i>Nom du Client
+                </label>
+                <input asp-for="Name" 
+                       class="input"
+                       placeholder="Ex: Rasoazanany" />
+                <span asp-validation-for="Name" class="error-msg"></span>
+            </div>
 
-                <div class="flex gap-3">
-                    <button type="submit" class="flex-1 px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition">Save</button>
-                    <a asp-action="Index" class="px-6 py-3 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-600 transition">Cancel</a>
+            <!-- Phone Number -->
+            <div class="input-group">
+                <label asp-for="PhoneNumber" class="label">
+                    <i class="bi bi-telephone me-2"></i>Numéro de Téléphone
+                </label>
+                <input asp-for="PhoneNumber" 
+                       class="input"
+                       placeholder="Ex: 034 12 345 67" />
+                <span asp-validation-for="PhoneNumber" class="error-msg"></span>
+            </div>
+
+            <!-- Is Guest -->
+            <div class="input-group">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <input asp-for="IsGuest" type="checkbox" style="width: 20px; height: 20px; cursor: pointer; accent-color: var(--color-primary);" />
+                    <label asp-for="IsGuest" class="label" style="margin-bottom: 0; font-weight: 500;">
+                        Client Invité
+                    </label>
                 </div>
-            </form>
-        </div>
+                <span asp-validation-for="IsGuest" class="error-msg"></span>
+            </div>
+
+            <!-- Buttons -->
+            <div class="button-container">
+                <button type="submit" class="send-button">
+                    <i class="bi bi-check-circle me-2"></i>
+                    Mettre à jour
+                </button>
+
+                <a asp-action="Index" class="reset-button">
+                    <i class="bi bi-x-circle me-2"></i>
+                    Annuler
+                </a>
+            </div>
+        </form>
     </div>
 </div>

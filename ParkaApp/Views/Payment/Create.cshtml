@@ -1,51 +1,87 @@
 @model ParkaApp.ViewModels.Payment.CreatePaymentViewModel
 
 @{
-    ViewData["Title"] = "Create Payment";
+    ViewData["Title"] = "Créer Paiement";
 }
 
-<div class="max-w-2xl mx-auto">
-    <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg overflow-hidden text-white">
-        <div class="bg-blue-600/50 to-blue-700/50 text-white p-6">
-            <h1 class="text-2xl font-bold m-0">@ViewData["Title"]</h1>
-        </div>
-        <div class="p-6">
-            <form asp-action="Create" method="post">
-                <div asp-validation-summary="ModelOnly" class="bg-red-500/20 border border-red-500/50 text-red-200 p-4 rounded mb-6"></div>
-                <div class="mb-6">
-                    <label asp-for="Amount" class="block text-white font-semibold mb-2">Amount</label>
-                    <input asp-for="Amount" class="w-full px-4 py-2 border border-white/30 rounded-lg bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-blue-400" />
-                    <span asp-validation-for="Amount" class="text-red-300 text-sm mt-1 block"></span>
-                </div>
-                <div class="mb-6">
-                    <label asp-for="SelectedType" class="block text-white font-semibold mb-2">Type</label>
-                    <select asp-for="SelectedType" class="w-full px-4 py-2 border border-white/30 rounded-lg bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-blue-400 scheme-dark">
-                        <option value="Hourly">Hourly</option>
-                        <option value="Daily">Daily</option>
-                        <option value="Monthly">Monthly</option>
-                    </select>
-                    <span asp-validation-for="SelectedType" class="text-red-300 text-sm mt-1 block"></span>
-                </div>
-                <div class="mb-6">
-                    <label asp-for="StartDate" class="block text-white font-semibold mb-2">Start Date</label>
-                    <input asp-for="StartDate" class="w-full px-4 py-2 border border-white/30 rounded-lg bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-blue-400 scheme-dark" type="date" />
-                    <span asp-validation-for="StartDate" class="text-red-300 text-sm mt-1 block"></span>
-                </div>
-                <div class="mb-6">
-                    <label asp-for="EndDate" class="block text-white font-semibold mb-2">End Date</label>
-                    <input asp-for="EndDate" class="w-full px-4 py-2 border border-white/30 rounded-lg bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-blue-400 scheme-dark" type="date" />
-                    <span asp-validation-for="EndDate" class="text-red-300 text-sm mt-1 block"></span>
-                </div>
-                <div class="mb-6">
-                    <label asp-for="CarPlate" class="block text-white font-semibold mb-2">Car Plate</label>
-                    <input asp-for="CarPlate" class="w-full px-4 py-2 border border-white/30 rounded-lg bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-blue-400" />
-                    <span asp-validation-for="CarPlate" class="text-red-300 text-sm mt-1 block"></span>
-                </div>  
-                <div class="flex gap-3">
-                    <button type="submit" class="flex-1 px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition">Create</button>
-                    <a asp-action="Index" class="px-6 py-3 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-600 transition">Cancel</a>
-                </div>
-            </form>
-        </div>
+<div class="form-container mx-auto max-w-2xl">
+    <div class="form">
+        <span class="heading">Créer un Nouveau Paiement</span>
+        <span class="c1">Enregistrez un nouveau plan de paiement</span>
+
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+            <!-- Amount -->
+            <div class="input-group">
+                <label asp-for="Amount" class="label">
+                    <i class="bi bi-cash-coin me-2"></i>Montant (Ar)
+                </label>
+                <input asp-for="Amount" 
+                       class="input"
+                       placeholder="Ex: 50000" />
+                <span asp-validation-for="Amount" class="error-msg"></span>
+            </div>
+
+            <!-- Payment Type -->
+            <div class="input-group">
+                <label asp-for="SelectedType" class="label">
+                    <i class="bi bi-calendar me-2"></i>Type de Paiement
+                </label>
+                <select asp-for="SelectedType" class="input">
+                    <option value="">-- Sélectionnez un type --</option>
+                    <option value="Hourly">Tarif Horaire</option>
+                    <option value="Daily">Tarif Journalier</option>
+                    <option value="Monthly">Tarif Mensuel</option>
+                </select>
+                <span asp-validation-for="SelectedType" class="error-msg"></span>
+            </div>
+
+            <!-- Start Date -->
+            <div class="input-group">
+                <label asp-for="StartDate" class="label">
+                    <i class="bi bi-calendar-event me-2"></i>Date de Début
+                </label>
+                <input asp-for="StartDate" 
+                       class="input"
+                       type="date" />
+                <span asp-validation-for="StartDate" class="error-msg"></span>
+            </div>
+
+            <!-- End Date -->
+            <div class="input-group">
+                <label asp-for="EndDate" class="label">
+                    <i class="bi bi-calendar-check me-2"></i>Date de Fin
+                </label>
+                <input asp-for="EndDate" 
+                       class="input"
+                       type="date" />
+                <span asp-validation-for="EndDate" class="error-msg"></span>
+            </div>
+
+            <!-- Car Plate -->
+            <div class="input-group">
+                <label asp-for="CarPlate" class="label">
+                    <i class="bi bi-car-front me-2"></i>Plaque d'Immatriculation
+                </label>
+                <input asp-for="CarPlate" 
+                       class="input"
+                       placeholder="Ex: AB-123-CD" />
+                <span asp-validation-for="CarPlate" class="error-msg"></span>
+            </div>
+
+            <!-- Buttons -->
+            <div class="button-container">
+                <button type="submit" class="send-button">
+                    <i class="bi bi-check-circle me-2"></i>
+                    Créer
+                </button>
+
+                <a asp-action="Index" class="reset-button">
+                    <i class="bi bi-x-circle me-2"></i>
+                    Annuler
+                </a>
+            </div>
+        </form>
     </div>
 </div>

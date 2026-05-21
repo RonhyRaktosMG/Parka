@@ -1,56 +1,66 @@
 @model ParkaApp.Models.Place
 
 @{
-    ViewData["Title"] = "Edit Place";
+    ViewData["Title"] = "Modifier Place";
 }
 
-<div class="max-w-2xl mx-auto">
-    <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg overflow-hidden text-white">
-        <div class="bg-blue-600/50 to-blue-700/50 text-white p-6">
-            <h3 class="text-2xl font-bold m-0 flex items-center gap-2 text-white">
-                <i class="bi bi-pencil-square"></i>Edit Parking Place
-            </h3>
-        </div>
-        <div class="p-6">
-            <form asp-action="Edit" method="post">
-                <div asp-validation-summary="ModelOnly" class="bg-red-500/20 border border-red-500/50 text-red-200 p-4 rounded mb-6"></div>
-                <div class="mb-6">
-                    <label asp-for="Code" class="block text-white font-semibold mb-2">
-                        <i class="bi bi-code-square me-2"></i>Place Code
-                    </label>
-                    <input asp-for="Code" class="w-full px-4 py-2 border border-white/30 rounded-lg bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-blue-400" />
-                    <span asp-validation-for="Code" class="text-red-300 text-sm mt-1 block"></span>
-                </div>
+<div class="form-container mx-auto max-w-2xl">
+    <div class="form">
+        <span class="heading">Modifier la Place</span>
+        <span class="c1">Mettez à jour les informations de la place de parking</span>
 
-                <div class="mb-6">
-                    <label asp-for="Status" class="block text-white font-semibold mb-2">
-                        <i class="bi bi-circle-fill me-2"></i>Status
-                    </label>
-                    <select asp-for="Status" class="w-full px-4 py-2 border border-white/30 rounded-lg bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-blue-400 [color-scheme:dark]">
-                        <option value="Available">Available</option>
-                        <option value="Occupied">Occupied</option>
-                        <option value="Reserved">Reserved</option>
-                    </select>
-                    <span asp-validation-for="Status" class="text-red-300 text-sm mt-1 block"></span>
-                </div>
+        <form asp-action="Edit" method="post">
+            <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
 
-                <div class="mb-6">
-                    <label asp-for="AreaId" class="block text-white font-semibold mb-2">
-                        <i class="bi bi-map me-2"></i>Parking Area
-                    </label>
-                    <input asp-for="AreaId" class="w-full px-4 py-2 border border-white/30 rounded-lg bg-white/10 text-white focus:outline-none focus:ring-2 focus:ring-blue-400" type="number" />
-                    <span asp-validation-for="AreaId" class="text-red-300 text-sm mt-1 block"></span>
-                </div>
+            <!-- Place Code -->
+            <div class="input-group">
+                <label asp-for="Code" class="label">
+                    <i class="bi bi-code-square me-2"></i>Code de la Place
+                </label>
+                <input asp-for="Code" 
+                       class="input"
+                       placeholder="Ex: A001, P-12, B025" />
+                <span asp-validation-for="Code" class="error-msg"></span>
+            </div>
 
-                <div class="flex gap-3">
-                    <button type="submit" class="flex-1 px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition flex items-center justify-center gap-2">
-                        <i class="bi bi-check-circle"></i>Save Changes
-                    </button>
-                    <a asp-action="Details" asp-controller="Area" asp-route-id="@Model.AreaId" class="px-6 py-3 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-600 transition flex items-center justify-center gap-2"> 
-                        <i class="bi bi-x-circle"></i>Cancel
-                    </a>
-                </div>
-            </form>
-        </div>
+            <!-- Status -->
+            <div class="input-group">
+                <label asp-for="Status" class="label">
+                    <i class="bi bi-circle-fill me-2"></i>Statut
+                </label>
+                <select asp-for="Status" class="input">
+                    <option value="">-- Sélectionnez un statut --</option>
+                    <option value="Available">Disponible</option>
+                    <option value="Occupied">Occupée</option>
+                    <option value="Reserved">Réservée</option>
+                </select>
+                <span asp-validation-for="Status" class="error-msg"></span>
+            </div>
+
+            <!-- Parking Area -->
+            <div class="input-group">
+                <label asp-for="AreaId" class="label">
+                    <i class="bi bi-map me-2"></i>Zone de Parking
+                </label>
+                <input asp-for="AreaId" 
+                       type="number"
+                       class="input"
+                       placeholder="Entrez l'ID de la zone" />
+                <span asp-validation-for="AreaId" class="error-msg"></span>
+            </div>
+
+            <!-- Buttons -->
+            <div class="button-container">
+                <button type="submit" class="send-button">
+                    <i class="bi bi-check-circle me-2"></i>
+                    Mettre à jour
+                </button>
+
+                <a asp-action="Index" class="reset-button">
+                    <i class="bi bi-x-circle me-2"></i>
+                    Annuler
+                </a>
+            </div>
+        </form>
     </div>
 </div>

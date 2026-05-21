@@ -1,7 +1,7 @@
 @model ParkaApp.Models.Area
 
 @{
-    ViewData["Title"] = "Area Details";
+    ViewData["Title"] = "Détails de la Zone";
 }
 
 <div class="max-w-6xl mx-auto space-y-8">
@@ -14,7 +14,7 @@
             </div>
             <div>
                 <h1 class="text-4xl font-semibold text-white">@Model.Name</h1>
-                <p class="text-white">Address: @Model.Address</p>
+                <p class="text-white">Adresse : @Model.Address</p>
             </div>
         </div>
 
@@ -22,12 +22,12 @@
             <a asp-action="Edit" asp-route-id="@Model.Id" 
                class="inline-flex items-center gap-2 px-6 py-3 bg-(--color-primary) text-white rounded-2xl hover:bg-(--color-primary-dark) transition font-medium">
                 <i class="bi bi-pencil"></i>
-                Edit Area
+                Modifier la Zone
             </a>
             <a asp-action="Index" 
                class="inline-flex items-center gap-2 px-6 py-3 border border-gray-300 text-(--color-secondary) rounded-2xl hover:bg-gray-50 transition font-medium">
                 <i class="bi bi-arrow-left"></i>
-                Back to List
+                Retour à la liste
             </a>
         </div>
     </div>
@@ -35,7 +35,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         <!-- Area Information -->
-        <div class=" bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-8 text-white">           
+        <div class=" bg-[var(--color-secondary)] backdrop-blur-md border border-white/20 rounded-3xl p-8 text-white">           
             <div class="grid grid-cols-3 gap-4 pt-4 text-sm">
                 <div>
                     <p class="text-xs font-medium text-white/50">ID</p>
@@ -53,21 +53,21 @@
         </div>
 
         <!-- Statistics -->
-        <div class="lg:col-span-2 flex flex-row justify-center items-center gap-12 bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-8 text-white">
+        <div class="lg:col-span-2 flex flex-row justify-center items-center gap-12 bg-[var(--color-secondary)] backdrop-blur-md border border-white/20 rounded-3xl p-8 text-white">
                 <div>
-                    <p class="text-sm font-medium text-white/50">Total Places</p>
+                    <p class="text-sm font-medium text-white/50">Places totales</p>
                     <p class="text-lg font-medium text-white text-center">@Model.Places.Count</p>
                 </div>
                 <div>
-                    <p class="text-sm font-medium text-white/50">Occupied Places</p>
+                    <p class="text-sm font-medium text-white/50">Places occupées</p>
                     <p class="text-lg font-medium text-white text-center">@Model.Places.Count(p => p.Status == PlaceStatus.Occupied)</p>
                 </div>
                 <div>
-                    <p class="text-sm font-medium text-white/50">Available Places</p>
+                    <p class="text-sm font-medium text-white/50">Places disponibles</p>
                     <p class="text-lg font-medium text-white text-center">@Model.Places.Count(p => p.Status == PlaceStatus.Available)</p>
                 </div>
                 <div>
-                    <p class="text-sm font-medium text-white/50">Reserved Places</p>
+                    <p class="text-sm font-medium text-white/50">Places réservées</p>
                     <p class="text-lg font-medium text-white text-center">@Model.Places.Count(p => p.Status == PlaceStatus.Reserved)</p>
                 </div>
         </div>
@@ -75,16 +75,16 @@
 
     <!-- Parking Places Section -->
     <div class="mt-16 rounded-4xl overflow-hidden">
-        <div class="backdrop-blur-md flex justify-between items-center border-b border-white/10 px-8 py-6 bg-white/5">
+        <div class="backdrop-blur-md flex justify-between items-center border-b border-white/10 px-8 py-6 bg-[var(--color-secondary-light)]">
             <h2 class="text-xl font-semibold text-white flex items-center gap-3">
                 <i class="bi bi-p-circle-fill text-blue-300"></i>
-                Parking Places (@Model.Places.Count)
+                Places de parking (@Model.Places.Count)
             </h2>
             
             <a asp-action="Create" asp-controller="Place" asp-route-areaId="@Model.Id"
             class="inline-flex items-center gap-2 px-6 py-3 bg-(--color-primary) text-white rounded-2xl hover:bg-(--color-primary-dark) transition font-medium">
                 <i class="bi bi-plus-circle"></i>
-                Add New Place
+                Ajouter une Place
             </a>
         </div>
 
@@ -93,10 +93,10 @@
             {
                 <div class="text-center py-16 text-white/50">
                     <i class="bi bi-map text-6xl text-white/20"></i>
-                    <p class="mt-4 text-white/70">No parking places yet in this area.</p>
+                    <p class="mt-4 text-white/70">Aucune place de parking dans cette zone pour le moment.</p>
                     <a asp-action="Create" asp-controller="Place" asp-route-areaId="@Model.Id"
                     class="mt-6 inline-block px-6 py-3 bg-(--color-primary) text-white rounded-2xl hover:bg-(--color-primary-dark)">
-                        Create First Place
+                        Créer la première place
                     </a>
                 </div>
             }
@@ -144,7 +144,7 @@
                                 <!-- Center Assign Button (visible on hover) -->
                                 <div class="absolute inset-0 flex items-center justify-center">
                                     <a asp-action="AssignPlace" asp-controller="Occupation" asp-route-placeId="@place.Id"
-                                    class="flex scale-0 items-center gap-2 rounded-full bg-white/15 px-6 py-3 text-sm font-semibold backdrop-blur-xl transition duration-300 group-hover:scale-100 hover:bg-white/25">
+                                    class="flex scale-0 items-center gap-2 rounded-full bg-[var(--color-secondary)] px-6 py-3 text-sm font-semibold backdrop-blur-xl transition duration-300 group-hover:scale-100 hover:bg-[var(--color-secondary-light)]">
                                         <i class="bi bi-person-plus text-lg"></i>
                                     </a>
                                 </div>

@@ -1,85 +1,78 @@
 @model ParkaApp.Models.Area
 
 @{
-    ViewData["Title"] = "Edit Area";
+    ViewData["Title"] = "Modifier Zone";
 }
 
-<div class="max-w-2xl mx-auto">
-    <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl overflow-hidden text-white">
-        
-        <!-- Header -->
-        <div class="bg-blue-600/50 text-white px-8 py-7">
-            <h1 class="text-3xl font-semibold flex items-center gap-3 text-white">
-                <i class="bi bi-pencil-square"></i>
-                Edit Area
-            </h1>
-            <p class="mt-2 text-white/80">Modify the information of this parking area</p>
-        </div>
+<div class="form-container mx-auto max-w-2xl">
+    <div class="form">
+        <span class="heading">Modifier une Zone</span>
+        <span class="c1">Mettez à jour les informations de la zone de stationnement</span>
 
-        <div class="p-8">
-            <form asp-action="Edit" method="post">
-                <div asp-validation-summary="ModelOnly" class="bg-red-500/20 border border-red-500/50 text-red-200 p-4 rounded mb-6"></div>
-                
-                <div class="space-y-8">
-                    <!-- Name -->
-                    <div>
-                        <label asp-for="Name" class="block text-sm font-semibold text-white mb-2">
-                            <i class="bi bi-tag me-2"></i>Area Name
-                        </label>
-                        <input asp-for="Name" 
-                               class="w-full px-5 py-3.5 border border-white/30 rounded-2xl bg-white/10 text-white focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition"
-                               placeholder="Area name" />
-                        <span asp-validation-for="Name" class="text-red-300 text-sm mt-1.5 block"></span>
-                    </div>
+        <form asp-action="Edit" method="post">
+            <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
 
-                    <!-- Address -->
-                    <div>
-                        <label asp-for="Address" class="block text-sm font-semibold text-white mb-2">
-                            <i class="bi bi-house-door me-2"></i>Address
-                        </label>
-                        <input asp-for="Address" 
-                               class="w-full px-5 py-3.5 border border-white/30 rounded-2xl bg-white/10 text-white focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition"
-                               placeholder="Full address" />
-                        <span asp-validation-for="Address" class="text-red-300 text-sm mt-1.5 block"></span>
-                    </div>
+            <!-- Name -->
+            <div class="input-group">
+                <label asp-for="Name" class="label">
+                    <i class="bi bi-tag me-2"></i>Nom de la Zone
+                </label>
 
-                    <!-- Coordinates -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label asp-for="Latitude" class="block text-sm font-semibold text-white mb-2">
-                                <i class="bi bi-geo-alt me-2"></i>Latitude
-                            </label>
-                            <input asp-for="Latitude" 
-                                   class="w-full px-5 py-3.5 border border-white/30 rounded-2xl bg-white/10 text-white font-mono focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition" />
-                            <span asp-validation-for="Latitude" class="text-red-300 text-sm mt-1.5 block"></span>
-                        </div>
+                <input asp-for="Name"
+                       class="input"
+                       placeholder="Ex: Parking Centre-Ville" />
 
-                        <div>
-                            <label asp-for="Longitude" class="block text-sm font-semibold text-white mb-2">
-                                <i class="bi bi-geo-alt me-2"></i>Longitude
-                            </label>
-                            <input asp-for="Longitude" 
-                                   class="w-full px-5 py-3.5 border border-white/30 rounded-2xl bg-white/10 text-white font-mono focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition" />
-                            <span asp-validation-for="Longitude" class="text-red-300 text-sm mt-1.5 block"></span>
-                        </div>
-                    </div>
+                <span asp-validation-for="Name" class="error-msg"></span>
+            </div>
+
+            <!-- Address -->
+            <div class="input-group">
+                <label asp-for="Address" class="label">
+                    <i class="bi bi-house-door me-2"></i>Adresse
+                </label>
+
+                <input asp-for="Address"
+                       class="input"
+                       placeholder="Ex: 123 Avenue de l'Indépendance" />
+
+                <span asp-validation-for="Address" class="error-msg"></span>
+            </div>
+
+            <!-- Coordinates -->
+            <div class="grid grid-cols-2 gap-6">
+                <div class="input-group">
+                    <label asp-for="Latitude" class="label">
+                        <i class="bi bi-geo-alt me-2"></i>Latitude
+                    </label>
+                    <input asp-for="Latitude"
+                        class="input font-mono"
+                        placeholder="-18.8792" />
+                    <span asp-validation-for="Latitude" class="error-msg"></span>
                 </div>
 
-                <!-- Buttons -->
-                <div class="flex gap-4 mt-10">
-                    <button type="submit" 
-                            class="flex-1 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] transition text-white font-semibold py-4 rounded-2xl flex items-center justify-center gap-2 shadow-sm">
-                        <i class="bi bi-check-circle"></i>
-                        Save Changes
-                    </button>
-
-                    <a asp-action="Index" 
-                       class="flex-1 border border-white/30 hover:bg-white/5 transition text-white font-semibold py-4 rounded-2xl flex items-center justify-center gap-2">
-                        <i class="bi bi-x-circle"></i>
-                        Cancel
-                    </a>
+                <div class="input-group">
+                    <label asp-for="Longitude" class="label">
+                        <i class="bi bi-geo-alt me-2"></i>Longitude
+                    </label>
+                    <input asp-for="Longitude"
+                        class="input font-mono"
+                        placeholder="47.5079" />
+                    <span asp-validation-for="Longitude" class="error-msg"></span>
                 </div>
-            </form>
-        </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="button-container">
+                <button type="submit" class="send-button">
+                    <i class="bi bi-check-circle me-2"></i>
+                    Mettre à jour
+                </button>
+
+                <a asp-action="Index" class="reset-button">
+                    <i class="bi bi-x-circle me-2"></i>
+                    Annuler
+                </a>
+            </div>
+        </form>
     </div>
 </div>

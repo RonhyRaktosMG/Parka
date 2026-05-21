@@ -1,17 +1,17 @@
 @model IEnumerable<ParkaApp.Models.Place>
 
 @{
-    ViewData["Title"] = "Parking Places";
+    ViewData["Title"] = "Places de Parking";
 }
 
-<div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg p-6 mb-6 text-white">
+<div class="bg-[var(--color-secondary)] backdrop-blur-md border border-white/20 rounded-lg p-6 mb-6 text-white">
     <div class="flex justify-between items-center">
         <div>
-            <h1 class="text-3xl font-bold text-white mb-0">Parking Places</h1>
-            <p class="text-white/70 mb-0">Manage all parking spaces</p>
+            <h1 class="text-3xl font-bold text-white mb-0">Places de Parking</h1>
+            <p class="text-white/70 mb-0">Gérez toutes les places de stationnement</p>
         </div>
         <a asp-action="Create" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-semibold inline-flex items-center gap-2">
-            <i class="bi bi-plus-circle"></i>Create New Place
+            <i class="bi bi-plus-circle"></i>Créer une Place
         </a>
     </div>
 </div>
@@ -21,7 +21,7 @@
     <div class="bg-blue-50 border-l-4 border-blue-600 p-4 rounded">
         <p class="text-blue-800 flex items-center gap-2 m-0">
             <i class="bi bi-info-circle"></i>
-            <strong>No places found.</strong> Create your first parking place to get started.
+            <strong>Aucune place trouvée.</strong> Créez votre première place de parking pour commencer.
         </p>
     </div>
 }
@@ -30,7 +30,7 @@ else
     <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
         @foreach (var place in Model)
         {
-            <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg overflow-hidden hover:shadow-lg transition flex flex-col text-white">
+            <div class="bg-[var(--color-secondary)] backdrop-blur-md border border-white/20 rounded-lg overflow-hidden hover:shadow-lg transition flex flex-col text-white">
                 <div class="bg-linear-to-r from-blue-600 to-blue-700 text-white p-4 flex justify-between items-center">
                     <h5 class="m-0 font-bold text-lg flex items-center gap-2">
                         <i class="bi bi-geo-alt-fill"></i>@place.Code
@@ -48,27 +48,27 @@ else
                 </div>
                 <div class="p-4 flex-1">
                     <div class="mb-4">
-                        <strong class="text-gray-900">Status:</strong>
+                        <strong class="text-gray-900">Statut :</strong>
                         <p class="text-gray-600 mb-0">@place.Status</p>
                     </div>
                     <div>
-                        <strong class="text-gray-900">Area:</strong>
+                        <strong class="text-gray-900">Zone :</strong>
                         @if (place.Area != null)
                         {
                             <p class="text-gray-600 mb-0">@place.Area.Name</p>
                         }
                         else
                         {
-                            <p class="text-gray-600 mb-0 italic">No Area Assigned</p>
+                            <p class="text-gray-600 mb-0 italic">Aucune zone attribuée</p>
                         }
                     </div>
                 </div>
                 <div class="bg-gray-50 border-t border-gray-200 p-3 flex gap-2">
                     <a asp-action="Edit" asp-route-id="@place.Id" class="flex-1 px-3 py-2 bg-blue-600 text-white text-sm font-semibold rounded hover:bg-blue-700 transition text-center">
-                        <i class="bi bi-pencil me-1"></i>Edit
+                        <i class="bi bi-pencil me-1"></i>Modifier
                     </a>
                     <a asp-action="Delete" asp-route-id="@place.Id" class="flex-1 px-3 py-2 bg-red-600 text-white text-sm font-semibold rounded hover:bg-red-700 transition text-center">
-                        <i class="bi bi-trash me-1"></i>Delete
+                        <i class="bi bi-trash me-1"></i>Supprimer
                     </a>
                 </div>
             </div>

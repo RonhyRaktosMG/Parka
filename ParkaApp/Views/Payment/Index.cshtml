@@ -4,26 +4,26 @@
     ViewData["Title"] = "Payments";
 }
 
-<div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg p-6 mb-6 text-white">
+<div class="bg-[var(--color-secondary)] backdrop-blur-md border border-white/20 rounded-lg p-6 mb-6 text-white">
     <div class="flex justify-between items-center">
         <div>
             <h1 class="text-3xl font-bold text-white mb-0">@ViewData["Title"]</h1>
         </div>
         <a asp-action="Create" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-semibold flex items-center gap-2">
-            <i class="bi bi-plus-lg"></i>Create New Payment
+            <i class="bi bi-plus-lg"></i>Créer un Paiement
         </a>
     </div>
 </div>
 
-<div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg overflow-hidden">
+<div class="bg-[var(--color-secondary)] backdrop-blur-md border border-white/20 rounded-lg overflow-hidden">
     <table class="w-full text-sm text-white">
         <thead>
-            <tr class="bg-white/5 border-b-2 border-white/10">
+            <tr class="bg-[var(--color-secondary-light)] border-b-2 border-white/10">
                 <th class="px-6 py-3 text-left font-bold text-white">Id</th>
-                <th class="px-6 py-3 text-left font-bold text-white">Amount</th>
+                <th class="px-6 py-3 text-left font-bold text-white">Montant</th>
                 <th class="px-6 py-3 text-left font-bold text-white">Type</th>
-                <th class="px-6 py-3 text-left font-bold text-white">Start Date</th>
-                <th class="px-6 py-3 text-left font-bold text-white">End Date</th>
+                <th class="px-6 py-3 text-left font-bold text-white">Début</th>
+                <th class="px-6 py-3 text-left font-bold text-white">Fin</th>
                 <th class="px-6 py-3 text-left font-bold text-white">Client</th>
                 <th class="px-6 py-3 text-left font-bold text-white">Actions</th>
             </tr>
@@ -31,7 +31,7 @@
         <tbody>
             @foreach (var payment in Model)
             {
-                <tr class="border-b border-white/10 hover:bg-white/5 transition">
+                <tr class="border-b border-white/10 hover:bg-[var(--color-secondary-light)] transition">
                     <td class="px-6 py-3 text-white">@payment.Id</td>
                     <td class="px-6 py-3 text-white">@payment.Amount</td>
                     <td class="px-6 py-3 text-white">@payment.Type</td>
@@ -40,10 +40,10 @@
                     <td class="px-6 py-3 text-white">@payment.Client?.Name</td>
                     <td class="px-6 py-3 flex gap-2">
                         <a asp-action="Edit" asp-route-id="@payment.Id" class="px-2 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-700 transition">
-                            <i class="bi bi-pencil me-1"></i>Edit
+                            <i class="bi bi-pencil me-1"></i>Modifier
                         </a>
                         <a asp-action="Delete" asp-route-id="@payment.Id" class="px-2 py-1 bg-red-600 text-white text-xs rounded hover:bg-red-700 transition">
-                            <i class="bi bi-trash me-1"></i>Delete
+                            <i class="bi bi-trash me-1"></i>Supprimer
                         </a>
                     </td>
                 </tr>  

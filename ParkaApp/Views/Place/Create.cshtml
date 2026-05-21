@@ -1,83 +1,68 @@
 @model ParkaApp.Models.Place
 
 @{
-    ViewData["Title"] = "Create Place";
+    ViewData["Title"] = "Créer Place";
 }
 
-<div class="max-w-2xl mx-auto">
-    <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl overflow-hidden text-white">
-        
-        <!-- Header -->
-        <div class="bg-blue-600/50 text-white px-8 py-7">
-            <h1 class="text-3xl font-semibold flex items-center gap-3 text-white">
-                <i class="bi bi-plus-circle"></i>
-                Create New Parking Place
-            </h1>
-            <p class="mt-2 text-white/80">Add a new parking spot to an area</p>
-        </div>
+<div class="form-container mx-auto max-w-2xl">
+    <div class="form">
+        <span class="heading">Créer une Nouvelle Place</span>
+        <span class="c1">Ajoutez une place de parking à une zone</span>
 
-        <div class="p-8">
-            <form asp-action="Create" method="post">
-                <div asp-validation-summary="ModelOnly" class="bg-red-500/20 border border-red-500/50 text-red-200 p-4 rounded mb-6"></div>
-                
-                <div class="space-y-8">
-                    
-                    <!-- Place Code -->
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+            <!-- Place Code -->
+            <div class="input-group">
+                <label asp-for="Code" class="label">
+                    <i class="bi bi-code-square me-2"></i>Code de la Place
+                </label>
+                <input asp-for="Code" 
+                       class="input"
+                       placeholder="Ex: A001, P-12, B025" />
+                <span asp-validation-for="Code" class="error-msg"></span>
+            </div>
+
+            <!-- Parking Area -->
+            <div class="input-group">
+                <label asp-for="AreaId" class="label">
+                    <i class="bi bi-map me-2"></i>Zone de Parking
+                </label>
+                <input asp-for="AreaId" 
+                       type="number"
+                       class="input"
+                       placeholder="Entrez l'ID de la zone" />
+                <span asp-validation-for="AreaId" class="error-msg"></span>
+                <small style="display: block; color: #a5c4d9; font-size: 0.85rem; margin-top: 8px;">
+                    Entrez l'ID de la zone de parking à laquelle cette place appartient
+                </small>
+            </div>
+
+            <!-- Initial Status Info -->
+            <div style="background-color: rgba(217, 100, 30, 0.1); border: 1px solid rgba(217, 100, 30, 0.3); border-left: 3px solid #d3f35f; border-radius: 4px; padding: 16px; margin-bottom: 24px;">
+                <div style="display: flex; align-items: flex-start; gap: 12px;">
+                    <i class="bi bi-info-circle" style="font-size: 1.2rem; color: #d3f35f; margin-top: 2px;"></i>
                     <div>
-                        <label asp-for="Code" class="block text-sm font-semibold text-white mb-2">
-                            <i class="bi bi-code-square me-2"></i>Place Code
-                        </label>
-                        <input asp-for="Code" 
-                               class="w-full px-5 py-3.5 border border-white/30 rounded-2xl bg-white/10 text-white focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition font-mono"
-                               placeholder="Ex: A001, P-12, B025" />
-                        <span asp-validation-for="Code" class="text-red-300 text-sm mt-1.5 block"></span>
+                        <p style="font-weight: 600; color: white; margin: 0 0 8px 0;">Statut Initial</p>
+                        <p style="font-size: 0.9rem; color: #a5c4d9; margin: 0;">
+                            Cette place de parking sera créée avec le statut <strong>Disponible</strong> par défaut.
+                        </p>
                     </div>
-
-                    <!-- Parking Area -->
-                    <div>
-                        <label asp-for="AreaId" class="block text-sm font-semibold text-white mb-2">
-                            <i class="bi bi-map me-2"></i>Parking Area
-                        </label>
-                        <input asp-for="AreaId" 
-                               type="number"
-                               class="w-full px-5 py-3.5 border border-white/30 rounded-2xl bg-white/10 text-white focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition"
-                               placeholder="Enter Area ID" />
-                        <span asp-validation-for="AreaId" class="text-red-300 text-sm mt-1.5 block"></span>
-                        <small class="text-white/70 mt-1.5 block">
-                            Enter the ID of the parking area where this place belongs
-                        </small>
-                    </div>
-
-                    <!-- Initial Status Info -->
-                    <div class="bg-amber-500/20 border border-amber-500/50 rounded-2xl p-5">
-                        <div class="flex items-start gap-3">
-                            <i class="bi bi-info-circle text-2xl text-amber-300 mt-0.5"></i>
-                            <div>
-                                <p class="font-medium text-amber-200">Initial Status</p>
-                                <p class="text-sm text-amber-300/80 mt-1">
-                                    This parking place will be created with <strong>Available</strong> status by default.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
+            </div>
 
-                <!-- Buttons -->
-                <div class="flex gap-4 mt-10">
-                    <button type="submit" 
-                            class="flex-1 bg-(--color-primary) hover:bg-(--color-primary-dark) transition text-white font-semibold py-4 rounded-2xl flex items-center justify-center gap-2 shadow-sm">
-                        <i class="bi bi-check-circle"></i>
-                        Create Place
-                    </button>
+            <!-- Buttons -->
+            <div class="button-container">
+                <button type="submit" class="send-button">
+                    <i class="bi bi-check-circle me-2"></i>
+                    Créer
+                </button>
 
-                    <a asp-action="Details" asp-controller="Area" asp-route-id="@Model.AreaId" 
-                       class="flex-1 border border-white/30 hover:bg-white/5 transition text-white font-semibold py-4 rounded-2xl flex items-center justify-center gap-2">
-                        <i class="bi bi-x-circle"></i>
-                        Cancel
-                    </a>
-                </div>
-            </form>
-        </div>
+                <a asp-action="Index" class="reset-button">
+                    <i class="bi bi-x-circle me-2"></i>
+                    Annuler
+                </a>
+            </div>
+        </form>
     </div>
 </div>
