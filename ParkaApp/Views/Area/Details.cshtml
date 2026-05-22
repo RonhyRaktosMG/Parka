@@ -137,7 +137,21 @@
                                     
                                     <!-- Status -->
                                     <div class="rounded-2xl bg-@statusInfo.Bg px-4 py-2 text-xs font-semibold backdrop-blur-md text-@statusInfo.Text">
-                                        @place.Status.ToString().ToUpper()
+                                        @switch(place.Status)
+                                        {
+                                            case PlaceStatus.Available:
+                                                @:Disponible
+                                                break;
+                                            case PlaceStatus.Occupied:
+                                                @:Occupée
+                                                break;
+                                            case PlaceStatus.Reserved:
+                                                @:Réservée
+                                                break;
+                                            default:
+                                                @:Inconnu
+                                                break;
+                                        }
                                     </div>
                                 </div>
 

@@ -12,5 +12,7 @@ namespace ParkaApp.Repository.Interfaces
 
         Task<bool> AssignPlaceAsync(int placeId, string carPlate);
         Task<bool> ReleasePlaceAsync(int placeId);
+
+        double CalculateTotalAmount(DateTime entryTime, DateTime exitTime);
     }
 }

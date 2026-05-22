@@ -26,8 +26,8 @@ body {
     inset: 0;
     background:
         radial-gradient(circle at top right,
-        rgba(237,125,39,0.08),
-        transparent 30%);
+        var(--color-secondary-light) 0%,
+        #34323075 30%);
     pointer-events: none;
 }
 

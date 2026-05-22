@@ -85,10 +85,13 @@ namespace ParkaApp.Controllers
             if (ModelState.IsValid)
             {
                 bool isUpdated = await _repository.UpdateAsync(Payment);
-                if (isUpdated)
+                if (!isUpdated)
                 {
-                    return RedirectToAction(nameof(Index));
+                    ModelState.AddModelError("", "Failed to update the payment.");
+                    return View(Payment);
                 }
+
+                return RedirectToAction(nameof(Index));
             }
             return View(Payment);
         }

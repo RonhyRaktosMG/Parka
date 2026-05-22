@@ -16,7 +16,7 @@ namespace ParkaApp.Repository
 
         public async Task<IEnumerable<Payment>> GetAllAsync()
         {
-            return await _context.Payments.ToListAsync();
+            return await _context.Payments.Include(p => p.Client).ToListAsync();
         }
 
         public async Task<Payment?> GetByIdAsync(int id)
@@ -50,6 +50,21 @@ namespace ParkaApp.Repository
 
         public async Task<bool> UpdateAsync(Payment Payment)
         {
+            // check if the payment exists
+            var existingPayment = await GetByIdAsync(Payment.Id);
+            if (existingPayment == null)
+            {
+                return false; // Payment not found
+            }
+
+            // Check if user exists
+            var existingClient = await _context.Clients.FirstOrDefaultAsync(c => c.Id == Payment.ClientId);
+            if (existingClient == null)
+            {
+                return false; // Client not found
+            }
+
+
             _context.Payments.Update(Payment);
             await _context.SaveChangesAsync();
             

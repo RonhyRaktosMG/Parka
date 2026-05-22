@@ -175,8 +175,11 @@ namespace ParkaApp.Controllers
                 OccupationId = occupation.Id,
                 PlaceId = place.Id,
                 CarPlate = (await _clientRepository.GetByIdAsync(occupation.ClientId))?.CarPlate ?? "Unknown",
+                IsClientGuest = occupation.Client != null && occupation.Client.IsGuest,
                 EntryTime = occupation.EntryTime,
-                ExitTime = DateTime.Now
+                ExitTime = DateTime.Now,
+                TotalCost = _repository.CalculateTotalAmount(occupation.EntryTime, DateTime.Now),
+                TotalToPay = (occupation.Client != null && occupation.Client.IsGuest) ? _repository.CalculateTotalAmount(occupation.EntryTime, DateTime.Now) : 0       
             };
 
             return View(vm);
@@ -203,7 +206,8 @@ namespace ParkaApp.Controllers
                     PlaceId = occupation.PlaceId,
                     CarPlate = occupation.Client != null ? occupation.Client.CarPlate : "",
                     EntryTime = occupation.EntryTime,
-                    ExitTime = DateTime.Now
+                    ExitTime = DateTime.Now,
+                    TotalCost = _repository.CalculateTotalAmount(occupation.EntryTime, DateTime.Now)
                 });
             }
 

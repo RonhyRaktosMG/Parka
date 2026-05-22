@@ -25,22 +25,24 @@
             </div>
 
             <!-- PlaceId (Hidden with Display) -->
-            <div class="input-group">
-                <label class="label">
+            <div class="input-group flex flex-row items-center gap-3">
+                <label class="label>
                     <i class="bi bi-geo me-2"></i>ID de la Place
                 </label>
-                <div style="background-color: var(--color-secondary); padding: 14px 18px; border-left: 3px solid var(--color-primary); border-radius: 4px; color: white; font-weight: 600;">
+                <br>
+                <div style="background-color: var(--color-secondary); padding: 14px 18px; border-radius: 4px; color: white; font-weight: 600;">
                     @Model.PlaceId
                 </div>
                 <input asp-for="PlaceId" type="hidden" />
             </div>
 
+
             <!-- EntryTime (Hidden with Display) -->
-            <div class="input-group">
+            <div class="input-group flex flex-row items-center gap-3">
                 <label class="label">
                     <i class="bi bi-clock me-2"></i>Heure d'Entrée
                 </label>
-                <div style="background-color: var(--color-secondary); padding: 14px 18px; border-left: 3px solid var(--color-primary); border-radius: 4px; color: white; font-weight: 600; font-size: 0.9rem;">
+                <div style="background-color: var(--color-secondary); padding: 14px 18px; border-radius: 4px; color: white; font-weight: 600; font-size: 0.9rem;">
                     @Model.EntryTime.ToString("dd/MM/yyyy HH:mm")
                 </div>
                 <input asp-for="EntryTime" type="hidden" />

@@ -26,30 +26,15 @@
             <!-- Parking Area -->
             <div class="input-group">
                 <label asp-for="AreaId" class="label">
-                    <i class="bi bi-map me-2"></i>Zone de Parking
+                    <i class="bi bi-map me-2"></i>Id Zone
                 </label>
                 <input asp-for="AreaId" 
                        type="number"
                        class="input"
                        placeholder="Entrez l'ID de la zone" />
                 <span asp-validation-for="AreaId" class="error-msg"></span>
-                <small style="display: block; color: #a5c4d9; font-size: 0.85rem; margin-top: 8px;">
-                    Entrez l'ID de la zone de parking à laquelle cette place appartient
-                </small>
             </div>
 
-            <!-- Initial Status Info -->
-            <div style="background-color: rgba(217, 100, 30, 0.1); border: 1px solid rgba(217, 100, 30, 0.3); border-left: 3px solid #d3f35f; border-radius: 4px; padding: 16px; margin-bottom: 24px;">
-                <div style="display: flex; align-items: flex-start; gap: 12px;">
-                    <i class="bi bi-info-circle" style="font-size: 1.2rem; color: #d3f35f; margin-top: 2px;"></i>
-                    <div>
-                        <p style="font-weight: 600; color: white; margin: 0 0 8px 0;">Statut Initial</p>
-                        <p style="font-size: 0.9rem; color: #a5c4d9; margin: 0;">
-                            Cette place de parking sera créée avec le statut <strong>Disponible</strong> par défaut.
-                        </p>
-                    </div>
-                </div>
-            </div>
 
             <!-- Buttons -->
             <div class="button-container">

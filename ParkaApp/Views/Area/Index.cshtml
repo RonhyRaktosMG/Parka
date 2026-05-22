@@ -30,7 +30,7 @@
         </div>
 
         <!-- Areas List - Right Side -->
-        <div class="lg:col-span-5 bg-[var(--color-secondary)] backdrop-blur-md border border-white/20 rounded-3xl p-6 text-white">
+        <div class="lg:col-span-5 bg-(--color-secondary) backdrop-blur-md border border-white/20 rounded-3xl p-6 text-white">
             <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
                 <i class="bi bi-list-ul"></i>
                 Toutes les Zones
@@ -48,7 +48,7 @@
                 <div class="space-y-3 max-h-120 overflow-auto pr-2 custom-scroll">
                     @foreach (var area in Model)
                     {
-                        <div class="group bg-[#2d2925]/50 hover:bg-[var(--color-secondary)] border border-white/10 rounded-2xl p-4 transition-all">
+                        <div class="group bg-[#2d2925]/50 hover:bg-(--color-secondary) border border-white/10 rounded-2xl p-4 transition-all">
                             <div class="flex justify-between items-start">
                                 <div>
                                     <h3 class="font-bold text-lg text-white">@area.Name</h3>
@@ -99,9 +99,9 @@
                         <h3 style="margin:0 0 6px 0; font-size:17px; font-weight:600;">@area.Name</h3>
                         <p style="margin:0; color:#888; font-size:14px;">@area.Address</p>
                         <div style="margin-top:12px; display:flex; gap:6px;">
-                            <a href="@Url.Action("Details", "Area", new { id = area.Id })" class="flex-1 text-center py-2 text-xs font-medium bg-sky-600 text-white rounded-xl">View</a>
-                            <a href="@Url.Action("Edit", "Area", new { id = area.Id })" class="flex-1 text-center py-2 text-xs font-medium bg-indigo-600 text-white rounded-xl">Edit</a>
-                            <a href="@Url.Action("Delete", "Area", new { id = area.Id })" class="flex-1 text-center py-2 text-xs font-medium bg-red-600 text-white rounded-xl">Delete</a>
+                            <a href="@Url.Action("Details", "Area", new { id = area.Id })" class="flex-1 text-center py-2 text-xs font-medium bg-sky-900 text-white rounded-xl">Voir</a>
+                            <a href="@Url.Action("Edit", "Area", new { id = area.Id })" class="flex-1 text-center py-2 text-xs font-medium bg-amber-900 text-white rounded-xl">Modifier</a>
+                            <a href="@Url.Action("Delete", "Area", new { id = area.Id })" class="flex-1 text-center py-2 text-xs font-medium bg-red-900 text-white rounded-xl">Supprimer</a>
                         </div>
                     </div>
                 `, { maxWidth: 340 });

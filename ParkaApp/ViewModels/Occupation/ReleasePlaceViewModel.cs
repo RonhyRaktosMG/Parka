@@ -5,10 +5,13 @@ namespace ParkaApp.ViewModels.Occupation
         public int OccupationId { get; set; }
         public int PlaceId { get; set; }
         public string CarPlate { get; set; } = string.Empty;
+        public bool IsClientGuest { get; set; }
         public DateTime EntryTime { get; set; }
         public DateTime ExitTime { get; set; }
 
         public double TotalCost { get; set; }
+
+        public double TotalToPay { get; set; }
 
         public string FormattedDuration
         {

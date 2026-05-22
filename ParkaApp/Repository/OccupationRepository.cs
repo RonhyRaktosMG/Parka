@@ -181,7 +181,7 @@ namespace ParkaApp.Repository
             return true;
         }
 
-        private double CalculateTotalAmount(DateTime entryTime, DateTime exitTime)
+        public double CalculateTotalAmount(DateTime entryTime, DateTime exitTime)
         {   
             var HOURLY_PRICE = 500;
         

@@ -36,6 +36,17 @@
                 <span asp-validation-for="PlaceId" class="error-msg"></span>
             </div>
 
+            <!-- EntryTime -->
+            <div class="input-group">
+                <label asp-for="EntryTime" class="label">
+                    <i class="bi bi-clock me-2"></i>Heure d'Entrée
+                </label>
+                <input asp-for="EntryTime" 
+                       class="input"
+                       type="datetime-local"/>
+                <span asp-validation-for="EntryTime" class="error-msg"></span>
+            </div>
+
             <!-- Buttons -->
             <div class="button-container">
                 <button type="submit" class="send-button">
