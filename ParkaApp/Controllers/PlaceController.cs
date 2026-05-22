@@ -45,7 +45,7 @@ namespace ParkaApp.Controllers
                 bool isAdded = await _repository.AddAsync(Place);
                 if (!isAdded)
                 {   
-                    ModelState.AddModelError("", "Une place avec le même code existe déjà dans la zone sélectionnée.");
+                    ModelState.AddModelError("", "Une erreur est survenue lors de la création de la place. Assurez-vous qu'une place avec le même code n'existe pas déjà dans la zone sélectionnée ou que la zone existe.");
                     return View(Place);
                 }
                 
@@ -77,7 +77,7 @@ namespace ParkaApp.Controllers
                 bool isUpdated = await _repository.UpdateAsync(Place);
                 if (!isUpdated)
                 {
-                    ModelState.AddModelError("", "Une place avec le même code existe déjà dans la zone sélectionnée.");
+                    ModelState.AddModelError("", "Une erreur est survenue lors de la mise à jour de la place. Assurez-vous qu'une place avec le même code n'existe pas déjà dans la zone sélectionnée ou que la zone existe.");
                     return View(Place);
                 }
 
