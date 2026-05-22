@@ -38,7 +38,7 @@ namespace ParkaApp.Controllers
                 
                 if (!isAdded)
                 {
-                    ModelState.AddModelError("", "An area with the same name already exists.");
+                    ModelState.AddModelError("", "Une zone portant le même nom existe déjà.");
                     return View(area);
                 }
                 
@@ -74,7 +74,7 @@ namespace ParkaApp.Controllers
                 bool isUpdated = await _repository.UpdateAsync(area);
                 if (!isUpdated)
                 {
-                    ModelState.AddModelError("", "An area with the same name already exists.");
+                    ModelState.AddModelError("", "Une zone portant le même nom existe déjà.");
                     return View(area);
                 }
 

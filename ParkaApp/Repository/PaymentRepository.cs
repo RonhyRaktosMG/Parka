@@ -16,7 +16,7 @@ namespace ParkaApp.Repository
 
         public async Task<IEnumerable<Payment>> GetAllAsync()
         {
-            return await _context.Payments.Include(p => p.Client).ToListAsync();
+            return await _context.Payments.OrderByDescending(p => p.Id).Include(p => p.Client).ToListAsync();
         }
 
         public async Task<Payment?> GetByIdAsync(int id)

@@ -12,6 +12,7 @@
         <form asp-action="AssignPlace" method="post">
             <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
 
+
             <!-- Car Plate -->
             <div class="input-group">
                 <label asp-for="CarPlate" class="label">
@@ -20,13 +21,13 @@
                 <input asp-for="CarPlate" 
                        class="input"
                        type="text"
-                       placeholder="Ex: AB-123-CD" />
+                       placeholder="Ex: 1234 TAB" />
                 <span asp-validation-for="CarPlate" class="error-msg"></span>
             </div>
 
             <!-- PlaceId (Hidden with Display) -->
             <div class="input-group flex flex-row items-center gap-3">
-                <label class="label>
+                <label class="label">
                     <i class="bi bi-geo me-2"></i>ID de la Place
                 </label>
                 <br>

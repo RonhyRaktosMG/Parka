@@ -45,7 +45,7 @@ namespace ParkaApp.Controllers
                 bool isAdded = await _repository.AddAsync(Place);
                 if (!isAdded)
                 {   
-                    ModelState.AddModelError("", "A place with the same code already exists in the selected area.");
+                    ModelState.AddModelError("", "Une place avec le même code existe déjà dans la zone sélectionnée.");
                     return View(Place);
                 }
                 
@@ -77,7 +77,7 @@ namespace ParkaApp.Controllers
                 bool isUpdated = await _repository.UpdateAsync(Place);
                 if (!isUpdated)
                 {
-                    ModelState.AddModelError("", "A place with the same code already exists in the selected area.");
+                    ModelState.AddModelError("", "Une place avec le même code existe déjà dans la zone sélectionnée.");
                     return View(Place);
                 }
 
@@ -108,7 +108,7 @@ namespace ParkaApp.Controllers
             bool isDeleted = await _repository.DeleteAsync(id);
             if (!isDeleted)
             {
-                ModelState.AddModelError("", "A place with the same code already exists in the selected area.");
+                ModelState.AddModelError("", "Une place avec le même code existe déjà dans la zone sélectionnée.");
                 return View(Place);
             }
 

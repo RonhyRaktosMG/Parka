@@ -37,7 +37,7 @@ namespace ParkaApp.Controllers
                 bool isAdded = await _repository.AddAsync(Client);
                 if (!isAdded)
                 {
-                    ModelState.AddModelError("", "A client with the same car plate already exists.");
+                    ModelState.AddModelError("", "Un client avec la même plaque d'immatriculation existe déjà.");
                     return View(Client);
                 }
 
@@ -73,7 +73,7 @@ namespace ParkaApp.Controllers
                 bool isUpdated = await _repository.UpdateAsync(Client);
                 if (!isUpdated)
                 {
-                    ModelState.AddModelError("", "A client with the same car plate already exists.");
+                    ModelState.AddModelError("", "Un client avec la même plaque d'immatriculation existe déjà.");
                     return View(Client);
                 }
 
@@ -103,7 +103,7 @@ namespace ParkaApp.Controllers
             bool isDeleted = await _repository.DeleteAsync(id);
             if (!isDeleted)
             {
-                ModelState.AddModelError("", "The client does not exist or could not be deleted.");
+                ModelState.AddModelError("", "Le client n'existe pas ou n'a pas pu être supprimé.");
             }
             return RedirectToAction(nameof(Index));
         }

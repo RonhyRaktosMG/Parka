@@ -41,7 +41,7 @@ namespace ParkaApp.Controllers
                         "Hourly" => PaymentType.Hourly,
                         "Daily" => PaymentType.Daily,
                         "Monthly" => PaymentType.Monthly,
-                        _ => throw new ArgumentException("Invalid payment type")
+                        _ => throw new ArgumentException("Type de paiement invalide")
                     },
                     StartDate = vm.StartDate,
                     EndDate = vm.EndDate,
@@ -50,7 +50,7 @@ namespace ParkaApp.Controllers
                 bool isAdded = await _repository.AddAsync(Payment, vm.CarPlate);
                 if (!isAdded)
                 {
-                    ModelState.AddModelError("", "The client does not exist. Please check the car plate number.");
+                    ModelState.AddModelError("", "Le client n'existe pas. Veuillez vérifier le numéro de plaque d'immatriculation.");
                     return View(vm);
                 }
 
@@ -87,7 +87,7 @@ namespace ParkaApp.Controllers
                 bool isUpdated = await _repository.UpdateAsync(Payment);
                 if (!isUpdated)
                 {
-                    ModelState.AddModelError("", "Failed to update the payment.");
+                    ModelState.AddModelError("", "La mise à jour du paiement a échoué.");
                     return View(Payment);
                 }
 
@@ -114,7 +114,7 @@ namespace ParkaApp.Controllers
             bool isDeleted = await _repository.DeleteAsync(id);
             if (!isDeleted)
             {
-                ModelState.AddModelError("", "Failed to delete the payment.");
+                ModelState.AddModelError("", "La suppression du paiement a échoué.");
                 
                 Payment? Payment = await _repository.GetByIdAsync(id);
                 return View(Payment);

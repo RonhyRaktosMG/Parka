@@ -11,17 +11,13 @@ namespace ParkaApp.Controllers
     public class OccupationController : Controller
     {
         private readonly IOccupationRepository _repository;
-        private readonly IClientRepository _clientRepository;
         private readonly IPlaceRepository _placeRepository;
-        private readonly IPaymentRepository _paymentRepository;
         
         
         public OccupationController(IOccupationRepository repository, IClientRepository clientRepository, IPlaceRepository placeRepository, IPaymentRepository paymentRepository)
         {
             _repository = repository;
-            _clientRepository = clientRepository;
             _placeRepository = placeRepository;
-            _paymentRepository = paymentRepository;
         }
         
         public async Task<IActionResult> Index()
@@ -54,7 +50,7 @@ namespace ParkaApp.Controllers
                 {
                     return RedirectToAction(nameof(Index));
                 }
-                ModelState.AddModelError(string.Empty, "An error occurred while creating the occupation.");
+                ModelState.AddModelError(string.Empty, "Une erreur est survenue lors de la création de l'occupation.");
             }   
 
             return View(Occupation);
@@ -88,7 +84,7 @@ namespace ParkaApp.Controllers
                 {
                     return RedirectToAction(nameof(Index));
                 }
-                ModelState.AddModelError(string.Empty, "An error occurred while updating the occupation.");
+                ModelState.AddModelError(string.Empty, "Une erreur est survenue lors de la mise à jour de l'occupation.");
             }
 
             return View(Occupation);
@@ -106,6 +102,7 @@ namespace ParkaApp.Controllers
             }
             return View(Occupation);
         }
+        
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -113,7 +110,7 @@ namespace ParkaApp.Controllers
             bool result = await _repository.DeleteAsync(id);
             if (!result)
             {
-                ModelState.AddModelError(string.Empty, "An error occurred while deleting the occupation.");
+                ModelState.AddModelError(string.Empty, "Une erreur est survenue lors de la suppression de l'occupation.");
                 return View();
             }
             return RedirectToAction(nameof(Index));
@@ -139,14 +136,14 @@ namespace ParkaApp.Controllers
             Place? place = await _placeRepository.GetByIdAsync(vm.PlaceId);
             if (place == null)
             {
-                ModelState.AddModelError("PlaceId", "Invalid place selected.");
+                ModelState.AddModelError("PlaceId", "La place sélectionnée est invalide.");
                 return NotFound();
             }
 
             bool result = await _repository.AssignPlaceAsync(vm.PlaceId, vm.CarPlate);
             if (!result)            
             {
-                ModelState.AddModelError(string.Empty, "An error occurred while assigning the place. Please make sure the place is available.");
+                ModelState.AddModelError(string.Empty, "Une erreur est survenue lors de l'affectation de la place. Veuillez vous assurer que la place est disponible.");
                 return View(vm);
             }
 
@@ -164,17 +161,18 @@ namespace ParkaApp.Controllers
                 return NotFound();
             }
 
-            var place = await _placeRepository.GetByIdAsync(occupation.PlaceId);
-            if (place == null)
+            // Check place
+            if (occupation.Place == null)
             {
-                return NotFound();
+                ModelState.AddModelError(string.Empty, "La place occupée n'a pas pu être trouvée.");
+                return View();
             }
 
             var vm = new ReleasePlaceViewModel
             {
                 OccupationId = occupation.Id,
-                PlaceId = place.Id,
-                CarPlate = (await _clientRepository.GetByIdAsync(occupation.ClientId))?.CarPlate ?? "Unknown",
+                PlaceId = occupation.PlaceId,
+                CarPlate = occupation.Client != null ? occupation.Client.CarPlate : "--",
                 IsClientGuest = occupation.Client != null && occupation.Client.IsGuest,
                 EntryTime = occupation.EntryTime,
                 ExitTime = DateTime.Now,
@@ -199,12 +197,12 @@ namespace ParkaApp.Controllers
             bool result = await _repository.ReleasePlaceAsync(occupation.PlaceId);
             if (!result)           
             {
-                ModelState.AddModelError(string.Empty, "Make sure the place is currently occupied and the client's subscription is valid if they are a subscriber.");
+                ModelState.AddModelError(string.Empty, "Vérifiez que la place est actuellement occupée et que l'abonnement du client est valide s'il s'agit d'un abonné.");
                 return View("ReleasePlace", new ReleasePlaceViewModel
                 {                    
                     OccupationId = occupation.Id,
                     PlaceId = occupation.PlaceId,
-                    CarPlate = occupation.Client != null ? occupation.Client.CarPlate : "",
+                    CarPlate = occupation.Client != null ? occupation.Client.CarPlate : "--",
                     EntryTime = occupation.EntryTime,
                     ExitTime = DateTime.Now,
                     TotalCost = _repository.CalculateTotalAmount(occupation.EntryTime, DateTime.Now)
