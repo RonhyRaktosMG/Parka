@@ -26,15 +26,55 @@ namespace ParkaApp.Repository
 
         public async Task<bool> AddAsync(Occupation Occupation)
         {
+            // Check if the occupation exists
+            var existingOccupation = await GetByIdAsync(Occupation.Id);
+            if (existingOccupation == null)
+            {
+                return false; 
+            }
+
+            // Check if the place exists
+            var place = await _context.Places.FindAsync(Occupation.PlaceId);
+            if (place == null)            {
+                return false;
+            }
+
+            // Check if the client exists
+            var client = await _context.Clients.FindAsync(Occupation.ClientId);
+            if (client == null)            {
+                return false;
+            }
+
             _context.Occupations.Add(Occupation);
             await _context.SaveChangesAsync();
+            
             return true;
         }
 
         public async Task<bool> UpdateAsync(Occupation Occupation)
         {
+            // Check if the occupation exists
+            var existingOccupation = await GetByIdAsync(Occupation.Id);
+            if (existingOccupation == null)
+            {
+                return false; 
+            }
+
+            // Check if the place exists
+            var place = await _context.Places.FindAsync(Occupation.PlaceId);
+            if (place == null)            {
+                return false;
+            }
+
+            // Check if the client exists
+            var client = await _context.Clients.FindAsync(Occupation.ClientId);
+            if (client == null)            {
+                return false;
+            }
+
             _context.Occupations.Update(Occupation);
             await _context.SaveChangesAsync();
+
             return true;
         }
 
