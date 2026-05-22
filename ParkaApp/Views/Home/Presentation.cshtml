@@ -1,0 +1,45 @@
+@{
+    ViewData["Title"] = "Présentation";
+}
+
+<div class="max-w-5xl mx-auto">
+    <!-- Titre -->
+    <div class="mb-8">
+        <h1 class="text-4xl font-bold text-white flex items-center gap-3">
+            <i class="bi bi-diagram-3 text-(--color-primary)"></i>Architecture de ParkaApp
+        </h1>
+        <p class="text-white/70 mt-3 text-lg">
+            Découvrez l'architecture complète de ParkaApp
+        </p>
+    </div>
+
+    <!-- Carte principale avec l'image MCD -->
+    <div class="bg-(--color-secondary) backdrop-blur-md border border-white/20 rounded-lg overflow-hidden hover:shadow-lg transition">
+        <div class="p-8 text-white">
+            <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+                <i class="bi bi-database text-(--color-primary)"></i>Modèle Conceptuel de Données
+            </h2>
+            
+            <!-- Image du MCD -->
+            <div class="rounded-lg overflow-hidden border border-white/10 bg-black/30 p-4 mb-6 flex justify-center">
+                <img src="~/images/mcd.png" 
+                     alt="Modèle Conceptuel de Données" 
+                     class="max-w-full h-auto rounded">
+            </div>
+
+            <!-- Description -->
+@*             <div class="space-y-4 text-white/80">
+                <p>
+                    Cette représentation visualise les entités principales de l'application ParkaApp et leurs relations :
+                </p>
+                <ul class="list-disc list-inside space-y-2 ml-2">
+                    <li><span class="font-semibold">Zones</span> : Groupements géographiques de places de parking</li>
+                    <li><span class="font-semibold">Places</span> : Emplacements individuels au sein d'une zone</li>
+                    <li><span class="font-semibold">Clients</span> : Utilisateurs du système de parking</li>
+                    <li><span class="font-semibold">Occupations</span> : Affectations de places aux clients</li>
+                    <li><span class="font-semibold">Paiements</span> : Transactions associées aux occupations</li>
+                </ul>
+            </div> *@
+        </div>
+    </div>
+</div>
