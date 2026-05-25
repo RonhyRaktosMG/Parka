@@ -70,13 +70,9 @@ namespace ParkaApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, Occupation Occupation)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Occupation Occupation)
         {
-            if (id != Occupation.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 bool result = await _repository.UpdateAsync(Occupation);
@@ -210,6 +206,35 @@ namespace ParkaApp.Controllers
             }
 
             return RedirectToAction("Details", "Area", new { id = occupation!.Place!.AreaId });
+        }
+ 
+ 
+ 
+ 
+        // Statistic
+        public async Task<IActionResult> Statistics( DateTime? startDate, DateTime? endDate)
+        {
+            // Debug
+            Console.WriteLine($"\n\n\n\n\nReceived dates: StartDate={startDate}, EndDate={endDate}\n\n\n\n\n");
+
+
+            DateTime actualStartDate = startDate ?? DateTime.Now.AddDays(-1); // Last 24 hours
+            DateTime actualEndDate = endDate ?? DateTime.Now.AddDays(1); // Include today
+
+            Dictionary<string, int> areaStatistics = await _repository.GetAreaStatisticsAsync(actualStartDate, actualEndDate);
+            
+            // Place statistics per area
+            Dictionary<string, Dictionary<string, int>> placeStatisticsPerArea = await _repository.GetPlaceStatisticsPerAreaAsync(actualStartDate, actualEndDate);
+
+            var vm = new StatisticViewModel
+            {
+                AreaStatistics = areaStatistics,
+                PlaceStatisticsPerArea = placeStatisticsPerArea,
+                StartDate = actualStartDate,
+                EndDate = actualEndDate
+            };
+
+            return View(vm);
         }
     }
 }

@@ -9,8 +9,10 @@
         <span class="heading">Modifier l'Occupation</span>
         <span class="c1">Mettez à jour les informations de l'occupation</span>
 
-        <form asp-action="Edit" method="post">
+        <form asp-action="Edit" asp-route-id="@Model.Id" method="post">
             <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+            <input type="hidden" asp-for="Id" />
 
             <!-- ClientId -->
             <div class="input-group">

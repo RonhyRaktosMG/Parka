@@ -16,7 +16,7 @@ namespace ParkaApp.Repository
 
         public async Task<IEnumerable<Occupation>> GetAllAsync()
         {
-            return await _context.Occupations.Include(p => p.Client).Include(p => p.Place).ToListAsync();
+            return await _context.Occupations.Include(p => p.Client).Include(p => p.Place).Include(p => p.Place!.Area).ToListAsync();
         }
 
         public async Task<Occupation?> GetByIdAsync(int id)
@@ -26,11 +26,11 @@ namespace ParkaApp.Repository
 
         public async Task<bool> AddAsync(Occupation Occupation)
         {
-            // Check if the occupation exists
-            var existingOccupation = await GetByIdAsync(Occupation.Id);
-            if (existingOccupation == null)
+            // Check if the occupation already exists (by id)
+            var exists = await _context.Occupations.AnyAsync(o => o.Id == Occupation.Id);
+            if (exists)
             {
-                return false; 
+                return false;
             }
 
             // Check if the place exists
@@ -45,7 +45,7 @@ namespace ParkaApp.Repository
                 return false;
             }
 
-            _context.Occupations.Add(Occupation);
+            await _context.Occupations.AddAsync(Occupation);
             await _context.SaveChangesAsync();
             
             return true;
@@ -54,21 +54,23 @@ namespace ParkaApp.Repository
         public async Task<bool> UpdateAsync(Occupation Occupation)
         {
             // Check if the occupation exists
-            var existingOccupation = await GetByIdAsync(Occupation.Id);
+            var existingOccupation = await _context.Occupations.AsNoTracking().FirstOrDefaultAsync(o => o.Id == Occupation.Id);
             if (existingOccupation == null)
             {
-                return false; 
+                return false;
             }
 
             // Check if the place exists
             var place = await _context.Places.FindAsync(Occupation.PlaceId);
-            if (place == null)            {
+            if (place == null)            
+            {
                 return false;
             }
 
             // Check if the client exists
             var client = await _context.Clients.FindAsync(Occupation.ClientId);
-            if (client == null)            {
+            if (client == null)           
+            {
                 return false;
             }
 
@@ -102,6 +104,11 @@ namespace ParkaApp.Repository
     
         public async Task<bool> AssignPlaceAsync(int placeId, string carPlate)
         {
+            if (string.IsNullOrEmpty(carPlate))
+            {
+                return false;
+            }
+
             var client = await _context.Clients.FirstOrDefaultAsync(c => c.CarPlate == carPlate);
             var place = await _context.Places.FindAsync(placeId);
 
@@ -214,8 +221,8 @@ namespace ParkaApp.Repository
             place.Status = PlaceStatus.Available;
             await _context.SaveChangesAsync();
 
-            // Remove occupation
-            _context.Occupations.Remove(occupation);
+            // Set exit time for the occupation
+            occupation.ExitTime = DateTime.Now;
             await _context.SaveChangesAsync();
 
             return true;
@@ -228,6 +235,41 @@ namespace ParkaApp.Repository
             var duration = exitTime - entryTime;
             return Math.Ceiling(duration.TotalHours) * HOURLY_PRICE;
 
+        }
+
+
+        // Statistics
+        public async Task<Dictionary<string, int>> GetAreaStatisticsAsync(DateTime startDate, DateTime endDate)
+        {
+            return await _context.Occupations
+                .Include(o => o.Place)
+                    .ThenInclude(p => p!.Area)
+                .Where(o => o.Place != null && o.Place.Area != null && o.EntryTime >= startDate && (o.ExitTime == null || o.ExitTime <= endDate))
+                .GroupBy(o => o.Place!.Area!.Name)
+                .Select(g => new { Area = g.Key, Count = g.Count() })
+                .ToDictionaryAsync(x => x.Area, x => x.Count);
+        }
+
+        public async Task<Dictionary<string, Dictionary<string, int>>> GetPlaceStatisticsPerAreaAsync(DateTime startDate, DateTime endDate)
+        {
+            var areas = await _context.Areas.ToListAsync();
+
+            var result = new Dictionary<string, Dictionary<string, int>>();
+
+            foreach (var area in areas)
+            {
+                var placeStats = await _context.Occupations
+                .Include(o => o.Place)
+                .Where(o => o.Place != null && o.Place.AreaId == area.Id && o.EntryTime >= startDate && (o.ExitTime == null || o.ExitTime <= endDate))
+                .GroupBy(o => o.Place!.Code)
+                .Select(g => new { Place = g.Key, Count = g.Count() })
+                .OrderByDescending(x => x.Count)
+                .ToDictionaryAsync(x => x.Place!, x => x.Count); 
+                
+                result[area.Name] = placeStats;
+            }
+
+            return result;
         }
     }
 }

@@ -4,7 +4,7 @@
     ViewData["Title"] = "Occupations";
 }
 
-<div class="bg-[var(--color-secondary)] backdrop-blur-md border border-white/20 rounded-3xl p-6 mb-6 text-white">
+<div class="bg-(--color-secondary) backdrop-blur-md border border-white/20 rounded-3xl p-6 mb-6 text-white">
     <div class="flex justify-between items-center">
         <div>
             <h1 class="text-3xl font-semibold text-white mb-0">
@@ -18,16 +18,24 @@
             <i class="bi bi-plus-lg"></i>
             Create New Occupation
         </a> *@
+
+
+         <a asp-action="Statistics" 
+           class="inline-flex items-center gap-2 px-6 py-3.5 bg-(--color-primary) text-white font-semibold rounded-2xl hover:bg-(--color-primary-dark) transition">
+            <i class="bi bi-bar-chart"></i>
+            Statistiques
+        </a>
     </div>
 </div>
 
-<div class="bg-[var(--color-secondary)] backdrop-blur-md border border-white/20 rounded-3xl overflow-hidden">
+<div class="bg-(--color-secondary) backdrop-blur-md border border-white/20 rounded-3xl overflow-hidden">
     <table class="w-full text-sm text-white">
         <thead>
-            <tr class="bg-[var(--color-secondary-light)] border-b border-white/10">
+            <tr class="bg-(--color-secondary-light) border-b border-white/10">
                 <th class="px-6 py-4 text-left font-semibold text-white">Entrée</th>
                 <th class="px-6 py-4 text-left font-semibold text-white">Sortie</th>
                 <th class="px-6 py-4 text-left font-semibold text-white">Place</th>
+                <th class="px-6 py-4 text-left font-semibold text-white">Zone</th>
                 <th class="px-6 py-4 text-left font-semibold text-white">Client</th>
                 <th class="px-6 py-4 text-left font-semibold text-white">Actions</th>
             </tr>
@@ -35,7 +43,7 @@
         <tbody>
             @foreach (var occupation in Model)
             {
-                <tr class="border-b border-white/10 hover:bg-[var(--color-secondary-light)] transition">
+                <tr class="border-b border-white/10 hover:bg-(--color-secondary-light) transition">
                     <td class="px-6 py-4 font-medium text-white">
                         @occupation.EntryTime.ToString("dd/MM/yyyy HH:mm")
                     </td>
@@ -53,6 +61,9 @@
                         <span class="font-mono font-semibold">@occupation.Place?.Code</span>
                     </td>
                     <td class="px-6 py-4 text-white">
+                        @(@occupation.Place?.Area?.Name ?? "--")
+                    </td>
+                    <td class="px-6 py-4 text-white">
                         @occupation.Client?.Name
                     </td>
                     <td class="px-6 py-4 text-white">
@@ -67,10 +78,13 @@
                                 <i class="bi bi-trash"></i> Supprimer
                             </a>
 
+                            @if (!occupation.ExitTime.HasValue)
+                            {
                             <a asp-action="ReleasePlace" asp-route-id="@occupation.Id"
                                class="px-4 py-2 text-xs font-medium bg-emerald-500/30 text-white rounded-2xl hover:bg-emerald-500/40 transition">
                                 <i class="bi bi-unlock"></i> Libérer
                             </a>
+                            }
                             
                             
                         </div>
