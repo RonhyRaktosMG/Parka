@@ -15,7 +15,7 @@ namespace ParkaApp.Repository.Interfaces
 
         double CalculateTotalAmount(DateTime entryTime, DateTime exitTime);
     
-        Task<Dictionary<string, int>> GetAreaStatisticsAsync(DateTime startDate, DateTime endDate);
-        Task<Dictionary<string, Dictionary<string, int>>> GetPlaceStatisticsPerAreaAsync(DateTime startDate, DateTime endDate);
+        Task<Dictionary<string, int>> GetAreaStatisticsAsync(DateTime startDate, DateTime endDate, string areaName = "All");
+        Task<Dictionary<string, Dictionary<string, int>>> GetPlaceStatisticsPerAreaAsync(DateTime startDate, DateTime endDate, string areaName = "All");
     }
 }

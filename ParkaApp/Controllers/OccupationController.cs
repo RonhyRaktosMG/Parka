@@ -212,7 +212,7 @@ namespace ParkaApp.Controllers
  
  
         // Statistic
-        public async Task<IActionResult> Statistics( DateTime? startDate, DateTime? endDate)
+        public async Task<IActionResult> Statistics( DateTime? startDate, DateTime? endDate, string? areaName)
         {
             // Debug
             Console.WriteLine($"\n\n\n\n\nReceived dates: StartDate={startDate}, EndDate={endDate}\n\n\n\n\n");
@@ -220,18 +220,33 @@ namespace ParkaApp.Controllers
 
             DateTime actualStartDate = startDate ?? DateTime.Now.AddDays(-1); // Last 24 hours
             DateTime actualEndDate = endDate ?? DateTime.Now.AddDays(1); // Include today
+            string actualAreaName = areaName ?? "All";
 
-            Dictionary<string, int> areaStatistics = await _repository.GetAreaStatisticsAsync(actualStartDate, actualEndDate);
+            Dictionary<string, int> areaStatistics = await _repository.GetAreaStatisticsAsync(actualStartDate, actualEndDate, actualAreaName);
             
+
+
             // Place statistics per area
-            Dictionary<string, Dictionary<string, int>> placeStatisticsPerArea = await _repository.GetPlaceStatisticsPerAreaAsync(actualStartDate, actualEndDate);
+            Dictionary<string, Dictionary<string, int>> placeStatisticsPerArea = await _repository.GetPlaceStatisticsPerAreaAsync(actualStartDate, actualEndDate, actualAreaName);
+
+
+            // Liste select options 
+            List<SelectListItem> areaOptions = placeStatisticsPerArea.Keys.Select(
+                area => new SelectListItem {
+                    Value = area,
+                    Text = area
+                }).ToList();
+            areaOptions.Insert(0, new SelectListItem { Value = "All", Text = "Toutes les zones" });
+
 
             var vm = new StatisticViewModel
             {
                 AreaStatistics = areaStatistics,
                 PlaceStatisticsPerArea = placeStatisticsPerArea,
                 StartDate = actualStartDate,
-                EndDate = actualEndDate
+                EndDate = actualEndDate,
+                AreaName = actualAreaName,
+                AreaOptions = areaOptions
             };
 
             return View(vm);

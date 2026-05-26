@@ -239,18 +239,18 @@ namespace ParkaApp.Repository
 
 
         // Statistics
-        public async Task<Dictionary<string, int>> GetAreaStatisticsAsync(DateTime startDate, DateTime endDate)
+        public async Task<Dictionary<string, int>> GetAreaStatisticsAsync(DateTime startDate, DateTime endDate, string areaName = "All")
         {
             return await _context.Occupations
                 .Include(o => o.Place)
                     .ThenInclude(p => p!.Area)
-                .Where(o => o.Place != null && o.Place.Area != null && o.EntryTime >= startDate && (o.ExitTime == null || o.ExitTime <= endDate))
+                .Where(o => o.Place != null && o.Place.Area != null && (areaName == "All" || o.Place.Area.Name == areaName) && o.EntryTime >= startDate && (o.ExitTime == null || o.ExitTime <= endDate))
                 .GroupBy(o => o.Place!.Area!.Name)
                 .Select(g => new { Area = g.Key, Count = g.Count() })
                 .ToDictionaryAsync(x => x.Area, x => x.Count);
         }
 
-        public async Task<Dictionary<string, Dictionary<string, int>>> GetPlaceStatisticsPerAreaAsync(DateTime startDate, DateTime endDate)
+        public async Task<Dictionary<string, Dictionary<string, int>>> GetPlaceStatisticsPerAreaAsync(DateTime startDate, DateTime endDate, string areaName = "All")
         {
             var areas = await _context.Areas.ToListAsync();
 
@@ -260,7 +260,7 @@ namespace ParkaApp.Repository
             {
                 var placeStats = await _context.Occupations
                 .Include(o => o.Place)
-                .Where(o => o.Place != null && o.Place.AreaId == area.Id && o.EntryTime >= startDate && (o.ExitTime == null || o.ExitTime <= endDate))
+                .Where(o => o.Place != null && o.Place.AreaId == area.Id && (areaName == "All" || o.Place!.Area!.Name == areaName) && o.EntryTime >= startDate && (o.ExitTime == null || o.ExitTime <= endDate))
                 .GroupBy(o => o.Place!.Code)
                 .Select(g => new { Place = g.Key, Count = g.Count() })
                 .OrderByDescending(x => x.Count)

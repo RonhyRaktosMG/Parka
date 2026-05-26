@@ -1,76 +1,311 @@
+@using System.Text.Json
 @model ParkaApp.ViewModels.Occupation.StatisticViewModel
 
 @{
     ViewData["Title"] = "Statistiques";
+
+    var areaStatistics = Model.AreaStatistics ?? new Dictionary<string, int>();
+    var placeStatisticsPerArea = Model.PlaceStatisticsPerArea ?? new Dictionary<string, Dictionary<string, int>>();
+
+    var areaLabels = areaStatistics.Keys.ToArray();
+    var areaValues = areaStatistics.Values.ToArray();
+
+    var nonZeroPlaceAreas = placeStatisticsPerArea
+        .Where(area => area.Value.Values.Sum() > 0)
+        .ToList();
+
+    var areaChartData = new
+    {
+        canvasId = "areaPieChart",
+        labels = areaLabels,
+        values = areaValues
+    };
+
+    var placeChartData = nonZeroPlaceAreas.Select((area, index) =>
+    {
+        var topPlaces = area.Value
+            .OrderByDescending(x => x.Value)
+            .ToList();
+
+        return new
+        {
+            canvasId = $"placePieChart-{index}",
+            labels = topPlaces.Select(x => x.Key).ToArray(),
+            values = topPlaces.Select(x => x.Value).ToArray()
+        };
+    }).ToList();
+
+    var areaChartJson = JsonSerializer.Serialize(areaChartData);
+    var placeChartsJson = JsonSerializer.Serialize(placeChartData);
 }
 
-<div class="bg-(--color-secondary) backdrop-blur-md border border-white/20 rounded-3xl p-6 mb-6 text-white">
-    <div class="flex justify-between items-center">
-        <div>
-            <h1 class="text-3xl font-semibold text-white mb-0">
-                Statistiques
-            </h1>
-            <p class="text-white/70 mt-1">Statistiques des occupations</p>
+<div class="space-y-6 text-white">
+    <!-- HEADER -->
+    <div class="bg-(--color-secondary) backdrop-blur-md border border-white/20 rounded-3xl p-6 mb-6 text-white">
+        <div class="flex justify-between items-center">
+            <div>
+                <h1 class="text-3xl font-semibold text-white mb-0">
+                    Statistiques
+                </h1>
+                <p class="text-white/70 mt-1">Consulter les statistiques des occupations de parking</p>
+            </div>
+            
         </div>
-        
     </div>
-</div>
 
-<div class="bg-(--color-secondary) backdrop-blur-md border border-white/20 rounded-3xl overflow-hidden text-white">
-    <!-- Date Filter -->
-    <div class="p-6">
-        <form asp-action="Statistics" method="get">
-            <div class="flex items-center space-x-4">
-                <label asp-for="StartDate" class="text-white">Date de début:</label>
-                <input type="date" id="startDate" asp-for="StartDate" class="bg-(--color-secondary-light) text-white placeholder:text-white/50 border border-white/20 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
-                <label asp-for="EndDate" class="text-white">Date de fin:</label>
-                <input type="date" id="endDate" asp-for="EndDate" class="bg-(--color-secondary-light) text-white placeholder:text-white/50 border border-white/20 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
-                <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md transition">Filtrer</button>
+    <!-- FILTERS -->
+    <section class="bg-(--color-secondary) backdrop-blur-md border border-white/10 rounded-3xl p-5 md:p-6 shadow-lg shadow-black/15 mb-3">
+        <form asp-action="Statistics" method="get" class="space-y-4 lg:space-y-0 lg:flex lg:flex-wrap lg:items-end lg:gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 flex-1">
+                <div class="space-y-2">
+                    <label asp-for="StartDate" class="text-sm font-medium text-white/75">Date de début</label>
+                    <input type="date"
+                           id="startDate"
+                           asp-for="StartDate"
+                           class="w-full rounded-2xl border border-white/10 bg-(--color-secondary-light) px-4 py-3 text-white outline-none transition duration-200 focus:border-white/20 focus:ring-1 focus:ring-white/20" />
+                </div>
+
+                <div class="space-y-2">
+                    <label asp-for="EndDate" class="text-sm font-medium text-white/75">Date de fin</label>
+                    <input type="date"
+                           id="endDate"
+                           asp-for="EndDate"
+                           class="w-full rounded-2xl border border-white/10 bg-(--color-secondary-light) px-4 py-3 text-white outline-none transition duration-200 focus:border-white/20 focus:ring-1 focus:ring-white/20" />
+                </div>
+
+                <div class="space-y-2 sm:col-span-2 lg:col-span-1">
+                    <label asp-for="AreaName" class="text-sm font-medium text-white/75">Zone</label>
+                    <select id="areaName"
+                            asp-for="AreaName"
+                            asp-items="Model.AreaOptions"
+                            class="w-full rounded-2xl border border-white/10 bg-(--color-secondary-light) px-4 py-3 text-white outline-none transition duration-200 focus:border-white/20 focus:ring-1 focus:ring-white/20">
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex justify-start lg:justify-end">
+                <button type="submit"
+                        class="inline-flex items-center gap-2 rounded-2xl bg-(--color-primary) px-5 py-3 text-sm font-medium text-white shadow-sm shadow-black/10 transition duration-200 hover:opacity-95">
+                    <i class="bi bi-funnel"></i>
+                    Filtrer
+                </button>
             </div>
         </form>
-    </div>
+    </section>
 
-    <div class="p-6">
-        <h2 class="text-2xl font-semibold mb-4">Statistiques par Zone</h2>
-        <table class="w-full text-sm text-white mb-6">
-            <thead>
-                <tr class="bg-(--color-secondary-light) border-b border-white/10">
-                    <th class="px-6 py-4 text-left font-semibold text-white">Zone</th>
-                    <th class="px-6 py-4 text-left font-semibold text-white">Nombre d'Occupations</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var areaStat in Model.AreaStatistics)
-                {
-                    <tr class="border-b border-white/10 hover:bg-(--color-secondary-light) transition">
-                        <td class="px-6 py-4 font-medium text-white">@areaStat.Key</td>
-                        <td class="px-6 py-4 font-medium text-white">@areaStat.Value</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+    <!-- SECTION: PAR ZONE -->
+    <section class="bg-(--color-secondary) backdrop-blur-md border border-white/10 rounded-3xl p-6 md:p-8 shadow-lg shadow-black/15 mb-3 mx-16">
+        <div class="flex flex-col gap-2 md:flex-row md:items-end md:justify-between mb-6">
+            <div>
+                <h2 class="text-2xl font-semibold text-white">Statistiques par Zone</h2>
+                <p class="text-sm text-white/60 mt-1">Répartition des occupations par zone sur la période sélectionnée.</p>
+            </div>
+        </div>
 
-        <h2 class="text-2xl font-semibold mb-4">Statistiques par Place et Zone</h2>
-        @foreach (var area in Model.PlaceStatisticsPerArea)
-        {
-            <h3 class="text-xl font-semibold mt-4 mb-2">@area.Key</h3>
-            <table class="w-full text-sm text-white mb-6">
-                <thead>
-                    <tr class="bg-(--color-secondary-light) border-b border-white/10">
-                        <th class="px-6 py-4 text-left font-semibold text-white">Place</th>
-                        <th class="px-6 py-4 text-left font-semibold text-white">Nombre d'Occupations</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var placeStat in area.Value)
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 items-start">
+            <div class="lg:col-span-3 p-4 md:p-5">
+                <div class="relative h-80 md:h-104">
+                    @if (areaStatistics.Any())
                     {
-                        <tr class="border-b border-white/10 hover:bg-(--color-secondary-light) transition">
-                            <td class="px-6 py-4 font-medium text-white">@placeStat.Key</td>
-                            <td class="px-6 py-4 font-medium text-white">@placeStat.Value</td>
-                        </tr>
+                        <canvas id="areaPieChart" class="h-full w-full"></canvas>
                     }
-                </tbody>
-            </table>
+                    else
+                    {
+                        <div class="flex h-full items-center justify-center rounded-3xl border border-dashed border-white/10 text-sm text-white/50">
+                            Aucune statistique disponible.
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="lg:col-span-2 space-y-3">
+                @if (areaStatistics.Any())
+                {
+                    @foreach (var areaStat in areaStatistics)
+                    {
+                        <div class="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
+                            <div class="flex items-center justify-between gap-3">
+                                <div class="flex items-center gap-3 min-w-0">
+                                    <span class="h-2.5 w-2.5 shrink-0 rounded-full bg-(--color-primary)"></span>
+                                    <span class="truncate text-sm font-medium text-white">@areaStat.Key</span>
+                                </div>
+                                <div class="shrink-0 rounded-full border border-white/10 bg-(--color-secondary-light) px-3 py-1 text-xs font-medium text-white/80">
+                                    @areaStat.Value
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-white/55">
+                        Aucune zone à afficher.
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: PAR PLACE ET ZONE -->
+    <section class="space-y-4">
+        <div class="rounded-3xl border border-white/10 bg-(--color-secondary) backdrop-blur-md p-5 md:p-6 shadow-lg shadow-black/15 transition duration-200 hover:border-white/15">
+            <h2 class="text-3xl font-semibold text-white">Statistiques par Place et Zone</h2>
+            <p class="text-sm text-white/60 mt-1">Vue détaillée par zone avec les places les plus occupées.</p>
+        </div>
+
+        @{
+            var placeChartIndex = 0;
         }
-    </div>
+
+        @foreach (var area in placeStatisticsPerArea)
+        {
+            if (area.Value.Values.Sum() == 0)
+            {
+                continue;
+            }
+
+            var topPlaces = area.Value
+                .OrderByDescending(x => x.Value)
+                .ToList();
+
+            var currentCanvasId = $"placePieChart-{placeChartIndex}";
+
+            <article class="rounded-3xl border border-white/10 bg-(--color-secondary) backdrop-blur-md p-5 md:p-6 shadow-lg shadow-black/15 transition duration-200 hover:border-white/15 mx-16">
+                <div class="flex items-start justify-between gap-4 mb-5">
+                    <div>
+                        <h3 class="text-xl font-semibold text-white">@area.Key</h3>
+                        <p class="text-sm text-white/60 mt-1">Répartition des places occupées dans cette zone.</p>
+                    </div>
+                    <div class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70">
+                        @topPlaces.Sum(x => x.Value) occupations
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 xl:grid-cols-5 gap-6 items-start">
+                    <div class="xl:col-span-3 p-4 md:p-5">
+                        <div class="relative h-72 md:h-80">
+                            <canvas id="@currentCanvasId" class="h-full w-full"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="xl:col-span-2 space-y-3 max-h-80 overflow-y-auto pr-1">
+                        @foreach (var placeStat in topPlaces)
+                        {
+                            <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+                                <div class="flex items-center justify-between gap-3">
+                                    <div class="min-w-0">
+                                        <p class="truncate text-sm font-medium text-white">@placeStat.Key</p>
+                                    </div>
+                                    <span class="shrink-0 rounded-full border border-white/10 bg-(--color-secondary-light) px-3 py-1 text-xs font-medium text-white/80">
+                                        @placeStat.Value
+                                    </span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </article>
+
+            placeChartIndex++;
+        }
+    </section>
 </div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script>
+        $(function () {
+            function cssColorToRgb(color) {
+                if (!color) {
+                    return [237, 125, 39];
+                }
+
+                const probe = document.createElement('span');
+                probe.style.color = color;
+                document.body.appendChild(probe);
+
+                const resolved = getComputedStyle(probe).color;
+                document.body.removeChild(probe);
+
+                const match = resolved.match(/\d+/g);
+                if (!match || match.length < 3) {
+                    return [237, 125, 39];
+                }
+
+                return [parseInt(match[0]), parseInt(match[1]), parseInt(match[2])];
+            }
+
+            function primaryPalette(count) {
+                const primary = getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim();
+                const primaryRgb = cssColorToRgb(primary || '#ed7d27');
+
+                const palette = [
+                    `rgba(${primaryRgb[0]}, ${primaryRgb[1]}, ${primaryRgb[2]}, 0.95)`,
+                    'rgba(217, 100, 30, 0.82)',
+                    'rgba(194, 149, 84, 0.78)',
+                    'rgba(123, 97, 58, 0.72)',
+                    'rgba(94, 114, 128, 0.76)',
+                    'rgba(77, 124, 110, 0.74)',
+                    'rgba(107, 114, 128, 0.70)',
+                    'rgba(146, 97, 97, 0.68)',
+                    'rgba(88, 86, 118, 0.70)',
+                    'rgba(166, 139, 101, 0.66)'
+                ];
+
+                return Array.from({ length: count }, (_, index) => palette[index % palette.length]);
+            }
+
+            function createPieChart(canvasId, labels, values) {
+                const canvas = document.getElementById(canvasId);
+                if (!canvas) {
+                    return;
+                }
+
+                const colors = primaryPalette(labels.length);
+
+                new Chart(canvas, {
+                    type: 'pie',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: values,
+                            backgroundColor: colors,
+                            borderColor: 'rgba(255,255,255,0.10)',
+                            borderWidth: 1,
+                            hoverBorderWidth: 1,
+                            hoverOffset: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        animation: {
+                            duration: 700,
+                            easing: 'easeOutQuart'
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(20, 20, 20, 0.95)',
+                                titleColor: '#fff',
+                                bodyColor: '#fff',
+                                displayColors: true,
+                                padding: 12
+                            }
+                        }
+                    }
+                });
+            }
+
+            const areaChartData = @Html.Raw(areaChartJson);
+            createPieChart(areaChartData.canvasId, areaChartData.labels, areaChartData.values);
+
+            const placeChartsData = @Html.Raw(placeChartsJson);
+            placeChartsData.forEach(function (chart) {
+                createPieChart(chart.canvasId, chart.labels, chart.values);
+            });
+        });
+    </script>
+}
