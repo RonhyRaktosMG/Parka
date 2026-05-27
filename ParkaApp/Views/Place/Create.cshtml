@@ -7,7 +7,7 @@
 <div class="form-container mx-auto max-w-2xl">
     <div class="form">
         <span class="heading">Créer une Nouvelle Place</span>
-        <span class="c1">Ajoutez une place de parking à une zone</span>
+        <span class="c1">Ajoutez une place de parking à la zone #@Model.AreaId</span>
 
         <form asp-action="Create" method="post">
             <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
@@ -24,16 +24,8 @@
             </div>
 
             <!-- Parking Area -->
-            <div class="input-group">
-                <label asp-for="AreaId" class="label">
-                    <i class="bi bi-map me-2"></i>Id Zone
-                </label>
-                <input asp-for="AreaId" 
-                       type="number"
-                       class="input"
-                       placeholder="Entrez l'ID de la zone" />
-                <span asp-validation-for="AreaId" class="error-msg"></span>
-            </div>
+            <input asp-for="AreaId" 
+                       type="hidden" />
 
 
             <!-- Buttons -->
@@ -43,7 +35,7 @@
                     Créer
                 </button>
 
-                <a asp-action="Index" class="reset-button">
+                <a asp-controller="Area" asp-action="Details" asp-route-id="@Model.AreaId" class="reset-button">
                     <i class="bi bi-x-circle me-2"></i>
                     Annuler
                 </a>

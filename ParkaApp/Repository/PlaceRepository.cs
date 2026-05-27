@@ -53,7 +53,14 @@ namespace ParkaApp.Repository
             if (!isCodeUnique)
             {                
                 return false;
-            }                                                   
+            }                                   
+
+            // Check if the Area exists
+            var area = await _context.Areas.FindAsync(Place.AreaId);
+            if (area == null)
+            {
+                return false;
+            }                
 
             _context.Places.Update(Place);
             await _context.SaveChangesAsync();

@@ -16,7 +16,7 @@ namespace ParkaApp.Repository
 
         public async Task<IEnumerable<Occupation>> GetAllAsync()
         {
-            return await _context.Occupations.Include(p => p.Client).Include(p => p.Place).Include(p => p.Place!.Area).ToListAsync();
+            return await _context.Occupations.Include(p => p.Client).Include(p => p.Place).Include(p => p.Place!.Area).OrderByDescending(p => p.EntryTime).ToListAsync();
         }
 
         public async Task<Occupation?> GetByIdAsync(int id)

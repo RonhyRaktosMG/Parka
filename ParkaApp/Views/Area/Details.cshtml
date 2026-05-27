@@ -24,18 +24,13 @@
                 <i class="bi bi-pencil"></i>
                 Modifier la Zone
             </a>
-            <a asp-action="Index" 
-               class="inline-flex items-center gap-2 px-6 py-3 border border-gray-300 text-(--color-secondary) rounded-2xl hover:bg-gray-50 transition font-medium">
-                <i class="bi bi-arrow-left"></i>
-                Retour à la liste
-            </a>
         </div>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         <!-- Area Information -->
-        <div class=" bg-[var(--color-secondary)] backdrop-blur-md border border-white/20 rounded-3xl p-8 text-white">           
+        <div class=" bg-(--color-secondary) backdrop-blur-md border border-white/20 rounded-3xl p-8 text-white">           
             <div class="grid grid-cols-3 gap-4 pt-4 text-sm">
                 <div>
                     <p class="text-xs font-medium text-white/50">ID</p>
@@ -53,7 +48,7 @@
         </div>
 
         <!-- Statistics -->
-        <div class="lg:col-span-2 flex flex-row justify-center items-center gap-12 bg-[var(--color-secondary)] backdrop-blur-md border border-white/20 rounded-3xl p-8 text-white">
+        <div class="lg:col-span-2 flex flex-row justify-center items-center gap-12 bg-(--color-secondary) backdrop-blur-md border border-white/20 rounded-3xl p-8 text-white">
                 <div>
                     <p class="text-sm font-medium text-white/50">Places totales</p>
                     <p class="text-lg font-medium text-white text-center">@Model.Places.Count</p>
@@ -75,7 +70,7 @@
 
     <!-- Parking Places Section -->
     <div class="mt-16 rounded-4xl overflow-hidden">
-        <div class="backdrop-blur-md flex justify-between items-center border-b border-white/10 px-8 py-6 bg-[var(--color-secondary-light)]">
+        <div class="backdrop-blur-md flex justify-between items-center border-b border-white/10 px-8 py-6 bg-(--color-secondary-light)">
             <h2 class="text-xl font-semibold text-white flex items-center gap-3">
                 <i class="bi bi-p-circle-fill text-blue-300"></i>
                 Places de parking (@Model.Places.Count)
@@ -155,12 +150,19 @@
                                     </div>
                                 </div>
 
-                                <!-- Center Assign Button (visible on hover) -->
+                                <!-- Center Assign/Release Button (visible on hover) -->
                                 <div class="absolute inset-0 flex items-center justify-center">
-                                    <a asp-action="AssignPlace" asp-controller="Occupation" asp-route-placeId="@place.Id"
-                                    class="flex scale-0 items-center gap-2 rounded-full bg-[var(--color-secondary)] px-6 py-3 text-sm font-semibold backdrop-blur-xl transition duration-300 group-hover:scale-100 hover:bg-[var(--color-secondary-light)]">
-                                        <i class="bi bi-person-plus text-lg"></i>
-                                    </a>
+                                    @if (place.Status == PlaceStatus.Occupied)
+                                    {
+                                        <i class="bi bi-lock-fill text-lg text-red-500/70 "></i>
+                                    }
+                                    else
+                                    {
+                                        <a asp-action="AssignPlace" asp-controller="Occupation" asp-route-placeId="@place.Id"
+                                        class="flex scale-0 items-center gap-2 rounded-full bg-(--color-secondary) px-6 py-3 text-sm font-semibold backdrop-blur-xl transition duration-300 group-hover:scale-100 hover:bg-(--color-secondary-light)">
+                                            <i class="bi bi-person-plus text-lg text-white"></i>
+                                        </a>
+                                    }
                                 </div>
 
                                 <!-- Bottom Actions -->
