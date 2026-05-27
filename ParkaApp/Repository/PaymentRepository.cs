@@ -82,5 +82,20 @@ namespace ParkaApp.Repository
             }
             return false;
         }
+
+
+        // Statistics
+        public async Task<Dictionary<string, double>> GetTotalRevenuePerDateAsync(DateTime startDate, DateTime endDate)
+        {
+            var payments = await _context.Payments
+                .Where(p => p.StartDate >= startDate && p.EndDate <= endDate)
+                .ToListAsync();
+
+            var revenueByDay = payments
+                .GroupBy(p => p.StartDate.Date)
+                .ToDictionary(g => g.Key.ToString("yyyy-MM-dd"), g => g.Sum(p => p.Amount));
+
+            return revenueByDay;
+        }
     }
 }

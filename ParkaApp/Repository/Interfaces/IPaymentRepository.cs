@@ -10,5 +10,8 @@ namespace ParkaApp.Repository.Interfaces
         Task<bool> AddAsync(Payment Payment, string carPlate);
         Task<bool> UpdateAsync(Payment Payment);
         Task<bool> DeleteAsync(int id);
+
+        Task<Dictionary<string, double>> GetTotalRevenuePerDateAsync(DateTime startDate, DateTime endDate);
+
     }
 }

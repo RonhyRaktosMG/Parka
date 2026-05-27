@@ -1,4 +1,5 @@
 using ListeEtudiant.Data;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using ParkaApp.Repository;
 using ParkaApp.Repository.Interfaces;
@@ -34,7 +35,15 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapStaticAssets();
-app.UseStaticFiles();
+
+
+var provider = new FileExtensionContentTypeProvider();
+provider.Mappings[".mp4"] = "video/mp4";
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    ContentTypeProvider = provider
+});
 
 app.MapControllerRoute(
     name: "default",

@@ -122,5 +122,26 @@ namespace ParkaApp.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+
+
+        // Statistics
+        public async Task<IActionResult> Statistics(DateTime? startDate, DateTime? endDate)
+        {
+            DateTime actualStartDate = startDate ?? DateTime.Now.AddMonths(-1);
+            DateTime actualEndDate = endDate ?? DateTime.Now.AddDays(1);
+            
+            
+            var revenue = await _repository.GetTotalRevenuePerDateAsync(actualStartDate, actualEndDate);
+
+            PaymentStatisticViewModel vm = new PaymentStatisticViewModel
+            {
+                StartDate = actualStartDate,
+                EndDate = actualEndDate,
+                TotalRevenuePerDate = revenue
+            };
+
+            return View(vm);
+        }
     }
 }

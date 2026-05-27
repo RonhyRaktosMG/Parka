@@ -1,0 +1,133 @@
+@model ParkaApp.ViewModels.Payment.PaymentStatisticViewModel
+
+@{
+    ViewData["Title"] = "Payment Statistics";
+}
+
+
+<div class="space-y-6 text-white">
+    <!-- HEADER -->
+    <div class="bg-(--color-secondary) backdrop-blur-md border border-white/20 rounded-3xl p-6 mb-6 text-white">
+        <div class="flex justify-between items-center">
+            <div>
+                <h1 class="text-3xl font-semibold text-white mb-0">
+                    Statistiques
+                </h1>
+                <p class="text-white/70 mt-1">Consulter les statistiques des paiements</p>
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- FILTERS -->
+    <section class="bg-(--color-secondary) backdrop-blur-md border border-white/10 rounded-3xl p-5 md:p-6 shadow-lg shadow-black/15 mb-3">
+        <form asp-action="Statistics" method="get" class="space-y-4 lg:space-y-0 lg:flex lg:flex-wrap lg:items-end lg:gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 flex-1">
+                <div class="space-y-2">
+                    <label asp-for="StartDate" class="text-sm font-medium text-white/75">Date de début</label>
+                    <input type="date"
+                           id="startDate"
+                           asp-for="StartDate"
+                           class="w-full rounded-2xl border border-white/10 bg-(--color-secondary-light) px-4 py-3 text-white outline-none transition duration-200 focus:border-white/20 focus:ring-1 focus:ring-white/20" />
+                </div>
+
+                <div class="space-y-2">
+                    <label asp-for="EndDate" class="text-sm font-medium text-white/75">Date de fin</label>
+                    <input type="date"
+                           id="endDate"
+                           asp-for="EndDate"
+                           class="w-full rounded-2xl border border-white/10 bg-(--color-secondary-light) px-4 py-3 text-white outline-none transition duration-200 focus:border-white/20 focus:ring-1 focus:ring-white/20" />
+                </div>
+            </div>
+
+            <div class="flex justify-start lg:justify-end">
+                <button type="submit"
+                        class="inline-flex items-center gap-2 rounded-2xl bg-(--color-primary) px-5 py-3 text-sm font-medium text-white shadow-sm shadow-black/10 transition duration-200 hover:opacity-95">
+                    <i class="bi bi-funnel"></i>
+                    Filtrer
+                </button>
+            </div>
+        </form>
+    </section>
+    
+
+    <!-- CHART -->
+    <section class="bg-(--color-secondary) backdrop-blur-md border border-white/10 rounded-3xl p-5 md:p-6 shadow-lg shadow-black/15 mb-3">
+        <div class="h-100">
+            <canvas id="paymentsChart"></canvas>
+        </div>
+    </section>
+
+    @section Scripts {
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script>
+            const labels = [
+                @foreach (var kvp in Model.TotalRevenuePerDate)
+                {
+                        <text>"@kvp.Key",</text>
+                }
+            ];
+
+            const data = [
+                @foreach (var kvp in Model.TotalRevenuePerDate)
+                {
+                        <text>@kvp.Value,</text>
+                }
+            ];
+
+            const ctx = document.getElementById('paymentsChart');
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Paiements (Ar)',
+                        data: data,
+                        borderColor: '#ffffff',
+                        backgroundColor: 'rgba(255,255,255,0.08)',
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#ffffff',
+                        pointBorderColor: '#ffffff',
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: 'white'
+                            }
+                        }
+                    },
+
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: 'rgba(255,255,255,0.7)'
+                            },
+                            grid: {
+                                color: 'rgba(255,255,255,0.05)'
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                color: 'rgba(255,255,255,0.7)'
+                            },
+                            grid: {
+                                color: 'rgba(255,255,255,0.05)'
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+    }
+
+</div>
