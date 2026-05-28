@@ -82,9 +82,18 @@
     document.addEventListener("DOMContentLoaded", function () {
         const map = L.map('map').setView([-18.8792, 47.5079], 13);
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        @* L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; OpenStreetMap contributors'
-        }).addTo(map);
+        }).addTo(map); *@
+
+        L.tileLayer(
+            'https://server.arcgisonline.com/ArcGIS/rest/services/' +
+            'World_Imagery/MapServer/tile/{z}/{y}/{x}',
+            {
+            attribution:
+                '&copy; Esri & contributors'
+            }
+        ).addTo(map);
 
         @foreach (var area in Model)
         {

@@ -1,25 +1,126 @@
 ﻿@{
-    ViewData["Title"] = "Accueil";
+    ViewData["Title"] = "ParkaApp";
 }
 
-<div class="relative h-[70vh] flex items-center justify-center bg-cover bg-center bg-no-repeat">
-    
+<style>
+    .hero-split {
+        min-height: 100vh;
+    }
 
-    <!-- Content -->
-    <div class="relative z-10 text-center px-6 mx-auto">
-        <h1 style="font-size: 175px; color: var(--color-primary)" class="font-rubik font-bold tracking-tight mb-4">
-            ParkaApp
-        </h1>
-        
-        <p class="text-xl md:text-2xl text-white/90 mb-10 max-w-md mx-auto">
-            Gérez vos places de parking efficacement et intelligemment
-        </p>
+    .hero-video-pane {
+        clip-path: polygon(0 0, 100% 0, 86% 100%, 0 100%);
+    }
 
-        <a asp-controller="Area" asp-action="Index"
-           class="inline-flex items-center gap-3 px-8 py-4 bg-(--color-primary) hover:bg-(--color-primary-dark) text-white text-lg font-semibold rounded-3xl transition-all shadow-lg hover:shadow-xl">
-            <i class="bi bi-map"></i>
-            Voir les zones de parking
-        </a>
-    </div>
+    .hero-copy-pane {
+        clip-path: polygon(14% 0, 100% 0, 100% 100%, 0 100%);
+    }
 
+    .hero-fade-text {
+        transition: opacity 900ms ease, transform 900ms ease;
+        will-change: opacity, transform;
+    }
+
+    @@media (max-width: 1023px) {
+        .hero-video-pane,
+        .hero-copy-pane {
+            clip-path: none !important;
+        }
+    }
+</style>
+
+<div class="hero-split fixed inset-0 overflow-hidden bg-asphalt text-soft">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(237,125,39,0.08),transparent_34%),radial-gradient(circle_at_80%_30%,rgba(255,255,255,0.05),transparent_26%),linear-gradient(180deg,rgba(0,0,0,0.08),rgba(0,0,0,0.28))] pointer-events-none"></div>
+
+    <section class="hero-video-pane relative h-[52vh] lg:absolute lg:inset-y-0 lg:left-0 lg:h-full lg:w-[58vw] overflow-hidden">
+        <video class="absolute inset-0 h-full w-full object-cover scale-[1.04]"
+               autoplay
+               muted
+               loop
+               playsinline
+               preload="auto"
+               poster="~/images/parking-hero-poster.jpg"
+               aria-hidden="true">
+            <source src="~/videos/landing_background.mp4" type="video/mp4" />
+        </video>
+
+        <div class="absolute inset-0 bg-linear-to-b from-black/70 via-black/35 to-black/75"></div>
+        <div class="absolute inset-0 bg-[linear-gradient(120deg,rgba(0,0,0,0.30)_0%,rgba(0,0,0,0.08)_55%,rgba(0,0,0,0.35)_100%)]"></div>
+    </section>
+
+    <section class="hero-copy-pane relative flex h-[48vh] items-center justify-end lg:absolute lg:inset-y-0 lg:right-0 lg:h-full lg:left-[41vw] bg-asphalt">
+        <div class="w-xl">
+            <div class="max-w-3xl text-white ml-auto">
+                <h1 style="color: var(--color-primary); font-size: 92px  " class="font-black font-rubik">
+                    ParkaApp
+                </h1>
+
+                <div class="mt-8 h-18 max-w-2xl overflow-hidden sm:h-20 lg:h-24 ml-auto px-8">
+                    <p id="hero-copy"
+                       class="hero-fade-text text-[clamp(1.15rem,2.2vw,1.85rem)] font-medium leading-snug tracking-[-0.02em] text-soft/88 opacity-100 translate-y-0">
+                        Transformez vos terrains vides en source de revenus
+                    </p>
+                </div>
+
+                <div class="mt-10 flex items-center gap-6 justify-center">
+                    <a asp-controller="Area" asp-action="Index"
+                    class="inline-flex items-center gap-3 px-8 py-4 bg-(--color-primary) hover:bg-(--color-primary-dark) text-white text-lg font-semibold rounded-3xl transition-all shadow-lg hover:shadow-xl">
+                        <i class="bi bi-map"></i>
+                        Voir les zones
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
+
+@section Scripts {
+    <script>
+        (() => {
+            const menu = document.getElementById('floatingMenu');
+            const button = document.getElementById('menuButton');
+
+            if (menu) {
+                menu.style.display = 'none';
+            }
+
+            if (button) {
+                button.style.display = 'none';
+            }
+
+            const messages = [
+                'Transformez vos terrains vides en source de revenus',
+                'Gérez facilement vos parkings depuis une seule plateforme',
+                'Suivez les occupations de parking en temps réel',
+                'Digitalisez la gestion de vos terrains de stationnement',
+                'Contrôlez les paiements et les occupations simplement',
+                'Optimisez l’utilisation de chaque place de parking',
+                'Une solution moderne pour gérer vos parkings à Madagascar',
+                'Simplifiez l’administration de vos espaces de stationnement',
+                'Réduisez le désordre dans la gestion quotidienne des parkings',
+                'De terrain vide à parking organisé et rentable'
+            ];
+
+            const copy = document.getElementById('hero-copy');
+
+            if (!copy) {
+                return;
+            }
+
+            let index = 0;
+
+            const showNext = () => {
+                copy.style.opacity = '0';
+                copy.style.transform = 'translateY(14px)';
+
+                window.setTimeout(() => {
+                    index = (index + 1) % messages.length;
+                    copy.textContent = messages[index];
+                    copy.style.opacity = '1';
+                    copy.style.transform = 'translateY(0)';
+                }, 520);
+            };
+
+            window.setInterval(showNext, 4200);
+        })();
+    </script>
+}
