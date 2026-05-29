@@ -47,7 +47,7 @@
         <div class="absolute inset-0 bg-[linear-gradient(120deg,rgba(0,0,0,0.30)_0%,rgba(0,0,0,0.08)_55%,rgba(0,0,0,0.35)_100%)]"></div>
     </section>
 
-    <section class="hero-copy-pane relative flex h-[48vh] items-center justify-end lg:absolute lg:inset-y-0 lg:right-0 lg:h-full lg:left-[41vw] bg-asphalt">
+    <section class="hero-copy-pane relative flex h-[48vh] items-center justify-end lg:absolute lg:inset-y-0 lg:right-0 lg:h-full lg:left-[41vw] bg-asphalt pr-13 text-right">
         <div class="w-xl">
             <div class="max-w-3xl text-white ml-auto">
                 <h1 style="color: var(--color-primary); font-size: 92px  " class="font-black font-rubik">
@@ -61,11 +61,16 @@
                     </p>
                 </div>
 
-                <div class="mt-10 flex items-center gap-6 justify-center">
+                <div class="mt-10 flex items-center gap-6 justify-end">
                     <a asp-controller="Area" asp-action="Index"
-                    class="inline-flex items-center gap-3 px-8 py-4 bg-(--color-primary) hover:bg-(--color-primary-dark) text-white text-lg font-semibold rounded-3xl transition-all shadow-lg hover:shadow-xl">
+                    class="inline-flex items-center gap-3 px-8 py-4 bg-(--color-primary) hover:bg-(--color-primary-dark) text-white text-lg font-semibold rounded transition-all shadow-lg hover:shadow-xl">
                         <i class="bi bi-map"></i>
                         Voir les zones
+                    </a>
+                    <a asp-controller="Client" asp-action="Index"
+                    class="inline-flex items-center gap-3 px-8 py-4 bg-(--color-primary) hover:bg-(--color-primary-dark) text-white text-lg font-semibold rounded transition-all shadow-lg hover:shadow-xl">
+                        <i class="bi bi-person-circle"></i>
+                        Liste Client
                     </a>
                 </div>
             </div>

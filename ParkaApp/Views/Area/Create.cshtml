@@ -137,7 +137,7 @@
                 map.removeLayer(marker);
             }
 
-            // Ajouter nouveau marker (on garde le point pour Leaflet)
+            // Ajouter nouveau marker
             marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map)
                 .bindPopup(`<b>Position sélectionnée</b><br>Lat: ${lat}<br>Lng: ${lng}`)
                 .openPopup();
