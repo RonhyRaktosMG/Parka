@@ -218,7 +218,7 @@ namespace ParkaApp.Controllers
             Console.WriteLine($"\n\n\n\n\nReceived dates: StartDate={startDate}, EndDate={endDate}\n\n\n\n\n");
 
 
-            DateTime actualStartDate = startDate ?? DateTime.Now.AddDays(-1); // Last 24 hours
+            DateTime actualStartDate = startDate ?? DateTime.Now.AddMonths(-1); // Last Month
             DateTime actualEndDate = endDate ?? DateTime.Now.AddDays(1); // Include today
             string actualAreaName = areaName ?? "All";
 
