@@ -4,7 +4,7 @@ namespace ParkaApp.Repository.Interfaces
 {
     public interface IOccupationRepository
     {
-        Task<IEnumerable<Occupation>> GetAllAsync();
+        Task<IEnumerable<Occupation>> GetAllAsync(string? search = null);
         Task<Occupation?> GetByIdAsync(int id);
         Task<bool> AddAsync(Occupation Occupation);
         Task<bool> UpdateAsync(Occupation Occupation);

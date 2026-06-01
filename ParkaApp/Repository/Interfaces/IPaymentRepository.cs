@@ -4,7 +4,7 @@ namespace ParkaApp.Repository.Interfaces
 {
     public interface IPaymentRepository
     {
-        Task<IEnumerable<Payment>> GetAllAsync();
+        Task<IEnumerable<Payment>> GetAllAsync(string? searchString = null);
         Task<Payment?> GetByIdAsync(int id);
         Task<Payment?> GetLastPaymentAsync(int clientId);
         Task<bool> AddAsync(Payment Payment, string carPlate);

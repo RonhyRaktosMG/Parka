@@ -14,9 +14,15 @@ namespace ParkaApp.Repository
             _context = context;
         }
 
-        public async Task<IEnumerable<Client>> GetAllAsync()
+        public async Task<IEnumerable<Client>> GetAllAsync(string? search = null)
         {
-            return await _context.Clients.ToListAsync();
+            var query = _context.Clients.AsQueryable();
+            if (!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(c => c.Name!.ToLower().Contains(search.ToLower()) || c.CarPlate!.ToLower().Contains(search.ToLower()));
+            }
+        
+            return await query.ToListAsync();
         }
 
 

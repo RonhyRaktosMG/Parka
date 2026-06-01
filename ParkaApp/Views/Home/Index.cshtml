@@ -2,31 +2,8 @@
     ViewData["Title"] = "ParkaApp";
 }
 
-<style>
-    .hero-split {
-        min-height: 100vh;
-    }
+<link rel="stylesheet" href="~/css/home-hero.css" />
 
-    .hero-video-pane {
-        clip-path: polygon(0 0, 100% 0, 86% 100%, 0 100%);
-    }
-
-    .hero-copy-pane {
-        clip-path: polygon(14% 0, 100% 0, 100% 100%, 0 100%);
-    }
-
-    .hero-fade-text {
-        transition: opacity 900ms ease, transform 900ms ease;
-        will-change: opacity, transform;
-    }
-
-    @@media (max-width: 1023px) {
-        .hero-video-pane,
-        .hero-copy-pane {
-            clip-path: none !important;
-        }
-    }
-</style>
 
 <div class="hero-split fixed inset-0 overflow-hidden bg-asphalt text-soft">
     <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(237,125,39,0.08),transparent_34%),radial-gradient(circle_at_80%_30%,rgba(255,255,255,0.05),transparent_26%),linear-gradient(180deg,rgba(0,0,0,0.08),rgba(0,0,0,0.28))] pointer-events-none"></div>
@@ -79,53 +56,5 @@
 </div>
 
 @section Scripts {
-    <script>
-        (() => {
-            const menu = document.getElementById('floatingMenu');
-            const button = document.getElementById('menuButton');
-
-            if (menu) {
-                menu.style.display = 'none';
-            }
-
-            if (button) {
-                button.style.display = 'none';
-            }
-
-            const messages = [
-                'Transformez vos terrains vides en source de revenus',
-                'Gérez facilement vos parkings depuis une seule plateforme',
-                'Suivez les occupations de parking en temps réel',
-                'Digitalisez la gestion de vos terrains de stationnement',
-                'Contrôlez les paiements et les occupations simplement',
-                'Optimisez l’utilisation de chaque place de parking',
-                'Une solution moderne pour gérer vos parkings à Madagascar',
-                'Simplifiez l’administration de vos espaces de stationnement',
-                'Réduisez le désordre dans la gestion quotidienne des parkings',
-                'De terrain vide à parking organisé et rentable'
-            ];
-
-            const copy = document.getElementById('hero-copy');
-
-            if (!copy) {
-                return;
-            }
-
-            let index = 0;
-
-            const showNext = () => {
-                copy.style.opacity = '0';
-                copy.style.transform = 'translateY(14px)';
-
-                window.setTimeout(() => {
-                    index = (index + 1) % messages.length;
-                    copy.textContent = messages[index];
-                    copy.style.opacity = '1';
-                    copy.style.transform = 'translateY(0)';
-                }, 520);
-            };
-
-            window.setInterval(showNext, 4200);
-        })();
-    </script>
+    <script src="~/js/hero-copy.js"></script>
 }

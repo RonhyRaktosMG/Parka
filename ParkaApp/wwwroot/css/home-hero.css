@@ -1,0 +1,23 @@
+.hero-split {
+    min-height: 100vh;
+}
+
+.hero-video-pane {
+    clip-path: polygon(0 0, 100% 0, 86% 100%, 0 100%);
+}
+
+.hero-copy-pane {
+    clip-path: polygon(14% 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.hero-fade-text {
+    transition: opacity 900ms ease, transform 900ms ease;
+    will-change: opacity, transform;
+}
+
+@media (max-width: 1023px) {
+    .hero-video-pane,
+    .hero-copy-pane {
+        clip-path: none !important;
+    }
+}

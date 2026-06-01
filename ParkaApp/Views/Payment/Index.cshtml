@@ -3,97 +3,115 @@
     ViewData["Title"] = "Paiements";
 }
 
-<!-- Header -->
-<div class="bg-(--color-secondary) backdrop-blur-md border border-white/20 rounded-3xl p-6 mb-6 text-white">
-    <div class="flex justify-between items-center">
-        <div>
-            <h1 class="text-3xl font-semibold text-white mb-0">
-                Paiements
-            </h1>
-            <p class="text-white/80 mt-1">
-                Gestion des paiements et abonnements
-            </p>
+
+<div class="min-w-[80vw]">
+    <!-- Header -->
+    <div class="bg-(--color-secondary) backdrop-blur-md border border-white/20 rounded-3xl p-6 mb-6 text-white">
+        <div class="flex justify-between items-center">
+            <div>
+                <h1 class="text-3xl font-semibold text-white mb-0">
+                    Paiements
+                </h1>
+                <p class="text-white/80 mt-1">
+                    Gestion des paiements et abonnements
+                </p>
+            </div>
+            <a asp-action="Create"
+            class="inline-flex items-center gap-2 px-6 py-3.5 bg-(--color-primary) hover:bg-(--color-primary-dark) text-white font-semibold rounded-2xl transition">
+                <i class="bi bi-plus-lg"></i>
+                Nouveau Paiement
+            </a>
+            <a asp-action="Statistics"
+            class="inline-flex items-center gap-2 px-6 py-3.5 bg-(--color-primary) hover:bg-(--color-primary-dark) text-white font-semibold rounded-2xl transition">
+                <i class="bi bi-bar-chart"></i>
+                Statistiques
+            </a>
         </div>
-        <a asp-action="Create"
-           class="inline-flex items-center gap-2 px-6 py-3.5 bg-(--color-primary) hover:bg-(--color-primary-dark) text-white font-semibold rounded-2xl transition">
-            <i class="bi bi-plus-lg"></i>
-            Nouveau Paiement
-        </a>
-        <a asp-action="Statistics"
-           class="inline-flex items-center gap-2 px-6 py-3.5 bg-(--color-primary) hover:bg-(--color-primary-dark) text-white font-semibold rounded-2xl transition">
-            <i class="bi bi-bar-chart"></i>
-            Statistiques
-        </a>
     </div>
-</div>
 
-<!-- Table Card -->
-<div class="bg-(--color-secondary) backdrop-blur-md border border-white/20 rounded-3xl overflow-hidden">
-    <table class="w-full text-sm text-white">
-        <thead>
-            <tr class="bg-(--color-secondary-light) border-b border-white/10">
-                <th class="px-6 py-4 text-left font-semibold">ID</th>
-                <th class="px-6 py-4 text-left font-semibold">Montant</th>
-                <th class="px-6 py-4 text-left font-semibold">Type</th>
-                <th class="px-6 py-4 text-left font-semibold">Début</th>
-                <th class="px-6 py-4 text-left font-semibold">Fin</th>
-                <th class="px-6 py-4 text-left font-semibold">Client</th>
-                <th class="px-6 py-4 text-left font-semibold">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var payment in Model)
-            {
-                <tr class="border-b border-white/10 hover:bg-(--color-secondary-light) transition">
-                    <td class="px-6 py-4 font-medium">@payment.Id</td>
-                    <td class="px-6 py-4 font-semibold">
-                        @payment.Amount <span class="text-white/60 text-xs">Ar</span>
-                    </td>
-                    <td class="px-6 py-4">
-                        <span class="inline-flex px-3 py-1 text-xs font-medium rounded-2xl
-                              bg-emerald-500/20 text-emerald-300")">
-                            @switch(payment.Type)
-                            {
-                                case ParkaApp.Models.PaymentType.Hourly:
-                                    @:par heure
-                                    break;
-                                case ParkaApp.Models.PaymentType.Daily:
-                                    @:Par jour
-                                    break;
-                                case ParkaApp.Models.PaymentType.Monthly:
-                                    @:Par mois
-                                    break;
-                                default:
-                                    @:Abonnement
-                                    break;
-                            }
-                        </span>
-                    </td>
-                    <td class="px-6 py-4 text-white/90">@payment.StartDate.ToShortDateString()</td>
-                    <td class="px-6 py-4 text-white/90">@payment.EndDate.ToShortDateString()</td>
-                    <td class="px-6 py-4">@(payment.Client?.Name ?? "—") | @(payment.Client?.CarPlate ?? "—")</td>
-                    <td class="px-6 py-4">
-                        <div class="flex gap-2">
-                            <a asp-action="Edit" asp-route-id="@payment.Id"
-                               class="px-4 py-2 text-xs font-medium bg-blue-500/10 hover:bg-blue-500/20 text-white rounded-2xl transition flex items-center gap-1">
-                                <i class="bi bi-pencil"></i> Modifier
-                            </a>
-                            <a asp-action="Delete" asp-route-id="@payment.Id"
-                               class="px-4 py-2 text-xs font-medium bg-red-500/10 hover:bg-red-500/20 text-white rounded-2xl transition flex items-center gap-1">
-                                <i class="bi bi-trash"></i> Supprimer
-                            </a>
-                        </div>
-                    </td>
+    <!-- Filter Bar -->
+    <div class="bg-(--color-secondary) backdrop-blur-md border border-white/20 rounded-3xl overflow-hidden mb-6 ">
+        <form asp-action="Index" method="get">
+            <div class="flex flex-wrap items-center gap-4 p-4">
+                <input type="text" name="search" value="@ViewBag.Search" placeholder="Rechercher par client ou plaque d'immatriculation"
+                    class="flex-1 min-w-0 px-4 py-2 bg-(--color-secondary-light) text-white rounded-2xl focus:ring-2 focus:ring-(--color-primary) transition" />
+                <button type="submit"
+                        class="px-6 py-2 bg-(--color-primary) hover:bg-(--color-primary-dark) text-white font-semibold rounded transition">
+                    <i class="bi bi-search"></i> Rechercher
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Table Card -->
+    <div class="bg-(--color-secondary) backdrop-blur-md border border-white/20 rounded-3xl overflow-hidden">
+        <table class="w-full text-sm text-white">
+            <thead>
+                <tr class="bg-(--color-secondary-light) border-b border-white/10">
+                    <th class="px-6 py-4 text-left font-semibold">ID</th>
+                    <th class="px-6 py-4 text-left font-semibold">Montant</th>
+                    <th class="px-6 py-4 text-left font-semibold">Type</th>
+                    <th class="px-6 py-4 text-left font-semibold">Début</th>
+                    <th class="px-6 py-4 text-left font-semibold">Fin</th>
+                    <th class="px-6 py-4 text-left font-semibold">Client</th>
+                    <th class="px-6 py-4 text-left font-semibold">Actions</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var payment in Model)
+                {
+                    <tr class="border-b border-white/10 hover:bg-(--color-secondary-light) transition">
+                        <td class="px-6 py-4 font-medium">@payment.Id</td>
+                        <td class="px-6 py-4 font-semibold">
+                            @payment.Amount <span class="text-white/60 text-xs">Ar</span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="inline-flex px-3 py-1 text-xs font-medium rounded-2xl
+                                bg-emerald-500/20 text-emerald-300")">
+                                @switch(payment.Type)
+                                {
+                                    case ParkaApp.Models.PaymentType.Hourly:
+                                        @:par heure
+                                        break;
+                                    case ParkaApp.Models.PaymentType.Daily:
+                                        @:Par jour
+                                        break;
+                                    case ParkaApp.Models.PaymentType.Monthly:
+                                        @:Par mois
+                                        break;
+                                    default:
+                                        @:Abonnement
+                                        break;
+                                }
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 text-white/90">@payment.StartDate.ToShortDateString()</td>
+                        <td class="px-6 py-4 text-white/90">@payment.EndDate.ToShortDateString()</td>
+                        <td class="px-6 py-4">@(payment.Client?.Name ?? "—") | @(payment.Client?.CarPlate ?? "—")</td>
+                        <td class="px-6 py-4">
+                            <div class="flex gap-2">
+                                <a asp-action="Edit" asp-route-id="@payment.Id"
+                                class="px-4 py-2 text-xs font-medium bg-blue-500/10 hover:bg-blue-500/20 text-white rounded-2xl transition flex items-center gap-1">
+                                    <i class="bi bi-pencil"></i> Modifier
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@payment.Id"
+                                class="px-4 py-2 text-xs font-medium bg-red-500/10 hover:bg-red-500/20 text-white rounded-2xl transition flex items-center gap-1">
+                                    <i class="bi bi-trash"></i> Supprimer
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
 
-    @if (!Model.Any())
-    {
-        <div class="text-center py-20 text-white/50">
-            <i class="bi bi-credit-card text-6xl mb-4"></i>
-            <p class="text-lg">Aucun paiement enregistré</p>
-        </div>
-    }
+        @if (!Model.Any())
+        {
+            <div class="text-center py-20 text-white/50">
+                <i class="bi bi-credit-card text-6xl mb-4"></i>
+                <p class="text-lg">Aucun paiement trouvé</p>
+            </div>
+        }
+    </div>
+
 </div>

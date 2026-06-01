@@ -15,9 +15,12 @@ namespace ParkaApp.Controllers
             _repository = repository;
         }
         
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string search)
         {
-            IEnumerable<Payment> Payments = await _repository.GetAllAsync();
+            IEnumerable<Payment> Payments = await _repository.GetAllAsync(search);
+
+            ViewBag.Search = search;
+
             return View(Payments);
         }
 
