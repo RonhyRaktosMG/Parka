@@ -1,3 +1,4 @@
+@model ParkaApp.ViewModels.Payment.MVolaCreatePaymentViewModel
 
 @{
     ViewData["Title"] = "Paiement MVola";
@@ -12,7 +13,7 @@
             <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
 
             <!-- Amount -->
-            @* <div class="input-group">
+            <div class="input-group">
                 <label asp-for="Amount" class="label">
                     <i class="bi bi-cash-coin me-2"></i>Montant (Ar)
                 </label>
@@ -20,7 +21,65 @@
                        class="input"
                        placeholder="Ex: 50000" />
                 <span asp-validation-for="Amount" class="error-msg"></span>
-            </div> *@
+            </div>
+
+            <!-- Payment Type -->
+            <div class="input-group">
+                <label asp-for="SelectedType" class="label">
+                    <i class="bi bi-calendar me-2"></i>Type de Paiement
+                </label>
+                <select asp-for="SelectedType" class="input">
+                    <option value="">-- Sélectionnez un type --</option>
+                    <option value="Hourly">Tarif Horaire</option>
+                    <option value="Daily">Tarif Journalier</option>
+                    <option value="Monthly">Tarif Mensuel</option>
+                </select>
+                <span asp-validation-for="SelectedType" class="error-msg"></span>
+            </div>
+
+            <!-- Start Date -->
+            <div class="input-group">
+                <label asp-for="StartDate" class="label">
+                    <i class="bi bi-calendar-event me-2"></i>Date de Début
+                </label>
+                <input asp-for="StartDate" 
+                       class="input"
+                       type="date" />
+                <span asp-validation-for="StartDate" class="error-msg"></span>
+            </div>
+
+            <!-- End Date -->
+            <div class="input-group">
+                <label asp-for="EndDate" class="label">
+                    <i class="bi bi-calendar-check me-2"></i>Date de Fin
+                </label>
+                <input asp-for="EndDate" 
+                       class="input"
+                       type="date" />
+                <span asp-validation-for="EndDate" class="error-msg"></span>
+            </div>
+
+            <!-- Car Plate -->
+            <div class="input-group">
+                <label asp-for="CarPlate" class="label">
+                    <i class="bi bi-car-front me-2"></i>Plaque d'Immatriculation
+                </label>
+                <input asp-for="CarPlate" 
+                       class="input"
+                       placeholder="Ex: 1234 TAB" />
+                <span asp-validation-for="CarPlate" class="error-msg"></span>
+            </div>
+
+             <!-- Customer Number -->
+             <div class="input-group">
+                <label asp-for="CustomerNumber" class="label">
+                    <i class="bi bi-phone me-2"></i>Numéro de Téléphone MVola
+                </label>
+                <input asp-for="CustomerNumber" 
+                       class="input"
+                       placeholder="Ex: 0343500004" />
+                <span asp-validation-for="CustomerNumber" class="error-msg"></span>
+             </div>
 
             <!-- Buttons -->
             <div class="button-container">

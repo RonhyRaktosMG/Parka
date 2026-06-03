@@ -10,12 +10,21 @@
         <span class="c1">Enregistrez un nouveau plan de paiement</span>
 
         
-        <div class="my-6">
-            <a asp-action="MVolaPayment" class="send-button mb-4">
-            Payer avec MVola
-            </a>
+        <div class="my-6 rounded-xl border p-4">
+            <p class="mb-3 text-center c1">Payer par Mobile Money</p>
 
+            <a asp-action="MVolaPayment" class="inline-flex items-center">
+                <img src="~/images/MVola.png" alt="MVola" class="w-32">
+            </a>
         </div>
+
+        <div class="my-6 flex items-center gap-3">
+            <span class="h-px flex-1 border-t"></span>
+            <span class="rounded-full border px-3 py-1 text-sm font-medium">ou</span>
+            <span class="h-px flex-1 border-t"></span>
+        </div>
+
+        <p class="mb-4 text-center c1">Payer en espèce</p>
 
         <form asp-action="Create" method="post">
             <div asp-validation-summary="ModelOnly" class="validation-summary"></div>

@@ -157,12 +157,16 @@ namespace ParkaApp.Controllers
         }
 
         [HttpPost, ActionName("MVolaPayment")]
-        public async Task<IActionResult> MVolaPaymentConfirmed()
+        public async Task<IActionResult> MVolaPaymentConfirmed(MVolaCreatePaymentViewModel vm)
         {            
-            string customerNumber = "0343500004";
-            int amount = 7000;
+            string customerNumber = vm.CustomerNumber;
+            decimal amount = vm.Amount;
 
-
+            if (string.IsNullOrEmpty(customerNumber) || amount <= 0)
+            {
+                ModelState.AddModelError("", "Numéro client et montant sont requis pour le paiement MVola.");
+                return View(vm);
+            }
 
             string? serverId = await _mvolaService.MerchantPayAsync(
                 customerNumber: customerNumber,
@@ -179,12 +183,15 @@ namespace ParkaApp.Controllers
                 });
             }
 
-            return RedirectToAction(nameof(MVolaProcessing), new MVolaProcessingViewModel { CorrelationId = serverId });
+
+            vm.CorrelationId = serverId;
+
+            return RedirectToAction(nameof(MVolaProcessing), vm);
         }
     
     
         // MVola Processing
-        public async Task<IActionResult> MVolaProcessing(MVolaProcessingViewModel vm)
+        public async Task<IActionResult> MVolaProcessing(MVolaCreatePaymentViewModel vm)
         {
             return View(vm);
         }
