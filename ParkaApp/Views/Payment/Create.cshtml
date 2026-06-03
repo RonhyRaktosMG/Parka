@@ -9,6 +9,14 @@
         <span class="heading">Créer un Nouveau Paiement</span>
         <span class="c1">Enregistrez un nouveau plan de paiement</span>
 
+        
+        <div class="my-6">
+            <a asp-action="MVolaPayment" class="send-button mb-4">
+            Payer avec MVola
+            </a>
+
+        </div>
+
         <form asp-action="Create" method="post">
             <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
 

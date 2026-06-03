@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ParkaApp.Models;
 using ParkaApp.Repository.Interfaces;
+using ParkaApp.Services.Interfaces;
 using ParkaApp.ViewModels.Payment;
 
 namespace ParkaApp.Controllers
@@ -8,11 +9,12 @@ namespace ParkaApp.Controllers
     public class PaymentController : Controller
     {
         private readonly IPaymentRepository _repository;
+        private readonly IMVolaService _mvolaService;
         
-        
-        public PaymentController(IPaymentRepository repository)
+        public PaymentController(IPaymentRepository repository, IMVolaService mvolaService)
         {
             _repository = repository;
+            _mvolaService = mvolaService;
         }
         
         public async Task<IActionResult> Index(string search)
@@ -145,6 +147,81 @@ namespace ParkaApp.Controllers
             };
 
             return View(vm);
+        }
+    
+    
+        // MVola
+        public async Task<IActionResult> MVolaPayment()
+        {
+            return View();
+        }
+
+        [HttpPost, ActionName("MVolaPayment")]
+        public async Task<IActionResult> MVolaPaymentConfirmed()
+        {            
+            string customerNumber = "0343500004";
+            int amount = 7000;
+
+
+
+            string? serverId = await _mvolaService.MerchantPayAsync(
+                customerNumber: customerNumber,
+                amount: amount.ToString()
+            );
+
+            Console.WriteLine("Server ID: " + serverId);
+
+            if (string.IsNullOrEmpty(serverId))
+            {
+                return BadRequest(new
+                {
+                    message = "Erreur lors de l'initiation du paiement MVola"
+                });
+            }
+
+            return RedirectToAction(nameof(MVolaProcessing), new MVolaProcessingViewModel { CorrelationId = serverId });
+        }
+    
+    
+        // MVola Processing
+        public async Task<IActionResult> MVolaProcessing(MVolaProcessingViewModel vm)
+        {
+            return View(vm);
+        }
+
+        // =========================
+        // CHECK STATUS PAYMENT
+        // =========================
+        [HttpGet("Payment/mvola/status/{correlationId}")]
+        public async Task<IActionResult> MVolaGetStatus(string correlationId)
+        {
+            if (string.IsNullOrEmpty(correlationId))
+            {
+                return BadRequest(new
+                {
+                    message = "CorrelationId is required"
+                });
+            }
+
+            try
+            {
+                var status = await _mvolaService.GetStatusAsync(
+                    correlationId
+                );
+                return Ok(new
+                {
+                    correlationId,
+                    status
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    message = "Error while checking payment status",
+                    error = ex.Message
+                });
+            }
         }
     }
 }

@@ -1,0 +1,61 @@
+@model ParkaApp.ViewModels.Payment.MVolaProcessingViewModel
+
+
+@{
+    ViewData["Title"] = "Paiement MVola en cours";
+}
+
+<div class="form-container mx-auto max-w-2xl">
+    <div class="form">
+        <span class="heading">Paiement MVola en cours</span>
+        <span class="c1">Veuillez patienter pendant le traitement de votre paiement</span>
+
+        <form asp-action="Edit" method="post">
+            <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+            <!-- Buttons -->
+            <div class="button-container">
+                <button type="submit" class="send-button">
+                    <i class="bi bi-check-circle me-2"></i>
+                    Enregistrer le paiement
+                </button>
+
+                <a asp-action="Index" class="reset-button">
+                    <i class="bi bi-x-circle me-2"></i>
+                    Annuler
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        let statusInterval;
+
+        async function checkStatus(correlationId) {
+            const response = await fetch(`/Payment/mvola/status/${correlationId}`);
+            const data = await response.json();
+
+            var statusString = data.status;
+            var status = JSON.parse(statusString);
+
+            console.log("Status: ", status);
+
+            if (status.status === "completed") {
+                alert("Paiement réussi");
+                clearInterval(statusInterval);
+            }
+
+            if (status.status === "failed") {
+                alert("Paiement échoué");
+                clearInterval(statusInterval);
+            }
+        }
+
+        statusInterval = setInterval(() => {
+            checkStatus(@Html.Raw(Json.Serialize(Model.CorrelationId)));
+        }, 4000);
+    </script>
+}

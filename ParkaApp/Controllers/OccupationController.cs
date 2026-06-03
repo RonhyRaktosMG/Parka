@@ -210,8 +210,7 @@ namespace ParkaApp.Controllers
 
             return RedirectToAction("Details", "Area", new { id = occupation!.Place!.AreaId });
         }
- 
- 
+        
  
  
         // Statistic

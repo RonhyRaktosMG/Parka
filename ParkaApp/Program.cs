@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using ParkaApp.Repository;
 using ParkaApp.Repository.Interfaces;
+using ParkaApp.Services;
+using ParkaApp.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +20,11 @@ builder.Services.AddTransient<IPlaceRepository, PlaceRepository>();
 builder.Services.AddTransient<IClientRepository, ClientRepository>();
 builder.Services.AddTransient<IOccupationRepository, OccupationRepository>();
 builder.Services.AddTransient<IPaymentRepository, PaymentRepository>();
+
+
+// Services
+builder.Services.AddTransient<IMVolaService, MVolaService>();
+builder.Services.AddHttpClient<IMVolaService, MVolaService>();
 
 var app = builder.Build();
 

@@ -1,0 +1,39 @@
+
+@{
+    ViewData["Title"] = "Paiement MVola";
+}
+
+<div class="form-container mx-auto max-w-2xl">
+    <div class="form">
+        <span class="heading">Paiement MVola</span>
+        <span class="c1">Mettez à jour les informations du paiement</span>
+
+        <form asp-action="MVolaPayment" method="post">
+            <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+            <!-- Amount -->
+            @* <div class="input-group">
+                <label asp-for="Amount" class="label">
+                    <i class="bi bi-cash-coin me-2"></i>Montant (Ar)
+                </label>
+                <input asp-for="Amount" 
+                       class="input"
+                       placeholder="Ex: 50000" />
+                <span asp-validation-for="Amount" class="error-msg"></span>
+            </div> *@
+
+            <!-- Buttons -->
+            <div class="button-container">
+                <button type="submit" class="send-button">
+                    <i class="bi bi-check-circle me-2"></i>
+                    Payer avec MVola
+                </button>
+
+                <a asp-action="Index" class="reset-button">
+                    <i class="bi bi-x-circle me-2"></i>
+                    Annuler
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
