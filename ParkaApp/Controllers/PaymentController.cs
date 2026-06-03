@@ -186,7 +186,7 @@ namespace ParkaApp.Controllers
 
             vm.CorrelationId = serverId;
 
-            return RedirectToAction(nameof(MVolaProcessing), vm);
+            return View(nameof(MVolaProcessing), vm);
         }
     
     

@@ -128,9 +128,9 @@
                     
                     <div class="flex justify-between items-center pt-2">
                         <span class="text-gray-700 font-medium">Période:</span>
-                        <span class="text-gray-900">@Model.StartDate.ToShortDateString() - @Model.EndDate.ToShortDateString()</span>
-                        <input type="date" asp-for="StartDate" />
-                        <input type="date" asp-for="EndDate" />
+                        <span class="text-gray-900">@Model.StartDate.ToString("dd/MM/yyyy") - @Model.EndDate.ToString("dd/MM/yyyy")</span>
+                        <input type="hidden" asp-for="StartDate" value="@Model.StartDate.ToString("yyyy-MM-dd")" />
+                        <input type="hidden" asp-for="EndDate" value="@Model.EndDate.ToString("yyyy-MM-dd")" />
                     </div>
                 </div>
             </div>
