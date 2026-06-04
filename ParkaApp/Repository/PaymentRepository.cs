@@ -58,7 +58,7 @@ namespace ParkaApp.Repository
         public async Task<bool> UpdateAsync(Payment Payment)
         {
             // check if the payment exists
-            var existingPayment = await GetByIdAsync(Payment.Id);
+            var existingPayment = await _context.Payments.AsNoTracking().FirstOrDefaultAsync(p => p.Id == Payment.Id);
             if (existingPayment == null)
             {
                 return false; // Payment not found

@@ -38,16 +38,18 @@
                     </p>
                 </div>
 
-                <div class="mt-10 flex items-center gap-6 justify-end">
+                <div class="mt-10 flex items-center gap-6 justify-center pl-16">
                     <a asp-controller="Area" asp-action="Index"
                     class="inline-flex items-center gap-3 px-8 py-4 bg-(--color-primary) hover:bg-(--color-primary-dark) text-white text-lg font-semibold rounded transition-all shadow-lg hover:shadow-xl">
                         <i class="bi bi-map"></i>
-                        Voir les zones
                     </a>
                     <a asp-controller="Client" asp-action="Index"
                     class="inline-flex items-center gap-3 px-8 py-4 bg-(--color-primary) hover:bg-(--color-primary-dark) text-white text-lg font-semibold rounded transition-all shadow-lg hover:shadow-xl">
                         <i class="bi bi-person-circle"></i>
-                        Liste Client
+                    </a>
+                    <a asp-controller="Payment" asp-action="Index"
+                    class="inline-flex items-center gap-3 px-8 py-4 bg-(--color-primary) hover:bg-(--color-primary-dark) text-white text-lg font-semibold rounded transition-all shadow-lg hover:shadow-xl">
+                        <i class="bi bi-credit-card"></i>
                     </a>
                 </div>
             </div>
