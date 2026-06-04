@@ -6,6 +6,9 @@ using ParkaApp.Repository.Interfaces;
 using ParkaApp.Services;
 using ParkaApp.Services.Interfaces;
 
+using DotNetEnv;
+
+Env.Load();
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

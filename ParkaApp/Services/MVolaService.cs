@@ -10,11 +10,18 @@ namespace ParkaApp.Services
     {
         private readonly HttpClient _httpClient;
 
-        private const string baseUrl = "https://devapi.mvola.mg";
+        /* private const string baseUrl = "https://devapi.mvola.mg";
         private const string consumerKey = "8aeLSUwdf3Dwy7TX7vQjn97ggzUa";
         private const string consumerSecret = "N_niMlqxZUp1TCyGMBIQnJfwwiUa";
         private const string merchantNumber = "0343500003";
-        private const string partnerName = "ParkaAppTest";
+        private const string partnerName = "ParkaAppTest"; */
+
+
+        private readonly string baseUrl = Environment.GetEnvironmentVariable("BASE_URL")!;
+        private readonly string consumerKey = Environment.GetEnvironmentVariable("CONSUMER_KEY")!;
+        private readonly string consumerSecret = Environment.GetEnvironmentVariable("CONSUMER_SECRET")!;
+        private readonly string merchantNumber = Environment.GetEnvironmentVariable("MERCHANT_NUMBER")!;
+        private readonly string partnerName = Environment.GetEnvironmentVariable("PARTNER_NAME")!;
 
 
 
