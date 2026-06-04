@@ -15,7 +15,6 @@
 	else
 	{
         <div class="mb-6">
-            <h2 class="text-xl font-semibold mb-2">Informations générales</h2>
             <div class="bg-gray-50 p-4 rounded-lg">
                 <p><strong>ID:</strong> @client.Id</p>
                 <p><strong>Nom:</strong> @client.Name</p>
@@ -41,7 +40,7 @@
                             {
                                 <tr class="border-t border-gray-200">
                                     <td class="px-4 py-2">@payment.Id</td>
-                                    <td class="px-4 py-2">@payment.Amount.ToString("C")</td>
+                                    <td class="px-4 py-2">@payment.Amount.ToString() Ar</td>
                                     <td class="px-4 py-2">@payment.StartDate.ToString("g")</td>
                                     <td class="px-4 py-2">@payment.EndDate.ToString("g")</td>
                                 </tr>

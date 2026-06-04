@@ -39,6 +39,13 @@
         </form>
     </div>
 
+    <!-- Separator -->
+    <div class="my-12 md:px-40 flex items-center gap-3">
+        <span class="h-px flex-1 border-t border-white"></span>
+        <span class="rounded-full border border-white/20 px-3 py-1 text-sm text-white font-medium">X</span>
+        <span class="h-px flex-1 border-t border-white"></span>
+    </div>
+
     <div class="grid grid-cols-3 gap-3">
         @foreach (var client in Model)
         {
@@ -57,7 +64,7 @@
                 <div>
                     <p class="text-sm text-zinc-400 mb-0">Nom</p>
                     <a asp-action="Details" asp-route-id="@client.Id" style="text-decoration: none;">
-                        <h2 class="text-3xl font-semibold text-white">@client.Name</h2>
+                        <h2 class="text-3xl font-semibold" style="color: var(--color-primary);">@client.Name</h2>
                     </a>
                 </div>
 

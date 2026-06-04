@@ -42,14 +42,14 @@ namespace ListeEtudiant.Data
                 .HasOne(o => o.Place)
                 .WithMany()
                 .HasForeignKey(o => o.PlaceId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             // Client & Occupation
             modelBuilder.Entity<Occupation>()
                 .HasOne(o => o.Client)
                 .WithMany()
                 .HasForeignKey(o => o.ClientId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
                         
         }
     }

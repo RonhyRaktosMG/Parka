@@ -43,10 +43,17 @@
         </form>
     </div>
 
+    <!-- Separator -->
+    <div class="my-12 md:px-40 flex items-center gap-3">
+        <span class="h-px flex-1 border-t border-white"></span>
+        <span class="rounded-full border border-white/20 px-3 py-1 text-sm text-white font-medium">X</span>
+        <span class="h-px flex-1 border-t border-white"></span>
+    </div>
+
     <!--List -->
     @foreach (var payment in Model)
     {
-        <div class="my-2 w-full bg-(--color-secondary) rounded-3xl overflow-hidden shadow-2xl text-white">
+        <div class="my-4 transition w-full bg-(--color-secondary) rounded overflow-hidden shadow-2xl text-white">
             <div class="px-8 py-2 flex gap-8">
             
                 <!-- Main Content: Two Columns -->
@@ -88,7 +95,7 @@
                         <div>
                             <p class="text-zinc-400 text-sm mb-0">
                                 Montant 
-                                <span class="ml-12 inline-block text-center mt-2 bg-emerald-500/10 text-emerald-400 text-sm px-4 py-1 rounded-3xl border border-emerald-500/30">
+                                <span class="ml-12 inline-block text-center mt-2 bg-emerald-500/10 text-emerald-400 text-sm px-4 py-1 rounded-3xl">
                                     @switch(payment.Type)
                                     {
                                         case ParkaApp.Models.PaymentType.Hourly:
