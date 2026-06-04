@@ -80,6 +80,10 @@
                                 class="px-4 py-2 text-xs font-medium bg-blue-100 text-blue-700 rounded-2xl hover:bg-blue-200 transition">
                                     <i class="bi bi-pencil"></i> Modifier
                                 </a>
+                                <a asp-action="Details" asp-route-id="@client.Id"
+                                class="px-4 py-2 text-xs font-medium bg-red-100 text-gray-700 rounded-2xl hover:bg-red-200 transition">
+                                    <i class="bi bi-eye"></i> Détails
+                                </a>
                                 <a asp-action="Delete" asp-route-id="@client.Id"
                                 class="px-4 py-2 text-xs font-medium bg-red-100 text-red-700 rounded-2xl hover:bg-red-200 transition">
                                     <i class="bi bi-trash"></i> Supprimer

@@ -28,7 +28,7 @@ namespace ParkaApp.Repository
 
         public async Task<Client?> GetByIdAsync(int id)
         {
-            return await _context.Clients.FindAsync(id);
+            return await _context.Clients.Include(c => c.Payments).FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task<Client?> GetByCarPlateAsync(string carPlate)

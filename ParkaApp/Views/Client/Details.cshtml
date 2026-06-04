@@ -1,0 +1,74 @@
+@model ParkaApp.ViewModels.Client.ClientDetailsViewModel
+
+@{
+	var client = Model;
+	var props = client?.GetType().GetProperties();
+}
+
+<div class="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-sm">
+	<h1 class="text-2xl font-semibold mb-4">Détails du client</h1>
+
+	@if (client == null)
+	{
+		<p class="text-red-600">Client introuvable.</p>
+	}
+	else
+	{
+        <div class="mb-6">
+            <h2 class="text-xl font-semibold mb-2">Informations générales</h2>
+            <div class="bg-gray-50 p-4 rounded-lg">
+                <p><strong>ID:</strong> @client.Id</p>
+                <p><strong>Nom:</strong> @client.Name</p>
+                <p><strong>Plaque d'immatriculation:</strong> @client.CarPlate</p>
+                <p><strong>Téléphone:</strong> @client.PhoneNumber</p>
+                <p><strong>Invité:</strong> @(client.IsGuest ? "Oui" : "Non")</p>
+                <p><strong>Jours restants:</strong> @client.RemainingDays</p>
+            </div>
+
+            <p>Liste des paiments</p>
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <table class="w-full text-sm text-gray-700">
+                        <thead>
+                            <tr class="bg-gray-200">
+                                <th class="px-4 py-2 text-left font-medium">ID</th>
+                                <th class="px-4 py-2 text-left font-medium">Montant</th>
+                                <th class="px-4 py-2 text-left font-medium">Date début</th>
+                                <th class="px-4 py-2 text-left font-medium">Date fin</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var payment in client.Payments)
+                            {
+                                <tr class="border-t border-gray-200">
+                                    <td class="px-4 py-2">@payment.Id</td>
+                                    <td class="px-4 py-2">@payment.Amount.ToString("C")</td>
+                                    <td class="px-4 py-2">@payment.StartDate.ToString("g")</td>
+                                    <td class="px-4 py-2">@payment.EndDate.ToString("g")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+        </div>
+
+		<div class="flex gap-3">
+			<a asp-action="Edit" asp-route-id="@client.Id"
+			   class="px-4 py-2 text-xs font-medium bg-blue-100 text-blue-700 rounded-2xl hover:bg-blue-200 transition">
+				<i class="bi bi-pencil"></i> Modifier
+			</a>
+
+			<a asp-action="Delete" asp-route-id="@client.Id"
+			   class="px-4 py-2 text-xs font-medium bg-red-100 text-red-700 rounded-2xl hover:bg-red-200 transition"
+			>
+				<i class="bi bi-trash"></i> Supprimer
+			</a>
+
+			<a asp-action="Index"
+			   class="px-4 py-2 text-xs font-medium bg-gray-100 text-gray-700 rounded-2xl hover:bg-gray-200 transition">
+				<i class="bi bi-arrow-left"></i> Retour
+			</a>
+		</div>
+	}
+</div>
+
+

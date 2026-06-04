@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ParkaApp.Models;
 using ParkaApp.Repository.Interfaces;
+using ParkaApp.ViewModels.Client;
 
 
 
@@ -111,5 +112,28 @@ namespace ParkaApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+        // Details
+        public async Task<IActionResult> Details(int id)
+        {
+            Client? Client = await _repository.GetByIdAsync(id);
+            if (Client == null)
+            {
+                return NotFound();
+            }
+
+            ClientDetailsViewModel vm = new ClientDetailsViewModel
+            {
+                Id = Client.Id,
+                CarPlate = Client.CarPlate,
+                Name = Client.Name,
+                PhoneNumber = Client.PhoneNumber,
+                IsGuest = Client.IsGuest,
+                Payments = Client.Payments,
+                RemainingDays = Client.Payments.Any() ? (Client.Payments.OrderByDescending(p => p.EndDate).First().EndDate - DateTime.Now).Days : 0
+            };
+
+            return View(vm);
+        }
     }
 }
