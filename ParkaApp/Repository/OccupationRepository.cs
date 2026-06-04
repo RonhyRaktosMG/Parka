@@ -16,12 +16,12 @@ namespace ParkaApp.Repository
 
         public async Task<IEnumerable<Occupation>> GetAllAsync(string? search = null)
         {   
-            var query = _context.Occupations.Include(p => p.Client).Include(p => p.Place).AsQueryable();
+            var query = _context.Occupations.Include(p => p.Client).Include(p => p.Place).ThenInclude(p => p!.Area).AsQueryable();
             if (!string.IsNullOrEmpty(search))
             {
                 query = query.Where(o => o.Client!.Name!.Contains(search) || o.Client.CarPlate.Contains(search) || o.Place!.Code!.Contains(search));
             }
-            return await query.ToListAsync();
+            return await query.OrderByDescending(o => o.ExitTime == null).ThenByDescending(o => o.ExitTime).ToListAsync();
         }
 
         public async Task<Occupation?> GetByIdAsync(int id)

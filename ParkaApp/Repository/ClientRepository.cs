@@ -22,7 +22,7 @@ namespace ParkaApp.Repository
                 query = query.Where(c => c.Name!.ToLower().Contains(search.ToLower()) || c.CarPlate!.ToLower().Contains(search.ToLower()));
             }
         
-            return await query.ToListAsync();
+            return await query.OrderByDescending(c => c.Id).ToListAsync();
         }
 
 
