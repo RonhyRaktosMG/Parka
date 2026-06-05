@@ -2,7 +2,7 @@
 
 **La plateforme SaaS de gestion intelligente de parkings**
 
-![](/home/ronhyraktos/DOSSIER/L3/DEVELOPPEMENT/PROJET/PARKA/docs/images/home.png)
+![](docs/images/home.png)
  Transformez vos terrains en sources de revenus optimisées grâce à une solution digitale complète, moderne et adaptée au contexte malgache.
 
 ------
@@ -43,10 +43,10 @@
 
 ## 📸 Aperçu
 
-![place](/home/ronhyraktos/DOSSIER/L3/DEVELOPPEMENT/PROJET/PARKA/docs/images/place.png)
- ![](/home/ronhyraktos/DOSSIER/L3/DEVELOPPEMENT/PROJET/PARKA/docs/images/payment.png)
+![place](docs/images/place.png)
+ ![](docs/images/payment.png)
 
-![](/home/ronhyraktos/DOSSIER/L3/DEVELOPPEMENT/PROJET/PARKA/docs/images/payment.png)
+![](docs/images/payment.png)
 
 ------
 
